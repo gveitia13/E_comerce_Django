@@ -1,0 +1,69 @@
+{% extends 'baselist.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block head %}
+    <script src="{% static 'category/js/CRUD.js' %}"></script>
+    {% block head_list %}
+    {% endblock %}
+{% endblock %}
+
+{% block columns %}
+    <tr>
+        <th id="nameSort" scope="col" style="width: 20%;cursor:pointer;">
+            Name <i class="mdi mdi-sort-alphabetical"></i></th>
+        <th scope="col" style="width: 65%;" class="w3-center">Description</th>
+        <th scope="col" style="width: 15%;" class="w3-center">Options</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+    {% for foo in lista %}
+        <tr class="item">
+
+            <td id="cat_{{ foo.id }}" style="width: 20%;">{{ foo.name }}</td>
+            {% if foo.desc %}
+                <td id="desc_{{ foo.id }}" style="width: 65%;">{{ foo.desc }}</td>
+            {% else %}
+                <td id="desc_{{ foo.id }}" style="width: 65%;">-</td>
+            {% endif %}
+            <td class="w3-center" style="width: 15%;">
+
+                <button name="{{ foo.id }}"
+                        class="btn bg-gradient-warning btn-xs btnUpdate"><i
+                        class="mdi mdi-square-edit-outline mdi-15px"></i></button>
+                <button name="{{ foo.id }}"
+                        class="btn bg-gradient-danger btn-xs btnTrash"><i
+                        class="mdi mdi-trash-can-outline mdi-15px"></i></button>
+
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+{% comment %}      $(window).on('load', () => {
+        w3.sortHTML('#listTable', '.item', 'td:nth-child(1)')
+      }){% endcomment %}
+      document.getElementById('nameSort').addEventListener('click', () => {
+        w3.sortHTML('#listTable', '.item', 'td:nth-child(1)')
+      })
+      let ent = '{{ entity }}',
+        defaultTitleModal = `<b><i class="mdi mdi-plus-circle-outline"></i> New ${ent}</b>`
+
+      document.getElementById('hola').addEventListener('click', e => {
+        {% comment %}        Swal.fire({
+                  title: 'Error',
+                  text: 'Hola',
+                  icon: 'success',
+                  timer: 2000,
+                });{% endcomment %}
+        Toast('hola', 'success')
+        console.log('{{ lista }}')
+        console.log(idToEdit.id)
+      })
+
+
+    </script>
+{% endblock %}

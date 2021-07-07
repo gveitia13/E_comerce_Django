@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{{ title }}</title>
+    <!-- w3 css and js-->
+    <link rel="stylesheet" href="{% static 'lib/w3-school/css/w3.min.css' %}">
+    <script src="{% static 'lib/w3-school/js/w3.js' %}"></script>
+
+    <link rel="icon" href="{% static 'img/ios7-star-half.png' %}" type="image/x-icon">
+    <!-- Material icons -->
+    <link rel="stylesheet" href="{% static 'lib/material-icons/css/icons.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lib/admin-lte3/css/adminlte.min.css' %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="{% static 'lib/jquery/jquery-3.4.1.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lib/admin-lte3/js/adminlte.min.js' %}"></script>
+    <!-- sweetAlert -->
+    <script src="{% static 'lib/sweetalert2/sweetalert2.all.min.js' %}"></script>
+    <!-- jquery-confirm -->
+    <link rel="stylesheet" href="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}">
+    <script src="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}"></script>
+    <!-- Functions -->
+    <script src="{% static 'js/function.js' %}"></script>
+    <!-- My css -->
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+
+    <link rel="stylesheet" href="{% static 'admin-lte/plugins/toastr/toastr.min.css' %}">
+    <script src="{% static 'admin-lte/plugins/toastr/toastr.min.js' %}"></script>
+
+    <!-- Block head -->
+    {% block head %}
+
+    {% endblock %}
+</head>
+{% block body %}
+
+{% endblock %}
+</html>

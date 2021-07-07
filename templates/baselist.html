@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block head %}
+    {% block head_list %}
+
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="mdi mdi-format-list-bulleted-square mdi-18px"></i>
+                {{ title }}
+            </h3>
+            <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <input id="searchInput" oninput="w3.filterHTML('#listTable', '.item', this.value)" type="text"
+                           name="table_search"
+                           class="form-control float-right"
+                           placeholder="Search" autofocus>
+
+                </div>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0" style="height: 325px;">
+            <table id="listTable" class="table table-head-fixed text-nowrap w3-hoverable-light">
+                <thead>
+                {% block columns %}
+
+                {% endblock %}
+
+                </thead>
+                <tbody id="tbody">
+
+                {% block rows %}
+
+                {% endblock %}
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+        {% block buttons_list %}
+            <div class="card-footer row">
+                <div class="col-8">
+                    <a href="#" class="btn bg-gradient-primary btnTest btnAddCat">
+                        <i class="mdi mdi-plus"></i> New {{ entity }}
+                    </a>
+                    <a href="{{ list_url }}" class="btn bg-gradient-success">
+                        <i class="mdi mdi-sync"></i> Refresh
+                    </a>
+                    <button type="button" id="hola" class="btn btn-success waves-effect waves-light"><i
+                            class="mdi mdi-heart-half-full"></i></button>
+                </div>
+            </div>
+        {% endblock %}
+
+    </div>
+    <!-- /.card -->
+
+    <!-- Modal Create_Update -->
+    {% include 'modal.html' %}
+
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock %}

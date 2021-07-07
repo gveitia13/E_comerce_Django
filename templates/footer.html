@@ -1,0 +1,12 @@
+{% load static %}
+<!-- Main Footer -->
+<footer class="main-footer text-center">
+    <strong>Copyright &copy; <span id="year"></span> <a href="#">Techno$TΛЯ™</a></strong><br>
+    All rights reserved.
+</footer>
+<script>
+  if (new Date().getFullYear() === 2021)
+    document.getElementById('year').innerHTML = `2021`
+  else
+    document.getElementById('year').innerHTML = `2021-${new Date().getFullYear()}`
+</script>

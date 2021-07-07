@@ -1,0 +1,75 @@
+.table-bordered {
+    border: 0 !important;
+}
+
+.table-bordered > thead > tr > th {
+    border: 0 !important;
+    border-bottom: solid 1px #343a40 !important;
+}
+
+table.table-bordered.dataTable tbody td {
+    border-bottom-width: 1px !important;
+}
+
+.table-bordered > tbody > tr > td {
+    border: 0 !important;
+    border-bottom: 1px solid #cccccc !important;
+}
+
+.table-md th, .table-md td {
+    padding: 0.55rem;
+    font-size: 14px;
+}
+
+.card-footer {
+    border-top: 1px solid #dee2e6;
+}
+
+td.details-control {
+    background: url("../lib/data-table/DataTables-1.10.25/images/details_open.png") no-repeat center center;
+}
+
+tr.shown td.details-control {
+    background: url("../lib/data-table/DataTables-1.10.25/images/details_close.png") no-repeat center center;
+}
+
+.mdi-15px.mdi-set, .mdi-15px.mdi:before {
+    font-size: 15px;
+}
+
+.w3-hoverable-light tbody tr:hover, .w3-ul.w3-hoverable-light li:hover {
+    background-color: rgba(0, 0, 0, .1);
+}
+
+#searchInput {
+    width: 130px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+/* When the input field gets focus, change its width to 100% */
+#searchInput:focus {
+    width: 300px;
+}
+
+.nav-pills .nav-link:not(.active):hover {
+    color: #777;
+}
+
+*::-webkit-scrollbar {
+    width: 9px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom,#007bff, #73b1f5);
+    border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    background: linear-gradient(to bottom, #006ade, #007bff);
+}

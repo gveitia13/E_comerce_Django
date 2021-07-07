@@ -1,0 +1,127 @@
+{% load static %}
+<aside class="main-sidebar elevation-4 sidebar-light-primary" id="sidebar">
+    <!-- Brand Logo -->
+    <div class="user-panel d-flex">
+        <a href="#" class="brand-link">
+            <img src="{% static 'img/ios7-star-half.png' %}" alt="TechnoSTAR Logo"
+                 class="brand-image img-circle elevation-3"
+                 style="opacity: .8;">
+            <span class="brand-text font-weight-light"><b>Techno</b>STAR™</span>
+        </a>
+        <a class="nav-link" href="#">
+            <i class="mdi mdi-weather-night mdi-24px w3-text-black" aria-hidden="true" id="theme"></i>
+        </a>
+    </div>
+    <div class="sidebar">
+
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <a href="{% static 'img/profile.jpg' %}" class="image">
+                <img alt src="{% static 'img/profile.jpg' %}" class="img-circle elevation-2"
+                style="width: 37px;height: 37px">
+            </a>
+            <div class="info">
+                <a href="#" class="d-block">Gilbert Veitia {{ user.id }}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview"
+                role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+                <li class="nav-item has-treeview">
+                    <a href="{% url 'dashboard' %}" class="nav-link active my-dash">
+                        <i class="nav-icon mdi mdi-monitor-dashboard"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview ">
+                    <a href="#" class="nav-link my-stored">
+                        <i class="nav-icon mdi mdi-store"></i>
+                        <p>
+                            Availability stored
+                            <i class="right mdi mdi-menu-left-outline"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="{% url 'main:category_list' %}" class="nav-link my-stored-cat">
+                                <i class="mdi mdi-sort-alphabetical nav-icon"></i>
+                                <p>Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item my-stored-prod">
+                            <a href="" class="nav-link">
+                                <i class="mdi mdi-sort-numeric nav-icon"></i>
+                                <p>Products</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon mdi mdi-account-multiple-check"></i>
+                        <p>
+                            Registered accounts
+                            <i class="right mdi mdi-menu-left-outline"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="mdi mdi-account-star nav-icon"></i>
+                                <p>Clients</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="mdi mdi-worker nav-icon"></i>
+                                <p>Workers</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon mdi mdi-cart"></i>
+                        <p>
+                            Sales record
+                            <i class="right mdi mdi-menu-left-outline"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class=" mdi mdi-finance nav-icon"></i>
+                                <p>Sales list</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="mdi mdi-chart-bar nav-icon"></i>
+                                <p>Sales report</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+        <div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden">
+            <div class="os-scrollbar-track">
+                <div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div>
+            </div>
+        </div>
+        <div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden">
+            <div class="os-scrollbar-track">
+                <div class="os-scrollbar-handle" style="height: 45.151%; transform: translate(0px, 0px);"></div>
+            </div>
+        </div>
+        <div class="os-scrollbar-corner"></div>
+    </div>
+
+    <!-- /.sidebar -->
+</aside>
