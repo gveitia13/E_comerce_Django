@@ -1,11 +1,9 @@
 from django.db import transaction
-from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView, ListView, UpdateView
+from django.views.generic import TemplateView
 
 from core.main.forms import CategoryForm
 from core.main.models import Category

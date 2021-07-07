@@ -113,8 +113,8 @@ let changeSidebar = function (nav_treeview, nav_item) {
     }).done(function (data) {
       console.log(data);
       if (!data.hasOwnProperty('error')) {
-        callback(data);
-        return false;
+        callback(data)
+        return false
       }
       if (data['error'].toString().includes('UNIQUE'))
         message_error(`There is already a ${ent} with this name`)
@@ -124,44 +124,8 @@ let changeSidebar = function (nav_treeview, nav_item) {
       alert(textStatus + ': ' + errorThrown)
     }).always(function (data) {
 
-    });
+    })
   },
-
-  /*CRUDTable = function (form, params) {
-
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        let resp = JSON.parse(this.responseText)
-
-        console.log(resp['error'])
-        if (this.responseText !== '' && resp['error'] === 'deleted') {
-          params.parentElement.parentElement.remove()
-          Toast(`${ent} deleted successfully`)
-        } else if (this.responseText !== '' && resp['error'] === 'added') {
-          //add tr to the table
-          callbackCreate(resp['last_id'], params)
-          //document.getElementById('tbody').innerHTML += createTr(resp['last_id'], params[0], params[1])
-          document.getElementById('nameSort').click()
-          document.getElementById('nameSort').click()
-          Toast(`${ent} added successfully`)
-        } else if (this.responseText !== '' && resp['error'] === 'updated') {
-          //add tr to the table
-          /!*document.querySelector(`#cat_${params[2]}`).innerText = params[0]
-          document.querySelector(`#desc_${params[2]}`).innerText = params[1]*!/
-          callbackUpdate(params)
-          Toast(`${ent} updated successfully`)
-        } else {
-          let msg = resp['error']
-          if (resp['error'].toString().includes('UNIQUE'))
-            msg = `There is already a ${ent} with this name`
-          message_error(msg)
-        }
-      }
-    };
-    xhttp.open("POST", window.location.href, true);
-    xhttp.send(form);
-  },*/
 
   //Jquery confirm alert
   alert_action = function (title, content, callback, cancel, icon) {
@@ -206,7 +170,6 @@ let changeSidebar = function (nav_treeview, nav_item) {
       title: text
     })
   }
-
 
 //cosas random
 /*

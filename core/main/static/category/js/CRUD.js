@@ -17,8 +17,6 @@ $(function () {
     $('#myModalForm').trigger('reset');
   })
 
-  //btnEvents()
-
   //Event btn Delete Category
   $('.btnTrash').on('click', function () {
     let parameters = new FormData()
@@ -76,8 +74,8 @@ $(function () {
         callbackCreate(data)
       if (document.querySelector('#myModalFormTitle').name === 'action-edit')
         callbackUpdate(data)
-    });
-  });
+    })
+  })
 })
 
 let
