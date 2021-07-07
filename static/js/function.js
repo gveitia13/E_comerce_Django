@@ -8,6 +8,22 @@ $(function () {
   let theme = document.getElementById('theme'),
     sidebar = document.getElementById('sidebar'),
     header = document.getElementById('header')
+  $('.close').on('click', () => {
+    $('#myModal').modal('hide');
+  })
+
+  $('#myModal').on('hidden.bs.modal', function () {
+    document.querySelector('#myModalFormTitle').name = ''
+    $('#myModalForm').trigger('reset');
+  })
+
+  //Event btn Add
+  $('.btnAdd').on('click', function () {
+    $('#myModal').modal('show');
+    $('#myModalForm').trigger('reset');
+    document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
+    document.querySelector('#myModalFormTitle').name = 'action-add'
+  })
 
   //Cambiando de temas
   /*      theme.addEventListener('click', function () {

@@ -8,55 +8,7 @@ $(function () {
     changeSidebar('.my-stored', '.my-stored-prod')
   }
 
-  $('.close').on('click', () => {
-    $('#myModal').modal('hide');
-  })
-
-  $('#myModal').on('hidden.bs.modal', function () {
-    document.querySelector('#myModalFormTitle').name = ''
-    $('#myModalForm').trigger('reset');
-  })
-
-  //Event btn Delete Category
-  $('.btnTrash').on('click', function () {
-    let parameters = new FormData()
-    parameters.append('action', 'dele')
-    parameters.append('id', this.name)
-    idToDelete.id = this.name
-    console.log(document.querySelector(`button[name="${idToDelete.id}"]`).name)
-
-    let cat_name = this.parentNode.parentNode.children[0].innerText
-    submit_with_ajax_alert(window.location.pathname, 'Delete',
-      `Are you sure you want to delete the ${ent}:<b> ${cat_name}</b> record?`,
-      parameters,
-      (data) => {
-        document.querySelector(`button[name="${idToDelete.id}"]`).parentElement.parentElement.remove()
-        Toast(`${ent} ${data['success']} successfully`)
-      },
-      'mdi mdi-alert-octagram text-danger'
-    )
-  })
-
-  //Event btn Add Category
-  $('.btnAddCat').on('click', function () {
-    $('#myModal').modal('show');
-    $('#myModalForm').trigger('reset');
-    document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
-    document.querySelector('#myModalFormTitle').name = 'action-add'
-  })
-
-  //Event btn Update Category
-  $('.btnUpdate').on('click', function () {
-    $('#myModal').modal('show');
-    $('#myModalForm').trigger('reset');
-    document.querySelector('#id_name').value = document.querySelector(`#cat_${this.name}`).innerText
-    document.querySelector('#id_desc').value = document.querySelector(`#desc_${this.name}`).innerText
-
-    document.querySelector('#myModalFormTitle').innerHTML =
-      `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
-    document.querySelector('#myModalFormTitle').name = 'action-edit'
-    idToEdit.id = this.name
-  })
+  btnEvents()
 
   //Event submit Modal Form
   $('#myModalForm').on('submit', function (e) {
@@ -79,13 +31,50 @@ $(function () {
 })
 
 let
+  btnEvents = function () {
+    //Event btn Delete Category
+    $('.btnTrash').on('click', function () {
+      let parameters = new FormData()
+      parameters.append('action', 'dele')
+      parameters.append('id', this.name)
+      idToDelete.id = this.name
+      console.log(document.querySelector(`button[name="${idToDelete.id}"]`).name)
+
+      let cat_name = this.parentNode.parentNode.children[0].innerText
+      submit_with_ajax_alert(window.location.pathname, 'Delete',
+        `Are you sure you want to delete the ${ent}:<b> ${cat_name}</b> record?`,
+        parameters,
+        (data) => {
+          document.querySelector(`button[name="${idToDelete.id}"]`).parentElement.parentElement.remove()
+          Toast(`${ent} ${data['success']} successfully`)
+        },
+        'mdi mdi-alert-octagram text-danger'
+      )
+    })
+
+    //Event btn Update Category
+    $('.btnUpdate').on('click', function () {
+      $('#myModal').modal('show');
+      $('#myModalForm').trigger('reset');
+      document.forms[0].elements[1].focus()
+
+      document.querySelector('#id_name').value = document.querySelector(`#cat_${this.name}`).innerText
+      document.querySelector('#id_desc').value = document.querySelector(`#desc_${this.name}`).innerText
+
+      document.querySelector('#myModalFormTitle').innerHTML =
+        `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
+      document.querySelector('#myModalFormTitle').name = 'action-edit'
+      idToEdit.id = this.name
+    })
+  },
+
   callbackCreate = function (data) {
     document.getElementById('tbody').innerHTML +=
       createTr(data['object']['id'], data['object']['name'], data['object']['desc'])
     document.getElementById('nameSort').click()
 
     Toast(`${ent}: ${data['object']['name']} ${data['success']} successfully`)
-    //btnEvents()
+    btnEvents()
   },
 
   callbackUpdate = function (data) {
