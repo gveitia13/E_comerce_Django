@@ -4,7 +4,6 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-
 from core.main.forms import CategoryForm
 from core.main.models import Category
 
@@ -35,7 +34,7 @@ class CategoryView(TemplateView):
             elif action == 'edit':
                 with transaction.atomic():
                     cat = Category.objects.get(pk=request.POST['id'])
-                    cat.names = request.POST['name']
+                    cat.name = request.POST['name']
                     cat.desc = request.POST['desc']
                     cat.save()
                     data['success'] = 'updated'

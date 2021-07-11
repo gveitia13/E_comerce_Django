@@ -7,44 +7,20 @@ var idToDelete = {
 $(function () {
   let theme = document.getElementById('theme'),
     sidebar = document.getElementById('sidebar'),
-    header = document.getElementById('header')
+    header = document.getElementById('header'),
+    myModal = $('#myModal')
+
+  myModal.on('shown.bs.modal', function (e) {
+    $('input[name="name"]').focus();
+  })
   $('.close').on('click', () => {
-    $('#myModal').modal('hide');
+    myModal.modal('hide');
   })
 
-  $('#myModal').on('hidden.bs.modal', function () {
+  myModal.on('hidden.bs.modal', function () {
     document.querySelector('#myModalFormTitle').name = ''
     $('#myModalForm').trigger('reset');
   })
-
-  //Event btn Add
-  $('.btnAdd').on('click', function () {
-    $('#myModal').modal('show');
-    $('#myModalForm').trigger('reset');
-    document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
-    document.querySelector('#myModalFormTitle').name = 'action-add'
-  })
-
-  //Cambiando de temas
-  /*      theme.addEventListener('click', function () {
-          if (theme.classList.contains('mdi-weather-night')) {
-            theme.classList.remove('mdi-weather-night')
-            theme.classList.add('mdi-weather-sunny')
-            sidebar.classList.remove('sidebar-light-primary')
-            sidebar.classList.add('sidebar-dark-navy')
-            header.classList.remove('navbar-primary')
-            header.classList.add('navbar-navy')
-
-            //window.location.href='/'
-          } else {
-            theme.classList.remove('mdi-weather-sunny')
-            theme.classList.add('mdi-weather-night')
-            sidebar.classList.remove('sidebar-dark-navy')
-            sidebar.classList.add('sidebar-light-primary')
-            header.classList.remove('navbar-navy')
-            header.classList.add('navbar-primary')
-          }
-        })*/
 
   document.querySelectorAll('a').forEach(e => {
     e.classList.remove('active', 'w3-blue-grey')
@@ -179,7 +155,7 @@ let changeSidebar = function (nav_treeview, nav_item) {
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
-      timer: 3000
+      timer: 5000
     })
     Toast.fire({
       icon: icon,
@@ -209,15 +185,4 @@ let changeSidebar = function (nav_treeview, nav_item) {
     vents.calculate_invoice()
   }).val(0.12)
 
-validar formularios
-
-function myFunction() {
-  var inpObj = document.getElementById("id1");
-  if (!inpObj.checkValidity()) {
-  	document.getElementById("id1").value=''
-    document.getElementById("id1").placeholder = inpObj.validationMessage;
-  } else {
-    document.getElementById("demo").innerHTML = "Input OK";
-  }
-}
 }*/

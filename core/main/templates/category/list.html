@@ -22,7 +22,7 @@
 
             <td id="cat_{{ foo.id }}" style="width: 20%;">{{ foo.name }}</td>
             {% if foo.desc %}
-                <td id="desc_{{ foo.id }}" style="width: 65%;">{{ foo.desc }}</td>
+                <td id="desc_{{ foo.id }}" style="width: 65%;">{{ foo.desc|truncatechars:75 }}</td>
             {% else %}
                 <td id="desc_{{ foo.id }}" style="width: 65%;">-</td>
             {% endif %}

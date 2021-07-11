@@ -3,11 +3,15 @@ $(function () {
   if (window.location.pathname.includes('category')) {
     changeSidebar('.my-stored', '.my-stored-cat')
   }
-  //Set active class to Product path
-  if (window.location.pathname.includes('product')) {
-    changeSidebar('.my-stored', '.my-stored-prod')
-  }
 
+  //Event btn Add
+  $('.btnAdd').on('click', function () {
+    $('#myModal').modal('show');
+    $('#myModalForm').trigger('reset');
+    //$('form')[0].reset();
+    document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
+    document.querySelector('#myModalFormTitle').name = 'action-add'
+  })
   btnEvents()
 
   //Event submit Modal Form

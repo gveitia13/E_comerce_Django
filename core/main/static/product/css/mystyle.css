@@ -1,0 +1,11 @@
+#image_label {
+    font-weight: 400 ;
+    margin-top: -6.5px;
+    margin-left: -11px;
+    margin-right: 8px;
+}
+
+#image_label, #image_span {
+    float: left
+}
+
