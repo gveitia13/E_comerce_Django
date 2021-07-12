@@ -38,7 +38,7 @@ class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name='Name', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category')
     image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True, verbose_name='Image')
-    stock = models.IntegerField(default=0, verbose_name='Stock')
+    stock = models.IntegerField(default=1, verbose_name='Stock')
     s_price = models.DecimalField(default=0.01, max_digits=9, decimal_places=2, verbose_name='Selling price')
 
     def __str__(self):

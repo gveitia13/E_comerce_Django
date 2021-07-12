@@ -19,7 +19,8 @@
 {% block columns %}
     <tr>
         <th id="nameSort" scope="col" style="width: 10%;" class="w3-center">
-            Stock </th>
+            Stock
+        </th>
         <th id="sort-by-name" scope="col" style="width: 20%;cursor: pointer">
             Name <i class="mdi mdi-sort-alphabetical"></i></th>
         <th scope="col" style="width: 20%;">Category</th>
@@ -47,6 +48,9 @@
 
             <td class="w3-center" style="width: 20%;">
                 <button name="{{ foo.id }}"
+                        class="btn bg-gradient-teal btn-xs btnDetail"><i
+                        class="mdi mdi-magnify-plus mdi-15px w3-text-black"></i></button>
+                <button name="{{ foo.id }}"
                         class="btn bg-gradient-warning btn-xs btnUpdate"><i
                         class="mdi mdi-square-edit-outline mdi-15px"></i></button>
                 <button name="{{ foo.id }}"
@@ -58,7 +62,10 @@
         <td colspan="6" class="text-center" style="width: 100%;"><b>No {{ entity }} registered</b></td>
     {% endfor %}
 {% endblock %}
-
+{% block modal_form %}
+    {% include 'modal.html' %}
+    {% include 'product/modal_detail.html' %}
+{% endblock %}
 
 {% block javascript %}
     <script>
@@ -79,9 +86,6 @@
           icon: 'error'
         });
       {% endif %}
-{% comment %}      document.getElementById('nameSort').addEventListener('click', () => {
-        w3.sortHTML('#listTable', '.item', 'td:nth-child(1)')
-      }){% endcomment %}
       document.getElementById('sort-by-name').addEventListener('click', () => {
         w3.sortHTML('#listTable', '.item', 'td:nth-child(2)')
       })

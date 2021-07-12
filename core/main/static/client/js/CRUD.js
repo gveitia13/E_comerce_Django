@@ -102,16 +102,15 @@ let
           `<p><b>Database ID: </b>${data['object']['id']}</p>
             <p><b>Name: </b>${data['object']['name']}</p>
             <p><b>Surnames: </b>${data['object']['surnames']}</p>
-            <p><b>Email: </b><a href="mailto:${data['object']['email']}?Subject=Hello%20${data['object']['name']}"
+            <p><b>E-mail: </b><a href="mailto:${data['object']['email']}?Subject=Hello%20${data['object']['name']}"
                     target="_top">${data['object']['email']}</a></p>
             <p><b>DNI: </b>${data['object']['dni']}</p>
-            <p><b>Date_birthday: </b>${data['object']['date_birthday']}</p>
+            <p><b>Date birthday: </b>${data['object']['date_birthday']}</p>
             <p><b>Gender: </b>${data['object']['gender']}</p>
             <p><b>Address: </b>${addr}</p>`
         )
       })
     })
-
   },
 
   callbackCreate = data => {

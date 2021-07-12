@@ -12,11 +12,12 @@ $(function () {
     document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
     document.querySelector('#myModalFormTitle').name = 'action-add'
   })
+
   formStyles()
 
   $('.select2').select2({
     theme: "bootstrap4",
-    language: 'es',
+    language: 'en',
   })
 
   $("input[name='stock']").TouchSpin({
@@ -25,9 +26,20 @@ $(function () {
     step: 1,
     boostat: 5,
     maxboostedstep: 10,
-    buttondown_class: 'btn bg-gradient-info',
-    buttonup_class: 'btn bg-gradient-success',
+    buttondown_class: 'btn bg-gradient-primary',
+    buttonup_class: 'btn bg-gradient-primary',
     postfix: '#',
+  }).on('change', function () {
+    if (this.value === '0') {
+      document.querySelector('.bootstrap-touchspin-down').classList.remove('bg-gradient-primary')
+      document.querySelector('.bootstrap-touchspin-down').classList.add('bg-gradient-danger')
+      this.classList.add('w3-text-red')
+    }
+    if (this.value !== '0') {
+      document.querySelector('.bootstrap-touchspin-down').classList.remove('bg-gradient-danger')
+      document.querySelector('.bootstrap-touchspin-down').classList.add('bg-gradient-primary')
+      this.classList.remove('w3-text-red')
+    }
   })
 
   $("input[name='s_price']").TouchSpin({
@@ -38,8 +50,27 @@ $(function () {
     prefix: `$`,
     step: 0.01,
     decimals: 2,
-    buttondown_class: 'btn bg-gradient-info',
-    buttonup_class: 'btn bg-gradient-success'
+    buttondown_class: 'btn bg-gradient-primary',
+    buttonup_class: 'btn bg-gradient-primary'
+  }).on('change', function () {
+    if (parseFloat(this.value) === 0) {
+      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.remove('bg-gradient-primary')
+      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.add('bg-gradient-danger')
+      this.classList.add('w3-text-red')
+    }
+    if (parseFloat(this.value) !== 0) {
+      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.remove('bg-gradient-danger')
+      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.add('bg-gradient-primary')
+      this.classList.remove('w3-text-red')
+    }
+  })
+
+  $('#myModalDetail div.modal-footer button:last').on('click', function () {
+    $('#myModalDetail').modal('hide');
+  })
+
+  $('#myModalDetail div.modal-footer button:first').on('click', function () {
+    //hacer que guarde imagen wjajajajaj x gusto
   })
 
   btnEvents()
@@ -88,6 +119,28 @@ let
       document.querySelector('#myModalFormTitle').name = 'action-edit'
       idToEdit.id = this.name
     })
+
+    //Event btn Contact Client
+    $('.btnDetail').on('click', function () {
+      $('#myModalDetail').modal('show').trigger('reset')
+
+      let parameters = new FormData()
+      parameters.append('action', 'search_product')
+      parameters.append('id', this.name)
+      ajaxFunction(location.pathname, parameters, data => {
+        $('#myModalDetail .modal-body').html(`
+          <div class="card">
+              <img class="card-img-top img-fluid" src="${data['object']['image']}" alt="Card image cap">
+              <div class="card-body">
+                  <h5 class="card-title"><b>${data['object']['full_name']}</b></h5>
+                  <br>
+                  <span class="card-text"><b>Selling price: </b>$ ${data['object']['s_price']}</span>
+                  <br>
+                  <span class="card-text"><b>Stock: </b>${data['object']['stock']}</span>
+              </div>
+          </div>`)
+      })
+    })
   },
 
   callbackCreate = data => {
@@ -120,6 +173,9 @@ let
 
             <td class="w3-center" style="width: 20%;">
                 <button name="${id}"
+                        class="btn bg-gradient-teal btn-xs btnDetail"><i
+                        class="mdi mdi-magnify-plus mdi-15px w3-text-black"></i></button>
+                <button name="${id}"
                         class="btn bg-gradient-warning btn-xs btnUpdate"><i
                         class="mdi mdi-square-edit-outline mdi-15px"></i></button>
                 <button name="${id}"
@@ -146,28 +202,4 @@ let
       console.log(document.querySelector('#id_image').attributes)
     })
   }
-// buscar clientes
-/*
-$('select[name="cli"]').select2({
-  theme: "bootstrap4",
-  language: 'es',
-  allowClear: true,
-  ajax: {
-    delay: 250,
-    type: 'POST',
-    url: window.location.pathname,
-    data: (params) => {
-      return {
-        term: params.term,
-        action: 'search_clients'
-      };
-    },
-    processResults: (data) => {
-      return {
-        results: data
-      }
-    },
-  },
-  placeholder: 'Ingrese un nombre',
-  minimumInputLength: 1,
-});*/
+

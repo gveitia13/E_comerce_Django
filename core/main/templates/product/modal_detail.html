@@ -1,0 +1,20 @@
+{% load widget_tweaks %}
+<div class="modal fade" id="myModalDetail" tabindex="-1" role="dialog" aria-labelledby="modal-slideright"
+     aria-hidden="true" style="min-width: 350px">
+    {% csrf_token %}
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn bg-gradient-info">
+                    <i class="mdi mdi-image"></i> Save Card
+                </button>
+                <button class="btn bg-gradient-danger">
+                    <i class="mdi mdi-cancel"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
