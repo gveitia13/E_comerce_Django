@@ -1,8 +1,9 @@
-from django.forms import ModelForm, Select, model_to_dict
-from django import forms
+from datetime import datetime
 
-from conf.settings import MEDIA_URL, STATIC_URL
-from core.main.models import Category, Product
+from django import forms
+from django.forms import ModelForm, Select
+
+from core.main.models import Category, Product, Client
 
 
 class CategoryForm(ModelForm):
@@ -78,3 +79,63 @@ class ProductForm(ModelForm):
             data['error'] = str(e)
         return data
 
+
+class ClientForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Client
+        fields = '__all__'
+        widgets = {
+            'name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter you name',
+                    'minlength': 2
+                }
+            ),
+            'surnames': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter your surnames',
+                    'minlength': 2
+                }
+            ),
+            'dni': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter you DNI',
+                    'minlength': 11
+                }
+            ),
+            'date_birthday': forms.DateInput(
+                format='%Y-%m-%d',
+                attrs={
+                    'value': datetime.now().strftime('%Y-%m-%d'),
+                }
+            ),
+            'address': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter you address (optional)',
+                }
+            ),
+            'gender': forms.Select(),
+            'email': forms.EmailInput(
+                attrs={
+                    'placeholder': 'Enter you email ex: user@mail.com'
+                }
+            )
+        }
+        # exclude = ['user_updated', 'user_creation']
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                instance = form.save()
+                data = instance.toJSON()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data

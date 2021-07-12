@@ -53,7 +53,7 @@
                     <a href="{{ list_url }}" class="btn bg-gradient-success">
                         <i class="mdi mdi-sync"></i> Refresh
                     </a>
-                    <button type="button" id="hola" class="btn btn-success waves-effect waves-light"><i
+                    <button type="button" id="hola" class="btn bg-gradient-red waves-effect waves-light"><i
                             class="mdi mdi-heart-half-full"></i></button>
                 </div>
             </div>
@@ -61,9 +61,11 @@
 
     </div>
     <!-- /.card -->
+    {% block modal_form %}
+        <!-- Modal Create_Update -->
+        {% include 'modal.html' %}
+    {% endblock %}
 
-    <!-- Modal Create_Update -->
-    {% include 'modal.html' %}
 
 {% endblock %}
 

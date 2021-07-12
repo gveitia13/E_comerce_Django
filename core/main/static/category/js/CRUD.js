@@ -13,25 +13,6 @@ $(function () {
     document.querySelector('#myModalFormTitle').name = 'action-add'
   })
   btnEvents()
-
-  //Event submit Modal Form
-  $('#myModalForm').on('submit', function (e) {
-    e.preventDefault();
-    const parameters = new FormData(this);
-    if (document.querySelector('#myModalFormTitle').name === 'action-add')
-      parameters.append('action', 'add')
-    if (document.querySelector('#myModalFormTitle').name === 'action-edit') {
-      parameters.append('action', 'edit')
-      parameters.append('id', `${idToEdit.id}`)
-    }
-    submit_with_ajax(window.location.pathname, parameters, function (data) {
-      $('#myModal').modal('hide');
-      if (document.querySelector('#myModalFormTitle').name === 'action-add')
-        callbackCreate(data)
-      if (document.querySelector('#myModalFormTitle').name === 'action-edit')
-        callbackUpdate(data)
-    })
-  })
 })
 
 let

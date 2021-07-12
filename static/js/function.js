@@ -22,6 +22,10 @@ $(function () {
     $('#myModalForm').trigger('reset');
   })
 
+  $('[data-toggle="tooltip"]').tooltip();
+
+  $('[data-toggle="popover"]').popover();
+
   document.querySelectorAll('a').forEach(e => {
     e.classList.remove('active', 'w3-blue-grey')
   })
@@ -29,6 +33,25 @@ $(function () {
   if (window.location.pathname === '/') {
     document.querySelector('.my-dash').classList.add('active')
   }
+  //Event submit Modal Form
+  $('#myModalForm').on('submit', function (e) {
+    e.preventDefault();
+    const parameters = new FormData(this);
+    if (document.querySelector('#myModalFormTitle').name === 'action-add') {
+      parameters.append('action', 'add')
+    }
+    if (document.querySelector('#myModalFormTitle').name === 'action-edit') {
+      parameters.append('action', 'edit')
+      parameters.append('id', `${idToEdit.id}`)
+    }
+    submit_with_ajax(window.location.pathname, parameters, function (data) {
+      $('#myModal').modal('hide');
+      if (document.querySelector('#myModalFormTitle').name === 'action-add')
+        callbackCreate(data)
+      if (document.querySelector('#myModalFormTitle').name === 'action-edit')
+        callbackUpdate(data)
+    })
+  })
 })
 
 let changeSidebar = function (nav_treeview, nav_item) {

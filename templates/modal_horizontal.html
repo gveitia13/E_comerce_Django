@@ -2,7 +2,7 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true" style="min-width: 350px">
     {% block form %}
-        <form id="myModalForm" enctype="multipart/form-data" method="post" name="" action=".">
+        <form id="myModalForm" class="form-horizontal" enctype="multipart/form-data" method="post" name="" action=".">
             {% csrf_token %}
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -17,9 +17,11 @@
                     <div class="modal-body">
 
                         {% for field in form.visible_fields %}
-                            <div class="form-group">
-                                <label for="email">{{ field.label }}:</label>
-                                {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-2 col-form-label">{{ field.label }}:</label>
+                                <div class="col-sm-10">
+                                    {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                                </div>
                             </div>
                         {% endfor %}
 

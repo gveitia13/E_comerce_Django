@@ -61,3 +61,37 @@ class Product(models.Model):
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
         ordering = ['name']
+
+
+gender_choices = (
+    ('male', 'Male'),
+    ('female', 'Female'),
+    ('todo', 'Todo lol'),
+)
+
+
+class Client(models.Model):
+    name = models.CharField(max_length=50, verbose_name='Names')
+    surnames = models.CharField(max_length=80, verbose_name='Surnames')
+    dni = models.CharField(max_length=11, unique=True, verbose_name='DNI')
+    date_birthday = models.DateField(default=datetime.now, verbose_name='Date birthday')
+    address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Address')
+    gender = models.CharField(max_length=50, choices=gender_choices, default='todo', verbose_name='Gender')
+    email = models.EmailField(verbose_name='Email', unique=True, max_length=50)
+
+    def __str__(self):
+        return self.get_full_name()
+
+    def get_full_name(self):
+        return '{} {} / {}'.format(self.name, self.surnames, self.dni)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        # item['date_birthday'] = self.date_birthday.strftime('%Y-%m-%d')
+        item['full_name'] = self.get_full_name()
+        return item
+
+    class Meta:
+        verbose_name = 'Client'
+        verbose_name_plural = 'Clients'
+        ordering = ['name']

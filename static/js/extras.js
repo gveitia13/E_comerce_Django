@@ -100,3 +100,47 @@ $(document).ready(function () {
     return false;
   });
 });
+
+$(function () {
+  $('#datepicker-autoClose').datepicker({
+    todayHighlight: true,
+    autoclose: true
+  });
+
+  var handleFormMaskedInput = function () {
+    "use strict";
+    $("#masked-input-date").mask("99/99/9999");
+    $("#masked-input-phone").mask("(999) 999-9999");
+    $("#masked-input-tid").mask("99-9999999");
+    $("#masked-input-ssn").mask("999-99-9999");
+    $("#masked-input-pno").mask("aaa-9999-a");
+    $("#masked-input-pkey").mask("a*-999-a999");
+  };
+
+  var handleJqueryAutocomplete = function () {
+    var availableTags = [
+      'ActionScript',
+      'AppleScript',
+      'Asp',
+      'BASIC',
+    ];
+    $('#jquery-autocomplete').autocomplete({
+      source: availableTags
+    });
+  };
+
+  $('.selectpicker').selectpicker('render');
+
+  $(".default-select2").select2();
+  $(".multiple-select2").select2({placeholder: "Select a state"});
+
+  //buscar en tabla con jQuery
+  $(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+})

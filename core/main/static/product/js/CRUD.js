@@ -44,63 +44,11 @@ $(function () {
 
   btnEvents()
 
-  //Event submit Modal Form
-  $('#myModalForm').on('submit', function (e) {
-    e.preventDefault();
-    const parameters = new FormData(this);
-    if (document.querySelector('#myModalFormTitle').name === 'action-add') {
-      parameters.append('action', 'add')
-    }
-    if (document.querySelector('#myModalFormTitle').name === 'action-edit') {
-      parameters.append('action', 'edit')
-      parameters.append('id', `${idToEdit.id}`)
-    }
-    submit_with_ajax(window.location.pathname, parameters, function (data) {
-      $('#myModal').modal('hide');
-      if (document.querySelector('#myModalFormTitle').name === 'action-add')
-        callbackCreate(data)
-      if (document.querySelector('#myModalFormTitle').name === 'action-edit')
-        callbackUpdate(data)
-    })
-  })
 })
 
-let formStyles = () => {
-    document.querySelector('#id_image').style.display = 'none'
-    document.querySelector('#id_image').parentElement.innerHTML += `
-      <div class="form-control" style="overflow: hidden">
-          <label for="id_image" id="image_label" class="btn bg-gradient-primary text-nowrap">
-              <i class="mdi mdi-image-plus"></i> Upload a image
-          </label>
-          <span id="image_span">Nothing selected yet</span>
-      </div>`
-
-    document.querySelector('#id_image').addEventListener('change', function () {
-      document.querySelector('#image_span').innerHTML =
-        document.querySelector('#id_image').files[0].name
-
-      console.log(document.querySelector('#id_image').attributes)
-    })
-  },
-
-  callbackCreate = data => {
-    document.getElementById('tbody').innerHTML +=
-      createTr(data['object']['id'], data['object']['stock'], data['object']['name'],
-        data['object']['cat']['name'], data['object']['image'], data['object']['s_price'])
-    document.getElementById('sort-by-name').click()
-    Toast(`${ent}: ${data['object']['full_name']} ${data['success']} successfully`)
-    btnEvents()
-  },
-
-  callbackUpdate = function (data) {
-    // document.querySelector(`#cat_${idToEdit.id}`).innerText = data['object']['name']
-    // document.querySelector(`#desc_${idToEdit.id}`).innerText = data['object']['desc']
-    document.querySelector(`button[name="${idToEdit.id}"]`).parentElement.parentElement.remove()
-    callbackCreate(data)
-  },
-
+let
   btnEvents = function () {
-    //Event btn Delete Category
+    //Event btn Delete Product
     $('.btnTrash').on('click', function () {
       let parameters = new FormData()
       parameters.append('action', 'dele')
@@ -142,6 +90,21 @@ let formStyles = () => {
     })
   },
 
+  callbackCreate = data => {
+    document.getElementById('tbody').innerHTML +=
+      createTr(data['object']['id'], data['object']['stock'], data['object']['name'],
+        data['object']['cat']['name'], data['object']['image'], data['object']['s_price'])
+    document.getElementById('sort-by-name').click()
+    document.getElementById('sort-by-name').click()
+    Toast(`${ent}: ${data['object']['full_name']} ${data['success']} successfully`)
+    btnEvents()
+  },
+
+  callbackUpdate = function (data) {
+    document.querySelector(`button[name="${idToEdit.id}"]`).parentElement.parentElement.remove()
+    callbackCreate(data)
+  },
+
   createTr = (id, stock, name, cat_name, image, s_price) => {
     let span = `danger`
     if (stock > 0) span = `success`
@@ -164,9 +127,25 @@ let formStyles = () => {
                         class="mdi mdi-trash-can-outline mdi-15px"></i></button>
             </td>
         </tr>`
+  },
+
+  formStyles = () => {
+    document.querySelector('#id_image').style.display = 'none'
+    document.querySelector('#id_image').parentElement.innerHTML += `
+      <div class="form-control" style="overflow: hidden">
+          <label for="id_image" id="image_label" class="btn bg-gradient-primary text-nowrap">
+              <i class="mdi mdi-image-plus"></i> Upload a image
+          </label>
+          <span id="image_span">Nothing selected yet</span>
+      </div>`
+
+    document.querySelector('#id_image').addEventListener('change', function () {
+      document.querySelector('#image_span').innerHTML =
+        document.querySelector('#id_image').files[0].name
+
+      console.log(document.querySelector('#id_image').attributes)
+    })
   }
-
-
 // buscar clientes
 /*
 $('select[name="cli"]').select2({

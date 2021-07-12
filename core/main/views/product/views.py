@@ -31,7 +31,6 @@ class ProductView(TemplateView, ):
                 data = {'object': Product.objects.get(pk=request.POST['id']).toJSON(), }
             elif action == 'add':
                 with transaction.atomic():
-                    print(request.POST)
                     ProductForm(request.POST).save()
                     data['success'] = 'added'
                     data['object'] = Product.objects.get(name=request.POST['name']).toJSON()
@@ -59,7 +58,7 @@ class ProductView(TemplateView, ):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Products\' list'
+        context['title'] = 'Product\'s list'
         context['list_url'] = reverse_lazy('main:product_list')
         context['form'] = ProductForm()
         context['lista'] = Product.objects.all()

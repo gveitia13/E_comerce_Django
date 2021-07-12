@@ -62,7 +62,7 @@
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link my-accounts">
                         <i class="nav-icon mdi mdi-account-multiple-check"></i>
                         <p>
                             Registered accounts
@@ -71,13 +71,13 @@
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'main:client_list' %}" class="nav-link my-accounts-client">
                                 <i class="mdi mdi-account-star nav-icon"></i>
                                 <p>Clients</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="#" class="nav-link my-accounts-worker">
                                 <i class="mdi mdi-worker nav-icon"></i>
                                 <p>Workers</p>
                             </a>
