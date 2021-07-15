@@ -10,17 +10,21 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 
-from core.erp.forms import SaleForm, ClientForm
-from core.erp.mixins import ValidatePermissionRequiredMixin
-from core.erp.models import Sale, Product, DetSale, Client
+from core.main.forms import SaleForm, ClientForm
+from core.main.mixins import ValidatePermissionRequiredMixin
+from core.main.models import Sale, Product, DetSale, Client
 
 
-class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
+def productsList(request, *args, **kwargs):
+    return [p.toJSON() for p in Product.objects.order_by('name').filter(stock__gt=0)]
+
+
+class SaleCreateView(CreateView):
     model = Sale
     form_class = SaleForm
     template_name = 'sale/create.html'
-    success_url = reverse_lazy('erp:sale_list')
-    permission_required = 'add_sale'
+    success_url = reverse_lazy('main:sale_list')
+    # permission_required = 'add_sale'
     url_redirect = success_url
 
     @method_decorator(csrf_exempt)
@@ -43,6 +47,10 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
                     #  para usar autocomplete con jQuery
                     item['value'] = i.name
                     data.append(item)
+            elif action == 'list_products':
+                data = [p.toJSON() for p in Product.objects.order_by('name').filter(stock__gt=0)]
+            elif action == 'get_product_by_id':
+                data = Product.objects.get(pk=request.POST['id']).toJSON()
             elif action == 'search_autocomplete':  # select 2
                 data = []
                 ids_exclude = json.loads(request.POST['ids'])
@@ -58,9 +66,7 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
                     data.append(item)
             elif action == 'add':
                 with transaction.atomic():
-                    # Si ocurre un error hace un rollback y no se guarda
                     vents = json.loads(request.POST['vents'])
-
                     sale = Sale()
                     sale.date_joined = vents['date_joined']
                     sale.cli_id = vents['cli']

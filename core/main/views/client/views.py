@@ -33,7 +33,6 @@ class ClientView(TemplateView):
                     data['object'] = Client.objects.get(dni=request.POST['dni']).toJSON()
             elif action == 'edit':
                 with transaction.atomic():
-                    print(request.POST)
                     cli = Client.objects.get(pk=request.POST['id'])
                     cli.name = request.POST['name']
                     cli.surnames = request.POST['surnames']

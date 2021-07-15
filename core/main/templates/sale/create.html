@@ -1,0 +1,286 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lib/jquery-ui/jquery-ui.min.css' %}">
+    <script src="{% static 'lib/jquery-ui/jquery-ui.min.js' %}"></script>
+
+    {#    <script src="{% static 'lib/select2-4.0.13/js/i18n/en.js' %}"></script>#}
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+
+    <script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}">
+
+    <script src="{% static 'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}">
+    <script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap.min.css' %}">
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <script src="{% static 'sale/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form method="post" id="formSale">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="mdi mdi-plus-circle-outline mdi-15px"></i>
+                    {% else %}
+                        <i class="mdi mdi-square-edit-outline mdi=15px"></i>
+                    {% endif %}
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="mdi mdi-details"></i> Product's details</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Buscador de productos:</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2" name="search"></select>
+                                        {#                                        <input type="text" class="form-control" autocomplete="off"#}
+                                        {#                                               placeholder="Ingrese una descripcion" maxlength="50" name="search">#}
+                                        <div class="input-group-append">
+                                            <button id="btnSearchProduct" class="btn bg-gradient-info input-group-btn"
+                                                    type="button">
+                                                <i class="mdi mdi-format-list-bulleted"></i> All products
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body table-responsive p-0" style="height: 325px;">
+                                    <table id="listTable" class="table table-head-fixed w3-hoverable-light">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%;" class="text-center">Remove</th>
+                                            <th scope="col" style="width: 30%;">Product</th>
+                                            <th scope="col" style="width: 10%;" class="text-center">Stock</th>
+                                            <th scope="col" style="width: 15%;" class="text-center">Price</th>
+                                            <th scope="col" style="width: 20%;" class="text-center">Quantify</th>
+                                            <th scope="col" style="width: 15%;" class="text-center">Subtotal</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+                                        {% comment %}<tr class="item">
+                                            <td class="text-center">
+                                                <button name ="id" class="btn bg-gradient-danger btn-xs btnTrash" type="button">
+                                                    <i class="mdi mdi-trash-can-outline mdi-15px"></i></button>
+                                            </td>
+                                            <td>Imaginary Product \ Imaginary</td>
+                                            <td class="text-center"><span class="badge badge-secondary">15</span></td>
+                                            <td class="text-center">$ 15.99</td>
+                                            <td class="text-center">
+                                                <input type="text" name="cant"
+                                                       class="form-control form-control-sm input-sm text-center"
+                                                       autocomplete="off"
+                                                       value="1">
+                                            </td>
+                                            <td class="text-center">$ 89.57</td>
+                                        </tr>{% endcomment %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="mdi mdi-cart"></i> Invoice data</h3>
+                            </div>
+                            <div class="card-body">
+                                <input type="hidden" name="action" value="{{ action }}">
+
+                                <div class="form-group ">
+                                    <label>Date of sale:</label>
+                                    {{ form.date_joined }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Client:</label>
+                                    <div class="input-group">
+                                        {{ form.cli }}
+                                        <div class="input-group-append">
+                                            <button class="btn bg-gradient-success btnAddClient input-group-btn"
+                                                    type="button">
+                                                <i class="mdi mdi-account-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group-sm row">
+                                    <div class="form-group col-sm-6">
+                                        <div class="form-group">
+                                            <p class="text-center w3-margin-bottom-7"><label>IVA:</label></p>
+                                            {{ form.iva }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <div class="form-group">
+                                            <p class="text-center w3-margin-bottom-7"><label>Subtotal:</label></p>
+                                            {{ form.subtotal }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group-sm row">
+                                    <div class="form-group col-sm-6">
+                                        <p class="text-center w3-margin-bottom-7"><label>Calculated IVA:</label></p>
+                                        {% comment %}<div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">$</span>
+                                            </div>{% endcomment %}
+                                        <input type="text" class="form-control-plaintext text-center" disabled readonly
+                                               name="ivacalc"
+                                               value="0.00">
+                                    </div>
+                                    {#                                    </div>#}
+                                    <div class="form-group col-sm-6">
+                                        <p class="text-center w3-margin-bottom-7"><label>Total to pay:</label></p>
+                                        {{ form.total }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn bg-gradient-primary">
+                    <i class="mdi mdi-content-save"></i> Save record
+                </button>
+                <button type="button" class="btn bg-gradient-warning">
+                    <i class="mdi mdi-trash-can-outline"></i> Clean up
+                </button>
+                <a href="{{ list_url }}" class="btn bg-gradient-danger">
+                    <i class="mdi mdi-cancel"></i> Cancelar
+                </a>
+            </div>
+        </div>
+    </form>
+    <!-- Modal Client-->
+    <div class="modal fade" id="myModalClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true" style="min-width: 350px">
+        <form id="myModalFormClient" class="form-horizontal" enctype="multipart/form-data" method="post" name=""
+              action=".">
+            {% csrf_token %}
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalFormTitleClient">
+                            <b><i class="mdi mdi-plus-circle-outline"></i> Create new Client</b>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        {% for field in frmClient.visible_fields %}
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-2 col-form-label">{{ field.label }}:</label>
+                                <div class="col-sm-10">
+                                    {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn bg-gradient-primary">
+                            <i class="mdi mdi-content-save"></i> Save Client
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal Search Products -->
+    <div class="modal fade" id="myModalSearchProducts" tabindex="-1" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModal">
+                        <b><i class="mdi mdi-magnify"></i> All availability products</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+{% comment %}                    <div class="card-header">
+                        <div class="card-tools">
+                            <h3 class="card-title">
+                                <i class="mdi mdi-format-list-bulleted-square mdi-18px"></i>
+                                Showing 15 products
+                            </h3>
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input id="searchInput"
+                                       oninput="w3.filterHTML('#listTableProduct', '.item', this.value)"
+                                       type="text"
+                                       name="table_search"
+                                       class="form-control"
+                                       placeholder="Search">
+                            </div>
+                        </div>
+                    </div>{% endcomment %}
+                    <div class="card-body table-responsive p-0" style="max-height: 500px;">
+
+                        <table id="listTableProduct" class="table table-head-fixed w3-hoverable-light">
+                            <thead>
+                            <tr>
+                                <th id="sort-by-name" scope="col" style="width: 35%;cursor: pointer">
+                                    Product <i class="mdi mdi-sort-alphabetical"></i></th>
+                                <th scope="col" style="width: 15%;" class="w3-center">Stock</th>
+                                <th scope="col" style="width: 15%;" class="w3-center">Image</th>
+                                <th scope="col" style="width: 20%;" class="w3-center">Price</th>
+                                <th scope="col" style="width: 15%;" class="w3-center">Options</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbodyProduct">
+                      {% comment %}      <tr class="item">
+                                <td style="width: 35%;">Imaginary prod / Imaginary cat</td>
+                                <td style="width: 15%;" class="w3-center">
+                                    <span class="badge badge-secondary">78</span></td>
+                                <td style="width: 15%;" class="w3-center">
+                                    <img src="{% static 'img/empty.png' %}" class="img-fluid d-block mx-auto"
+                                         style="width: 20px; height: 20px;">
+                                </td>
+                                <td style="width: 20%;" class="w3-center">$ 72.99</td>
+                                <td class="w3-center" style="width: 15%;">
+                                    <button name="id"
+                                            class="btn bg-gradient-success btn-xs btnAddProduct"><i
+                                            class="mdi mdi-plus mdi-15px w3-text-black"></i></button>
+                                </td>
+                            </tr>{% endcomment %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      document.getElementById('sort-by-name').addEventListener('click', () => {
+        w3.sortHTML('#listTableProduct', '.item', 'td:nth-child(0)')
+      })
+    </script>
+{% endblock %}

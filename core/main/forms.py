@@ -3,7 +3,7 @@ from datetime import datetime
 from django import forms
 from django.forms import ModelForm, Select
 
-from core.main.models import Category, Product, Client
+from core.main.models import Category, Product, Client, Sale
 
 
 class CategoryForm(ModelForm):
@@ -42,6 +42,13 @@ class CategoryForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
+
+    def clean(self):
+        cleaned = super().clean()
+        if len(cleaned['name']) <= 10:
+            raise forms.ValidationError('mi validation random')
+            # self.add_error('name', 'Les faltan caracteres')
+        return cleaned
 
 
 class ProductForm(ModelForm):
@@ -139,3 +146,40 @@ class ClientForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
+
+
+class SaleForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cli'].queryset = Client.objects.none()
+
+    class Meta:
+        model = Sale
+        fields = '__all__'
+        widgets = {
+            'cli': Select(attrs={
+                'class': 'custom-select select2'
+            }),
+            'date_joined': forms.DateInput(
+                format='%Y-%m-%d',
+                attrs={
+                    'value': datetime.now().strftime('%Y-%m-%d'),
+                    'autocomplete': 'off',
+                    'class': 'form-control',
+                    'id': 'id_date_joined',
+                }
+            ),
+            'iva': forms.TextInput(attrs={
+                'class': 'form-control w3-center',
+            }),
+            'subtotal': forms.TextInput(attrs={
+                'readonly': True,
+                'class': 'form-control-plaintext w3-center',
+                'disabled': True,
+            }),
+            'total': forms.TextInput(attrs={
+                'readonly': True,
+                'class': 'form-control-plaintext w3-center',
+                'disabled': True,
+            }),
+        }

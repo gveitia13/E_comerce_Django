@@ -1,3 +1,5 @@
+from time import strptime
+
 from crum import get_current_user
 from django.db import models
 from django.forms import model_to_dict
@@ -50,6 +52,7 @@ class Product(models.Model):
         item['cat'] = self.cat.toJSON()
         item['image'] = self.get_image()
         item['s_price'] = format(float(self.s_price), '.2f')
+        item['subtotal'] = 0.00
         return item
 
     def get_image(self):
@@ -87,7 +90,7 @@ class Client(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
-        # item['date_birthday'] = self.date_birthday.strftime('%Y-%m-%d')
+        item['date_birthday'] = self.date_birthday.strftime('%Y-%m-%d')
         item['full_name'] = self.get_full_name()
         return item
 
@@ -95,3 +98,59 @@ class Client(models.Model):
         verbose_name = 'Client'
         verbose_name_plural = 'Clients'
         ordering = ['name']
+
+
+class Sale(models.Model):
+    """ Sale Model """
+    cli = models.ForeignKey(Client, on_delete=models.CASCADE)
+    date_joined = models.DateField(default=datetime.now)
+    subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    iva = models.DecimalField(default=0.01, max_digits=9, decimal_places=2)
+    total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+
+    def __str__(self):
+        return self.cli.name
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['cli'] = self.cli.toJSON()
+        item['subtotal'] = format(float(self.subtotal), '.2f')
+        item['iva'] = format(float(self.iva), '.2f')
+        item['total'] = format(float(self.total), '.2f')
+        item['date_joined'] = self.date_joined.strftime('%Y-%m-%d')
+        item['det'] = [i.toJSON() for i in self.detsale_set.all()]
+        return item
+
+    def delete(self, using=None, keep_parents=False):
+        for det in self.detsale_set.all():
+            det.prod.stock += det.cant
+            det.prod.save()
+        super(Sale, self).delete()
+
+    class Meta:
+        verbose_name = 'Sale'
+        verbose_name_plural = 'Sales'
+        ordering = ['id']
+
+
+class DetSale(models.Model):
+    sale = models.ForeignKey(Sale, on_delete=models.CASCADE)
+    prod = models.ForeignKey(Product, on_delete=models.CASCADE)
+    price = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    cant = models.IntegerField(default=0)
+    subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+
+    def __str__(self):
+        return self.prod.name
+
+    def toJSON(self):
+        item = model_to_dict(self, exclude=['sale'])
+        item['prod'] = self.prod.toJSON()
+        item['price'] = format(float(self.price), '.2f')
+        item['subtotal'] = format(float(self.subtotal), '.2f')
+        return item
+
+    class Meta:
+        verbose_name = 'Sale\'s detail'
+        verbose_name_plural = 'Sales\'s detail'
+        ordering = ['id']

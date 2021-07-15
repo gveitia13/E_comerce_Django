@@ -17,7 +17,7 @@ $(function () {
 
   $('.select2').select2({
     theme: "bootstrap4",
-    language: 'en',
+    language: 'es',
   })
 
   $("input[name='stock']").TouchSpin({

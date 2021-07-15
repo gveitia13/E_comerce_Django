@@ -5,6 +5,7 @@ var idToDelete = {
   id: -1
 }
 $(function () {
+
   let theme = document.getElementById('theme'),
     sidebar = document.getElementById('sidebar'),
     header = document.getElementById('header'),
@@ -14,7 +15,7 @@ $(function () {
     $('input[name="name"]').focus();
   })
   $('.close').on('click', () => {
-    myModal.modal('hide');
+    $('.modal').modal('hide');
   })
 
   myModal.on('hidden.bs.modal', function () {
@@ -45,7 +46,7 @@ $(function () {
       parameters.append('id', `${idToEdit.id}`)
     }
     submit_with_ajax(window.location.pathname, parameters, function (data) {
-      $('#myModal').modal('hide');
+      $('.modal').modal('hide');
       if (document.querySelector('#myModalFormTitle').name === 'action-add')
         callbackCreate(data)
       if (document.querySelector('#myModalFormTitle').name === 'action-edit')

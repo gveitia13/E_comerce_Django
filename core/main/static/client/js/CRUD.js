@@ -3,6 +3,9 @@ $(function () {
   if (window.location.pathname.includes('client')) {
     changeSidebar('.my-accounts', '.my-accounts-client')
   }
+
+  // $('#id_date_birthday').inputmask('yyyy-mm-dd', {'placeholder': 'yyyy-mm-dd'})
+
   $('#id_date_birthday').datepicker({
     todayHighlight: true,
     autoclose: true,
