@@ -1,6 +1,6 @@
 let
   listTableProduct,
-  listTable,
+  listTableSearchProducts,
   Sale = {
     items: {
       cli: '',
@@ -28,9 +28,9 @@ let
       this.items.iva = this.items.subtotal * iva
       this.items.total = this.items.subtotal + this.items.iva
 
-      $('input[name="subtotal"]').val(this.items.subtotal.toFixed(2))
-      $('input[name="ivacalc"]').val(this.items.iva.toFixed(2))
-      $('input[name="total"]').val(this.items.total.toFixed(2))
+      $('input[name="subtotal"]').val('$ ' + this.items.subtotal.toFixed(2))
+      $('input[name="ivacalc"]').val('$ ' + this.items.iva.toFixed(2))
+      $('input[name="total"]').val('$ ' + this.items.total.toFixed(2))
     },
     add: function (item) {
       Sale.items.products.push(item)
@@ -42,14 +42,73 @@ let
       // this.items.products.forEach(e => {
       //   createTableSale(e)
       // })
-      listTableProduct = $ ('#listTableProduct')
+      listTableProduct = $('#listTableProduct').DataTable({
+        responsive: true,
+        autoWidth: false,
+        destroy: true,
+        data: this.items.products,
+        columns: [
+          {"data": "id"},
+          {"data": "full_name"},
+          {"data": "stock"},
+          {"data": "s_price"},
+          {"data": "cant"},
+          {"data": "subtotal"},
+        ],
+        columnDefs: [{
+          targets: [-4],
+          class: 'text-center',
+          render: function (data, type, row) {
+            return `<span class="badge badge-secondary"> ${data}</span>`
+          }
+        },
+          {
+            targets: [0],
+            class: 'text-center',
+            orderable: false,
+            render: (data, type, row) => {
+              return `<a rel="remove" class="btn bg-gradient-danger btn-xs text-white">
+                          <i class="mdi mdi-trash-can-outline mdi-15px"></i></a>`
+            }
+          },
+          {
+            targets: [-3, -1],
+            class: 'text-center',
+            orderable: false,
+            render: (data, type, row) => {
+              return `$ ${parseFloat(data).toFixed(2)}`
+            }
+          },
+          {
+            targets: [-2],
+            class: 'text-center',
+            orderable: false,
+            render: (data, type, row) => {
+              return `<input type="text" name="cant" class="form-control form-control-sm input-sm" 
+                                    autocomplete="off" value="${row.cant}" style="text-align: center">`
+            }
+          }
+        ],
+        rowCallback(row, data, displayNum, displayIndex, dataIndex) {
+          $(row).find('input[name="cant"]').TouchSpin({
+            min: 1,
+            max: data.stock,
+            step: 1,
+          })
+        },
+        initComplete: (settings, json) => {
+        },
+      });
+      // console.clear()
+      console.log(this.items)
+      console.log(this.get_ids())
     },
   }
 
 $(function () {
   $('.select2').select2({
     theme: "bootstrap4",
-    language: 'es'
+    language: 'en'
   })
 
   $("input[name='iva']").TouchSpin({
@@ -73,7 +132,7 @@ $(function () {
       this.classList.remove('w3-text-red')
     }
     Sale.calculate_invoice()
-  })
+  }).val(0.15)
 
   $('#id_date_joined').datepicker({
     todayHighlight: true,
@@ -94,8 +153,8 @@ $(function () {
   })
 
   $('#myModalSearchProducts').on('shown.bs.modal', function () {
-    $('input[name="table_search"]').focus();
-
+    // $('input[name="table_search"]').focus();
+    $('#listTableSearchProducts_filter label input[type=search]').focus()
   })
 
   $('.btnAddClient').on('click', function () {
@@ -103,19 +162,108 @@ $(function () {
     $('#myModalFormClient').trigger('reset');
   })
 
-  $('#btnSearchProduct').on('click', function () {
-    $('#myModalSearchProducts').modal('show');
-    let parameters = new FormData()
-    parameters.append('action', 'list_products')
-    ajaxFunction(location.pathname, parameters, (data) => {
-      createTableProd(data)
+  //event cant
+  $('#listTableProduct tbody')
+    .on('click', 'a[rel="remove"]', function () {
+      let tr = listTableProduct.cell($(this).closest('td, li')).index()//coge el index
+      Sale.items.products.splice(tr.row, 1)//seriedad
+      Sale.list()
     })
+    .on('change', 'input[name="cant"]', function () {
+      let tr = listTableProduct.cell($(this).closest('td, li')).index()
+      Sale.items.products[tr.row].cant = parseInt($(this).val())
+      Sale.calculate_invoice()
+      $('td:eq(5)', listTableProduct.row(tr.row).node())
+        .html(`$${Sale.items.products[tr.row].subtotal.toFixed(2)}`)
+    })
+
+  // $('.btnClearSearch').on('click', function () {
+  //   $('input[name="search"]').val('').focus();
+  // })
+
+  $('#btnSearchProduct').on('click', function () {
+    /*    let parameters = new FormData()
+        parameters.append('action', 'list_products')
+        parameters.append('ids', JSON.stringify(['1', '2']))
+        ajaxFunction(location.pathname, parameters, (data) => {
+          createTableProd(data)
+        })
+        $('#myModalSearchProducts').modal('show')*/
+    listTableSearchProducts = $('#listTableSearchProducts').DataTable({
+      responsive: true,
+      autoWidth: false,
+      destroy: true,
+      deferRender: true,
+      ajax: {
+        url: window.location.pathname,
+        type: 'POST',
+        data: {
+          'action': 'list_products',
+          'ids': JSON.stringify(Sale.get_ids()),
+          // 'term': $('select[name="search"]').val()
+        },
+        dataSrc: ""
+      },
+      columns: [
+        {"data": "full_name"},
+        {"data": "image"},
+        {"data": "stock"},
+        {"data": "s_price"},
+        {"data": "id"},
+      ],
+      columnDefs: [
+        {
+          targets: [-4],
+          class: 'text-center',
+          orderable: false,
+          render: (data, type, row) => {
+            return `<img src="${data}" class="img-fluid d-block mx-auto" style="width: 20px; height: 20px;">`
+          }
+        },
+        {
+          targets: [-3],
+          class: 'text-center',
+          render: (data, type, row) => {
+            return `<span class="badge badge-secondary"> ${data}</span>`
+          }
+        },
+        {
+          targets: [-2],
+          class: 'text-center',
+          orderable: false,
+          render: (data, type, row) => {
+            return '$' + parseFloat(data).toFixed(2)
+          }
+        },
+        {
+          targets: [-1],
+          class: 'text-center',
+          orderable: false,
+          render: (data, type, row) => {
+            return '<a rel="add" class="btn bg-gradient-success btn-xs"><i class="mdi mdi-plus mdi-15px"></i></a>'
+          }
+        },
+      ],
+      initComplete: function (settings, json) {
+      },
+    })
+    $('#myModalSearchProducts').modal('show')
   })
+
+  $('#listTableSearchProducts tbody')
+    .on('click', 'a[rel="add"]', function () {
+      let tr = listTableSearchProducts.cell($(this).closest('td, li')).index(),
+        product = listTableSearchProducts.row(tr.row).data()
+      product.cant = 1
+      product.subtotal = 0.00
+      Sale.add(product)
+      listTableSearchProducts.row($(this).parents('tr')).remove().draw() //elimina la fila
+    })
 
   $('div.card-footer button').eq(1).on('click', () => {
     if (Sale.items.products.length === 0) return false
     alert_action('Clean up',
-      'Do you want to delete the products from the table?',
+      'Do you want to delete all products from the table?',
       () => {
         Sale.items.products = []
         Sale.list()
@@ -135,8 +283,10 @@ $(function () {
     })
   })
 
+  Sale.list()
 })
 
+/*
 let
   createTrProd = (product, stock, image, s_price, id) => {
     return `
@@ -222,4 +372,4 @@ let
       buttondown_class: 'btn bg-gradient-secondary',
       buttonup_class: 'btn bg-gradient-secondary',
     })
-  }
+  }*/

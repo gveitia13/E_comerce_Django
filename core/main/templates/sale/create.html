@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
     <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
 
+    {% comment %}
     <script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
     <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}">
+{% endcomment %}
 
     <script src="{% static 'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}">
@@ -53,7 +55,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Buscador de productos:</label>
+                                    <label>Find products:</label>
                                     <div class="input-group">
                                         <select class="form-control select2" name="search"></select>
                                         {#                                        <input type="text" class="form-control" autocomplete="off"#}
@@ -67,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive p-0" style="height: 325px;">
-                                    <table id="listTable" class="table table-head-fixed w3-hoverable-light">
+                                    <table id="listTableProduct" class="table table-head-fixed w3-hoverable-light">
                                         <thead>
                                         <tr>
                                             <th scope="col" style="width: 10%;" class="text-center">Remove</th>
@@ -147,7 +149,7 @@
                                             </div>{% endcomment %}
                                         <input type="text" class="form-control-plaintext text-center" disabled readonly
                                                name="ivacalc"
-                                               value="0.00">
+                                               value="0.0">
                                     </div>
                                     {#                                    </div>#}
                                     <div class="form-group col-sm-6">
@@ -176,9 +178,8 @@
     <!-- Modal Client-->
     <div class="modal fade" id="myModalClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true" style="min-width: 350px">
-        <form id="myModalFormClient" class="form-horizontal" enctype="multipart/form-data" method="post" name=""
-              action=".">
-            {% csrf_token %}
+        <form id="myModalFormClient" class="form-horizontal" enctype="multipart/form-data" method="post">
+
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -225,7 +226,7 @@
                 </div>
                 <div class="modal-body">
 
-{% comment %}                    <div class="card-header">
+                    {% comment %}                    <div class="card-header">
                         <div class="card-tools">
                             <h3 class="card-title">
                                 <i class="mdi mdi-format-list-bulleted-square mdi-18px"></i>
@@ -243,19 +244,18 @@
                     </div>{% endcomment %}
                     <div class="card-body table-responsive p-0" style="max-height: 500px;">
 
-                        <table id="listTableProduct" class="table table-head-fixed w3-hoverable-light">
+                        <table id="listTableSearchProducts" class="table table-head-fixed w3-hoverable-light">
                             <thead>
                             <tr>
-                                <th id="sort-by-name" scope="col" style="width: 35%;cursor: pointer">
-                                    Product <i class="mdi mdi-sort-alphabetical"></i></th>
-                                <th scope="col" style="width: 15%;" class="w3-center">Stock</th>
+                                <th id="sort-by-name" scope="col" style="width: 35%;cursor: pointer">Product</th>
                                 <th scope="col" style="width: 15%;" class="w3-center">Image</th>
+                                <th scope="col" style="width: 15%;" class="w3-center">Stock</th>
                                 <th scope="col" style="width: 20%;" class="w3-center">Price</th>
                                 <th scope="col" style="width: 15%;" class="w3-center">Options</th>
                             </tr>
                             </thead>
                             <tbody id="tbodyProduct">
-                      {% comment %}      <tr class="item">
+                            {% comment %}      <tr class="item">
                                 <td style="width: 35%;">Imaginary prod / Imaginary cat</td>
                                 <td style="width: 15%;" class="w3-center">
                                     <span class="badge badge-secondary">78</span></td>
@@ -279,8 +279,16 @@
     </div>
 
     <script>
-      document.getElementById('sort-by-name').addEventListener('click', () => {
-        w3.sortHTML('#listTableProduct', '.item', 'td:nth-child(0)')
-      })
+      Sale.items.products = {{ det|safe }};
+      {% comment %}      document.getElementById('sort-by-name').addEventListener('click', () => {
+              w3.sortHTML('#listTableProduct', '.item', 'td:nth-child(0)')
+            }){% endcomment %}
+      $(function () {
+        $('#data').DataTable({
+          responsive: true,
+          autowidth: false,
+        });
+      });
+
     </script>
 {% endblock %}

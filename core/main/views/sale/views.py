@@ -48,7 +48,8 @@ class SaleCreateView(CreateView):
                     item['value'] = i.name
                     data.append(item)
             elif action == 'list_products':
-                data = [p.toJSON() for p in Product.objects.order_by('name').filter(stock__gt=0)]
+                data = [p.toJSON() for p in Product.objects.order_by('name').filter(stock__gt=0).exclude(
+                    id__in=json.loads(request.POST['ids']))]
             elif action == 'get_product_by_id':
                 data = Product.objects.get(pk=request.POST['id']).toJSON()
             elif action == 'search_autocomplete':  # select 2
@@ -108,8 +109,8 @@ class SaleCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Creación un Venta'
-        context['entity'] = 'Ventas'
+        context['title'] = 'Create Sale'
+        context['entity'] = 'Sale'
         context['list_url'] = self.success_url
         context['action'] = 'add'
         context['det'] = []
