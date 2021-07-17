@@ -2,6 +2,15 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block head %}
+
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap.min.css' %}">
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+
     {% block head_list %}
 
     {% endblock %}
@@ -15,18 +24,20 @@
                 <i class="mdi mdi-format-list-bulleted-square mdi-18px"></i>
                 {{ title }}
             </h3>
-            <div class="card-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                    <input id="searchInput" oninput="w3.filterHTML('#listTable', '.item', this.value)" type="text"
-                           name="table_search"
-                           class="form-control float-right"
-                           placeholder="Search" autofocus>
+            {% block search %}
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input id="searchInput" oninput="w3.filterHTML('#listTable', '.item', this.value)" type="text"
+                               name="table_search"
+                               class="form-control float-right"
+                               placeholder="Search" autofocus>
 
+                    </div>
                 </div>
-            </div>
+            {% endblock %}
         </div>
         <!-- /.card-header -->
-        <div class="card-body table-responsive p-0" style="height: 325px;">
+        <div class="card-body table-responsive " style="min-height: 325px;">
             <table id="listTable" class="table table-head-fixed text-nowrap w3-hoverable-light">
                 <thead>
                 {% block columns %}

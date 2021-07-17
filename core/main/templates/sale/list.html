@@ -1,0 +1,67 @@
+{% extends 'baselist.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'sale/js/list.js' %}"></script>
+{% endblock %}
+{% block search %}
+
+{% endblock %}
+{% block columns %}
+    <tr>
+        <th scope="col">Client</th>
+        <th scope="col">Date</th>
+        <th scope="col">Subtotal</th>
+        <th scope="col">IVA</th>
+        <th scope="col">Total</th>
+        <th scope="col">Options</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+
+{% endblock %}
+{% block buttons_list %}
+    <div class="card-footer row">
+        <div class="col-lg-8">
+            <a href="{{ create_url }}" class="btn bg-gradient-primary btnAdd">
+                <i class="mdi mdi-plus"></i> New {{ entity }}
+            </a>
+            <button type="button" id="hola" class="btn bg-gradient-red waves-effect waves-light"><i
+                    class="mdi mdi-heart-half-full"></i></button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <div class="modal fade" id="myModalDet" tabindex="-1" role="dialog" aria-labelledby="myModalDetLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalDetLabel"><i class="mdi mdi-cart"></i>
+                         Details of the sale </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-head-fixed w3-hoverable-light" id="tblDet">
+                            <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantify</th>
+                                <th scope="col">Subtotal</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

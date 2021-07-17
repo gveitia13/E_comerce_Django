@@ -85,7 +85,7 @@
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link my-sales">
                         <i class="nav-icon mdi mdi-cart"></i>
                         <p>
                             Sales record
@@ -94,13 +94,13 @@
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'main:sale_list' %}" class="nav-link my-sales-sales">
                                 <i class=" mdi mdi-finance nav-icon"></i>
                                 <p>Sales list</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="#" class="nav-link my-sales-reports">
                                 <i class="mdi mdi-chart-bar nav-icon"></i>
                                 <p>Sales report</p>
                             </a>

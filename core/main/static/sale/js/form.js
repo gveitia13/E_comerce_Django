@@ -61,10 +61,6 @@ let
     },
     list: function () {
       this.calculate_invoice()
-      // document.getElementById('tbody').innerHTML = ``
-      // this.items.products.forEach(e => {
-      //   createTableSale(e)
-      // })
       listTableProduct = $('#listTableProduct').DataTable({
         responsive: true,
         autoWidth: false,
@@ -204,13 +200,6 @@ $(function () {
   // })
 
   $('#btnSearchProduct').on('click', function () {
-    /*    let parameters = new FormData()
-        parameters.append('action', 'list_products')
-        parameters.append('ids', JSON.stringify(['1', '2']))
-        ajaxFunction(location.pathname, parameters, (data) => {
-          createTableProd(data)
-        })
-        $('#myModalSearchProducts').modal('show')*/
     listTableSearchProducts = $('#listTableSearchProducts').DataTable({
       responsive: true,
       autoWidth: false,
@@ -379,6 +368,9 @@ $(function () {
     parameters.append('action', $('input[name="action"]').val())
     parameters.append('sale', JSON.stringify(Sale.items))
 
+    let icon = 'mdi mdi-square-edit-outline'
+    if ($('input[name="action"]').val() === 'add')
+      icon = 'mdi mdi-plus-circle-outline'
     submit_with_ajax_alert(
       location.pathname, title,
       'Are you sure you save the sale record?',
@@ -387,101 +379,12 @@ $(function () {
         alert_action('Print', 'Do you want to print the sale ballot?',
           () => {
             window.open(`/main/sale/invoice/pdf/${response.id}/`, '_blank')
-            location.href = '/main/sale/list'
+            location.href = '/main/sale/'
           }, () => {
-            location.href = '/main/sale/list'
+            location.href = '/main/sale/'
           })
-      }, 'mdi mdi-content-save'
+      }, icon
     )
   })
-
   Sale.list()
 })
-
-/*
-let
-  createTrProd = (product, stock, image, s_price, id) => {
-    return `
-      <tr class="item">
-          <td style="width: 35%;">${product}</td>
-          <td style="width: 15%;" class="w3-center">
-              <span class="badge badge-secondary">${stock}</span></td>
-          <td style="width: 15%;" class="w3-center">
-              <img src="${image}" class="img-fluid d-block mx-auto"
-                   style="width: 20px; height: 20px;">
-          </td>
-          <td style="width: 20%;" class="w3-center">$ ${parseFloat(s_price).toFixed(2)}</td>
-          <td class="w3-center" style="width: 15%;">
-              <button name="tbl_prod_${id}" type="button"
-                      class="btn bg-gradient-success btn-xs btnAddProduct"><i
-                      class="mdi mdi-plus mdi-15px w3-text-black"></i></button>
-          </td>
-      </tr>
-            `
-  },
-
-  createTrSale = (product, stock, s_price, id) => {
-    return `
-      <tr class="item">
-          <td class="text-center">
-              <button name="tbl_sale_${id}" class="btn bg-gradient-danger btn-xs btnTrash" type="button">
-                  <i class="mdi mdi-trash-can-outline mdi-15px"></i></button>
-          </td>
-          <td>${product}</td>
-          <td class="text-center"><span class="badge badge-secondary">${stock}</span></td>
-          <td class="text-center">$ ${s_price}</td>
-          <td class="text-center">
-              <input type="text" name="cant_${id}"
-                     class="form-control form-control-sm input-sm text-center"
-                     autocomplete="off"
-                     value="1">
-          </td>
-          <td class="text-center" id="subtotal_${id}">$ ${s_price}</td>
-      </tr>
-            `
-  },
-
-  createTableProd = data => {
-
-    document.getElementById('tbodyProduct').innerHTML = ``
-    for (const item of data)
-      document.getElementById('tbodyProduct').innerHTML +=
-        createTrProd(item['full_name'], item['stock'], item['image'], item['s_price'], item['id'])
-
-    $('.btnAddProduct').on({
-      click: function () {
-        let parameters = new FormData(),
-          id = this.name.replace('tbl_prod_', '')
-        parameters.append('action', 'get_product_by_id')
-        parameters.append('id', id)
-        ajaxFunction(location.pathname, parameters, data => {
-          Sale.add(data)
-          Sale.list()
-          // createTableSale(data)
-          removeTr(`tbl_prod_${data['id']}`)
-        })
-      },
-    })
-  },
-
-  createTableSale = data => {
-
-    document.getElementById('tbody').innerHTML +=
-      createTrSale(data['full_name'], data['stock'], data['s_price'], data['id'])
-    eventTrSale(data['id'], data['stock'])
-  },
-
-  removeTr = id => {
-    document.querySelector(`button[name="${id}"]`).parentElement.parentElement.remove()
-  },
-
-  eventTrSale = (id, max) => {
-    console.log(id)
-    $(`input[name='cant_${id}']`).TouchSpin({
-      min: 1,
-      max: max,
-      step: 1,
-      buttondown_class: 'btn bg-gradient-secondary',
-      buttonup_class: 'btn bg-gradient-secondary',
-    })
-  }*/

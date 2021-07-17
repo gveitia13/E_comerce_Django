@@ -1,37 +1,22 @@
-{% extends 'layout.html' %}
+{% extends 'baselist.html' %}
 {% load widget_tweaks %}
 {% load static %}
-{% block head %}
-    <link rel="stylesheet" href="{% static 'lib/jquery-ui/jquery-ui.min.css' %}">
-    <script src="{% static 'lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    {% block head_list %}
+        <link rel="stylesheet" href="{% static 'lib/jquery-ui/jquery-ui.min.css' %}">
+        <script src="{% static 'lib/jquery-ui/jquery-ui.min.js' %}"></script>
 
-    {#    <script src="{% static 'lib/select2-4.0.13/js/i18n/en.js' %}"></script>#}
-    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
-    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
-    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
+        <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
+        <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
 
-    {% comment %}
-    <script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
-    <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}">
-{% endcomment %}
+        <script src="{% static 'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}">
 
-    <script src="{% static 'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}">
+        <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}">
+        <script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
 
-    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}">
-    <script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
-
-    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}">
-    <link rel="stylesheet"
-          href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap.min.css' %}">
-    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
-    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
-
-    <script src="{% static 'sale/js/form.js' %}"></script>
-{% endblock %}
+        <script src="{% static 'sale/js/form.js' %}"></script>
+    {% endblock %}
 
 {% block content %}
     <form method="post" id="formSale">
@@ -42,7 +27,7 @@
                     {% if action == 'add' %}
                         <i class="mdi mdi-plus-circle-outline mdi-15px"></i>
                     {% else %}
-                        <i class="mdi mdi-square-edit-outline mdi=15px"></i>
+                        <i class="mdi mdi-square-edit-outline mdi-15px"></i>
                     {% endif %}
                     {{ title }}
                 </h3>
@@ -50,7 +35,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-8">
-                        <div class="card card-secondary">
+                        <div class="card card-info">
                             <div class="card-header">
                                 <h3 class="card-title"><i class="mdi mdi-details"></i> Product's details</h3>
                             </div>
@@ -59,11 +44,11 @@
                                     <div class="input-group">
                                         <select class="form-control select2" name="search"></select>
                                         <div class="input-group-append">
-                                            <button type="button" data-toggle="tooltip" title="Empty the list"
+    {% comment %}                                        <button type="button" data-toggle="tooltip" title="Empty the list"
                                                     class="btn bg-gradient-warning btn-sm input-group-btn btnClean">
                                                 <i class="mdi mdi-trash-can-outline mdi-18px"></i>
-                                            </button>
-                                            <button id="btnSearchProduct" class="btn bg-gradient-info input-group-btn"
+                                            </button>{% endcomment %}
+                                            <button id="btnSearchProduct" class="btn bg-gradient-success input-group-btn"
                                                     type="button">
                                                 <i class="mdi mdi-format-list-bulleted"></i> All products
                                             </button>
@@ -91,7 +76,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="card card-secondary">
+                        <div class="card card-info">
                             <div class="card-header">
                                 <h3 class="card-title"><i class="mdi mdi-cart"></i> Invoice data</h3>
                             </div>
@@ -209,25 +194,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
-                    {% comment %}                    <div class="card-header">
-                        <div class="card-tools">
-                            <h3 class="card-title">
-                                <i class="mdi mdi-format-list-bulleted-square mdi-18px"></i>
-                                Showing 15 products
-                            </h3>
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input id="searchInput"
-                                       oninput="w3.filterHTML('#listTableProduct', '.item', this.value)"
-                                       type="text"
-                                       name="table_search"
-                                       class="form-control"
-                                       placeholder="Search">
-                            </div>
-                        </div>
-                    </div>{% endcomment %}
                     <div class="card-body table-responsive p-0" style="max-height: 500px;">
-
                         <table id="listTableSearchProducts" class="table table-head-fixed w3-hoverable-light">
                             <thead>
                             <tr>
@@ -239,21 +206,7 @@
                             </tr>
                             </thead>
                             <tbody id="tbodyProduct">
-                            {% comment %}      <tr class="item">
-                                <td style="width: 35%;">Imaginary prod / Imaginary cat</td>
-                                <td style="width: 15%;" class="w3-center">
-                                    <span class="badge badge-secondary">78</span></td>
-                                <td style="width: 15%;" class="w3-center">
-                                    <img src="{% static 'img/empty.png' %}" class="img-fluid d-block mx-auto"
-                                         style="width: 20px; height: 20px;">
-                                </td>
-                                <td style="width: 20%;" class="w3-center">$ 72.99</td>
-                                <td class="w3-center" style="width: 15%;">
-                                    <button name="id"
-                                            class="btn bg-gradient-success btn-xs btnAddProduct"><i
-                                            class="mdi mdi-plus mdi-15px w3-text-black"></i></button>
-                                </td>
-                            </tr>{% endcomment %}
+
                             </tbody>
                         </table>
                     </div>
