@@ -15,8 +15,71 @@ from core.main.mixins import ValidatePermissionRequiredMixin
 from core.main.models import Sale, Product, DetSale, Client
 
 
-def productsList(request, *args, **kwargs):
-    return [p.toJSON() for p in Product.objects.order_by('name').filter(stock__gt=0)]
+def search_autocomplete_jquery(request, *args, **kwargs):
+    data = []
+    ids_exclude = json.loads(request.POST['ids'])
+    term = request.POST['term'].strip()
+    products = Product.objects.filter(stock__gt=0)  # gt significa mayor
+    if len(term):
+        products = products.filter(name__icontains=term)
+    for i in products.exclude(id__in=ids_exclude)[0:10]:
+        item = i.toJSON()
+        #  para usar autocomplete con jQuery
+        item['value'] = i.name
+        data.append(item)
+    return data
+
+
+def search_clients(request, *args, **kwargs):
+    data = []
+    term = request.POST['term']
+    clients = Client.objects.filter(
+        Q(name__icontains=term) | Q(surnames__icontains=term) | Q(dni__icontains=term))[0:50]
+    for i in clients:
+        item = i.toJSON()
+        item['text'] = i.get_full_name()
+        data.append(item)
+    return data
+
+
+def search_products_select2(request, *args, **kwargs):
+    data = []
+    ids_exclude = json.loads(request.POST['ids'])
+    term = request.POST['term'].strip()
+    data.append({'id': term, 'text': term})
+    products = Product.objects.filter(name__icontains=term, stock__gt=0)
+    if len(term):
+        products = products.filter()
+    for i in products.exclude(id__in=ids_exclude)[0:50]:
+        item = i.toJSON()
+        #  para usar autocomplete con Select2
+        item['text'] = i.name
+        data.append(item)
+    return data
+
+
+def save_Sale(vents, sale):
+    sale1 = sale
+    sale1.date_joined = vents['date_joined']
+    sale1.cli_id = vents['cli']
+    sale1.subtotal = float(vents['subtotal'])
+    sale1.iva = float(vents['iva'])
+    sale1.total = float(vents['total'])
+    return sale1
+
+
+def save_DetSale(vents, sale):
+    for i in vents['products']:
+        det = DetSale()
+        det.sale_id = sale.id
+        det.prod_id = i['id']
+        det.cant = int(i['cant'])
+        det.price = float(i['s_price'])
+        det.subtotal = float(i['subtotal'])
+        det.save()
+        det.prod.stock -= det.cant
+        det.prod.save()
+    return {'id': sale.id}
 
 
 class SaleCreateView(CreateView):
@@ -31,76 +94,33 @@ class SaleCreateView(CreateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    @method_decorator(csrf_exempt)
     def post(self, request, *args, **kwargs):
         data = {}
         try:
             action = request.POST['action']
             if action == 'search_products':
-                data = []
-                ids_exclude = json.loads(request.POST['ids'])
-                term = request.POST['term'].strip()
-                products = Product.objects.filter(stock__gt=0)  # gt significa mayor
-                if len(term):
-                    products = products.filter(name__icontains=term)
-                for i in products.exclude(id__in=ids_exclude)[0:10]:
-                    item = i.toJSON()
-                    #  para usar autocomplete con jQuery
-                    item['value'] = i.name
-                    data.append(item)
+                pass
             elif action == 'list_products':
                 data = [p.toJSON() for p in Product.objects.order_by('name').filter(stock__gt=0).exclude(
                     id__in=json.loads(request.POST['ids']))]
             elif action == 'get_product_by_id':
                 data = Product.objects.get(pk=request.POST['id']).toJSON()
             elif action == 'search_autocomplete':  # select 2
-                data = []
-                ids_exclude = json.loads(request.POST['ids'])
-                term = request.POST['term'].strip()
-                data.append({'id': term, 'text': term})
-                products = Product.objects.filter(name__icontains=term, stock__gt=0)
-                if len(term):
-                    products = products.filter()
-                for i in products.exclude(id__in=ids_exclude)[0:10]:
-                    item = i.toJSON()
-                    #  para usar autocomplete con Select2
-                    item['text'] = i.name
-                    data.append(item)
+                data = search_products_select2(request, *args, **kwargs)
             elif action == 'add':
                 with transaction.atomic():
-                    vents = json.loads(request.POST['vents'])
+                    vents = json.loads(request.POST['sale'])
                     sale = Sale()
-                    sale.date_joined = vents['date_joined']
-                    sale.cli_id = vents['cli']
-                    sale.subtotal = float(vents['subtotal'])
-                    sale.iva = float(vents['iva'])
-                    sale.total = float(vents['total'])
+                    sale = save_Sale(vents, sale)
                     sale.save()
-
-                    for i in vents['products']:
-                        det = DetSale()
-                        det.sale_id = sale.id
-                        det.prod_id = i['id']
-                        det.cant = int(i['cant'])
-                        det.price = float(i['pvp'])
-                        det.subtotal = float(i['subtotal'])
-                        det.save()
-                        det.prod.stock -= det.cant
-                        det.prod.save()
-                    data = {'id': sale.id}
+                    data = save_DetSale(vents, sale)
             elif action == 'search_clients':
-                data = []
-                term = request.POST['term']
-                clients = Client.objects.filter(
-                    Q(names__icontains=term) | Q(surnames__icontains=term) | Q(dni__icontains=term))[0:10]
-                for i in clients:
-                    item = i.toJSON()
-                    item['text'] = i.get_full_name()
-                    data.append(item)
+                data = search_clients(request, *args, **kwargs)
             elif action == 'create_client':
                 with transaction.atomic():
                     print(request.POST)
-                    frmClient = ClientForm(request.POST)
-                    data = frmClient.save()
+                    data = ClientForm(request.POST).save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -197,9 +217,7 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
                     data.append(item)
             elif action == 'edit':
                 with transaction.atomic():
-                    # Si ocurre un error hace un rollback y no se guarda
-                    vents = json.loads(request.POST['vents'])
-
+                    vents = json.loads(request.POST['sale'])
                     # sale = Sale.objects.get(pk=self.get_object().id)
                     sale = self.get_object()
                     sale.date_joined = vents['date_joined']
@@ -209,12 +227,13 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
                     sale.total = float(vents['total'])
                     sale.save()
                     sale.detsale_set.all().delete()
+
                     for i in vents['products']:
                         det = DetSale()
                         det.sale_id = sale.id
                         det.prod_id = i['id']
                         det.cant = int(i['cant'])
-                        det.price = float(i['pvp'])
+                        det.price = float(i['s_price'])
                         det.subtotal = float(i['subtotal'])
                         det.save()
                         det.prod.stock -= det.cant

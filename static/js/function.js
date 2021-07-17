@@ -187,26 +187,3 @@ let changeSidebar = function (nav_treeview, nav_item) {
     })
   }
 
-//cosas random
-/*
-{
-  $('#date_joined').datetimepicker({
-    format: 'YYYY-MM-DD',
-    date: moment().format("YYYY-MM-DD"),
-    locale: 'es',
-    //maxDate: moment().format("YYYY-MM-DD")
-  });
-
-  $("input[name='iva']").TouchSpin({
-    min: 0,
-    max: 100,
-    step: 0.01,
-    decimals: 2,
-    boostat: 5,
-    maxboostedstep: 10,
-    postfix: '%'
-  }).on('change', function () {
-    vents.calculate_invoice()
-  }).val(0.12)
-
-}*/

@@ -1,6 +1,29 @@
 let
   listTableProduct,
   listTableSearchProducts,
+  formatRepo = repo => {
+    if (repo.loading)
+      return repo.text
+
+    if (!Number.isInteger(repo.id))
+      return repo.text
+
+    return $(`
+      <div class="wrapper container">
+          <div class="row">
+              <div class="col-2">
+                  <img src="${repo.image}" class="img-fluid img-thumbnail d-block mx-auto rounded">
+              </div>
+              <div class="col-10 text-left shadow-sm">
+                  <p style="margin-bottom: 0;">
+                      <b>Name: </b> ${repo.full_name} <br>
+                      <b>Stock:</b> ${repo.stock} <br>
+                      <b>Price:</b> <span class="badge badge-warning">$ ${repo.s_price}</span>
+                  </p>
+              </div>
+          </div>
+      </div>`);
+  },
   Sale = {
     items: {
       cli: '',
@@ -110,7 +133,6 @@ $(function () {
     theme: "bootstrap4",
     language: 'en'
   })
-
   $("input[name='iva']").TouchSpin({
     min: 0,
     max: Number.POSITIVE_INFINITY,
@@ -174,7 +196,7 @@ $(function () {
       Sale.items.products[tr.row].cant = parseInt($(this).val())
       Sale.calculate_invoice()
       $('td:eq(5)', listTableProduct.row(tr.row).node())
-        .html(`$${Sale.items.products[tr.row].subtotal.toFixed(2)}`)
+        .html(`$ ${Sale.items.products[tr.row].subtotal.toFixed(2)}`)
     })
 
   // $('.btnClearSearch').on('click', function () {
@@ -260,7 +282,7 @@ $(function () {
       listTableSearchProducts.row($(this).parents('tr')).remove().draw() //elimina la fila
     })
 
-  $('div.card-footer button').eq(1).on('click', () => {
+  $('.btnClean').on('click', () => {
     if (Sale.items.products.length === 0) return false
     alert_action('Clean up',
       'Do you want to delete all products from the table?',
@@ -270,6 +292,66 @@ $(function () {
       }, () => {
       }, 'mdi mdi-trash-can-outline')
   })
+
+  // buscar clientes
+  $('select[name="cli"]').select2({
+    theme: "bootstrap4",
+    language: 'es',
+    allowClear: true,
+    ajax: {
+      delay: 250,
+      type: 'POST',
+      url: window.location.pathname,
+      data: (params) => {
+        return {
+          term: params.term,
+          action: 'search_clients'
+        };
+      },
+      processResults: (data) => {
+        return {
+          results: data
+        }
+      },
+    },
+    placeholder: 'Find a client',
+    minimumInputLength: 1,
+  })
+
+  //Autocomplete con Select2 ta x gusto
+  $('select[name="search"]').select2({
+    theme: "bootstrap4",
+    language: 'es',
+    allowClear: true,
+    ajax: {
+      delay: 250,
+      type: 'POST',
+      url: window.location.pathname,
+      data: (params) => {
+        return {
+          term: params.term,
+          action: 'search_autocomplete',
+          ids: JSON.stringify(Sale.get_ids())
+        };
+      },
+      processResults: (data) => {
+        return {
+          results: data
+        }
+      },
+    },
+    placeholder: 'Find products',
+    minimumInputLength: 1,
+    templateResult: formatRepo,
+  }).on('select2:select', function (e) {//cuando selecciona
+    let data = e.params.data
+    if (!Number.isInteger(data.id))
+      return false  //ni idea
+    data.cant = 1
+    data.subtotal = 0.00
+    Sale.add(data)
+    $(this).val('').trigger('change.select2')
+  });
 
   $('#myModalFormClient').on('submit', function (e) {
     e.preventDefault()
@@ -281,6 +363,36 @@ $(function () {
       $('#myModalClient').modal('hide')
       Toast(`Client: ${data['name']} has been added to the database`)
     })
+  })
+
+  $('#formSale').on('submit', function (e) {
+    e.preventDefault()
+
+    if (Sale.items.products.length === 0) {
+      message_error('You must have at least one item in your sale detail')
+      return false
+    }
+    Sale.items.date_joined = $('#id_date_joined').val()
+    Sale.items.cli = $('#id_cli').val()
+
+    let parameters = new FormData()
+    parameters.append('action', $('input[name="action"]').val())
+    parameters.append('sale', JSON.stringify(Sale.items))
+
+    submit_with_ajax_alert(
+      location.pathname, title,
+      'Are you sure you save the sale record?',
+      parameters,
+      (response) => {
+        alert_action('Print', 'Do you want to print the sale ballot?',
+          () => {
+            window.open(`/main/sale/invoice/pdf/${response.id}/`, '_blank')
+            location.href = '/main/sale/list'
+          }, () => {
+            location.href = '/main/sale/list'
+          })
+      }, 'mdi mdi-content-save'
+    )
   })
 
   Sale.list()

@@ -38,19 +38,6 @@
     {% block javascript %}
 
     {% endblock %}
-    {% comment %}    <script>
-        {% if messages %}
-            let html = `<p>`;
-            {% for message in messages %}
-                html += `{{ message }}<br>`;
-            {% endfor %}
-            html += `</p>`;
-            Swal.fire({
-                title: 'Error',
-                html: html,
-                icon: 'error'
-            });
-        {% endif %}
-    </script>{% endcomment %}
+
     </body>
 {% endblock %}

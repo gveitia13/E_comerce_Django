@@ -4,6 +4,7 @@ $(function () {
     changeSidebar('.my-accounts', '.my-accounts-client')
   }
 
+  $('.selectpicker').selectpicker('render')
   // $('#id_date_birthday').inputmask('yyyy-mm-dd', {'placeholder': 'yyyy-mm-dd'})
 
   $('#id_date_birthday').datepicker({
@@ -33,10 +34,13 @@ $(function () {
   })
 
   $('.btnAdd').on('click', function () {
-    $('#myModal').modal('show');
     $('#myModalForm').trigger('reset');
     document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
     document.querySelector('#myModalFormTitle').name = 'action-add'
+    document.querySelector('button[data-id="id_gender"] div div div').innerHTML =
+      document.querySelector('#id_gender').options[document.querySelector('#id_gender')
+        .selectedIndex].innerHTML
+    $('#myModal').modal('show');
   })
 
   btnEvents()
@@ -66,7 +70,6 @@ let
 
     //Event btn Update Client
     $('.btnUpdate').on('click', function () {
-      $('#myModal').modal('show')
       $('#myModalForm').trigger('reset')
       let parameters = new FormData()
       parameters.append('action', 'search_client')
@@ -82,12 +85,16 @@ let
         else
           document.querySelector('#id_address').value = ''
         document.querySelector('#id_gender').value = data['object']['gender']
+        document.querySelector('button[data-id="id_gender"] div div div').innerHTML =
+          document.querySelector('#id_gender').options[document.querySelector('#id_gender')
+            .selectedIndex].innerHTML
         document.querySelector('#id_email').value = data['object']['email']
       })
       document.querySelector('#myModalFormTitle').innerHTML =
         `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
       document.querySelector('#myModalFormTitle').name = 'action-edit'
       idToEdit.id = this.name
+      $('#myModal').modal('show')
     })
 
     //Event btn Contact Client

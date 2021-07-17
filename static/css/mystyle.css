@@ -30,7 +30,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom,#007bff, #73b1f5);
+    background: linear-gradient(to bottom, #007bff, #73b1f5);
     border-radius: 5px;
 }
 
@@ -41,4 +41,8 @@
 
 .w3-margin-bottom-7 {
     margin-bottom: 7px !important
+}
+
+.text-decoration-underline {
+    text-decoration: underline !important;
 }

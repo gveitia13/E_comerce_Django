@@ -5,12 +5,13 @@ $(function () {
   }
   //Event btn Add
   $('.btnAdd').on('click', function () {
-    $('#myModal').modal('show');
-    $('#myModalForm').trigger('reset');
     document.querySelector('#image_span').innerHTML = 'Nothing selected yet'
-    document.querySelector('#select2-id_cat-container').innerHTML = '---------'
+    document.querySelector('button[data-id="id_cat"] div div div').innerHTML = '---------'
+    document.querySelector('#id_cat').attributes[6].ownerElement.value = ''
     document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
     document.querySelector('#myModalFormTitle').name = 'action-add'
+    $('#myModalForm').trigger('reset');
+    $('#myModal').modal('show');
   })
 
   formStyles()
@@ -19,6 +20,7 @@ $(function () {
     theme: "bootstrap4",
     language: 'es',
   })
+  $('.selectpicker').selectpicker('render')
 
   $("input[name='stock']").TouchSpin({
     min: 0,
@@ -101,7 +103,6 @@ let
 
     //Event btn Update Product
     $('.btnUpdate').on('click', function () {
-      $('#myModal').modal('show')
       $('#myModalForm').trigger('reset')
       let parameters = new FormData()
       parameters.append('action', 'search_product')
@@ -110,20 +111,20 @@ let
         document.querySelector('#id_name').value = data['object']['name']
         document.querySelector('#id_stock').value = data['object']['stock']
         document.querySelector('#id_s_price').value = data['object']['s_price']
-        document.querySelector('#id_cat').attributes[6].ownerElement.value = data['object']['cat']['id']
-        document.querySelector('#select2-id_cat-container').innerHTML = data['object']['cat']['name']
+        document.querySelector('#id_cat').attributes[6].ownerElement.value =
+          data['object']['cat']['id']
+        document.querySelector('button[data-id="id_cat"] div div div').innerHTML =
+          data['object']['cat']['name']
       })
-
       document.querySelector('#myModalFormTitle').innerHTML =
         `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
       document.querySelector('#myModalFormTitle').name = 'action-edit'
       idToEdit.id = this.name
+      $('#myModal').modal('show')
     })
 
     //Event btn Contact Client
     $('.btnDetail').on('click', function () {
-      $('#myModalDetail').modal('show').trigger('reset')
-
       let parameters = new FormData()
       parameters.append('action', 'search_product')
       parameters.append('id', this.name)
@@ -140,6 +141,7 @@ let
               </div>
           </div>`)
       })
+      $('#myModalDetail').modal('show')
     })
   },
 

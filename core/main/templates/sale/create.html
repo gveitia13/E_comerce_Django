@@ -35,6 +35,7 @@
 
 {% block content %}
     <form method="post" id="formSale">
+        {% csrf_token %}
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">
@@ -55,12 +56,13 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Find products:</label>
                                     <div class="input-group">
                                         <select class="form-control select2" name="search"></select>
-                                        {#                                        <input type="text" class="form-control" autocomplete="off"#}
-                                        {#                                               placeholder="Ingrese una descripcion" maxlength="50" name="search">#}
                                         <div class="input-group-append">
+                                            <button type="button" data-toggle="tooltip" title="Empty the list"
+                                                    class="btn bg-gradient-warning btn-sm input-group-btn btnClean">
+                                                <i class="mdi mdi-trash-can-outline mdi-18px"></i>
+                                            </button>
                                             <button id="btnSearchProduct" class="btn bg-gradient-info input-group-btn"
                                                     type="button">
                                                 <i class="mdi mdi-format-list-bulleted"></i> All products
@@ -68,7 +70,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body table-responsive p-0" style="height: 325px;">
+                                <div class="card-body table-responsive p-0" style="min-height: 325px;">
                                     <table id="listTableProduct" class="table table-head-fixed w3-hoverable-light">
                                         <thead>
                                         <tr>
@@ -81,22 +83,7 @@
                                         </tr>
                                         </thead>
                                         <tbody id="tbody">
-                                        {% comment %}<tr class="item">
-                                            <td class="text-center">
-                                                <button name ="id" class="btn bg-gradient-danger btn-xs btnTrash" type="button">
-                                                    <i class="mdi mdi-trash-can-outline mdi-15px"></i></button>
-                                            </td>
-                                            <td>Imaginary Product \ Imaginary</td>
-                                            <td class="text-center"><span class="badge badge-secondary">15</span></td>
-                                            <td class="text-center">$ 15.99</td>
-                                            <td class="text-center">
-                                                <input type="text" name="cant"
-                                                       class="form-control form-control-sm input-sm text-center"
-                                                       autocomplete="off"
-                                                       value="1">
-                                            </td>
-                                            <td class="text-center">$ 89.57</td>
-                                        </tr>{% endcomment %}
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -118,7 +105,7 @@
                                 <div class="form-group">
                                     <label>Client:</label>
                                     <div class="input-group">
-                                        {{ form.cli }}
+                                        {{ form.cli|add_class:'input-group-text' }}
                                         <div class="input-group-append">
                                             <button class="btn bg-gradient-success btnAddClient input-group-btn"
                                                     type="button">
@@ -154,7 +141,7 @@
                                     {#                                    </div>#}
                                     <div class="form-group col-sm-6">
                                         <p class="text-center w3-margin-bottom-7"><label>Total to pay:</label></p>
-                                        {{ form.total }}
+                                        {{ form.total|add_class:'text-decoration-underline' }}
                                     </div>
                                 </div>
                             </div>
@@ -165,9 +152,6 @@
             <div class="card-footer">
                 <button type="submit" class="btn bg-gradient-primary">
                     <i class="mdi mdi-content-save"></i> Save record
-                </button>
-                <button type="button" class="btn bg-gradient-warning">
-                    <i class="mdi mdi-trash-can-outline"></i> Clean up
                 </button>
                 <a href="{{ list_url }}" class="btn bg-gradient-danger">
                     <i class="mdi mdi-cancel"></i> Cancelar
@@ -280,15 +264,6 @@
 
     <script>
       Sale.items.products = {{ det|safe }};
-      {% comment %}      document.getElementById('sort-by-name').addEventListener('click', () => {
-              w3.sortHTML('#listTableProduct', '.item', 'td:nth-child(0)')
-            }){% endcomment %}
-      $(function () {
-        $('#data').DataTable({
-          responsive: true,
-          autowidth: false,
-        });
-      });
-
+      title = '{{ title|safe }}';
     </script>
 {% endblock %}

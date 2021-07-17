@@ -68,8 +68,10 @@ class ProductForm(ModelForm):
             ),
             'cat': Select(
                 attrs={
-                    'class': 'select2',
-                    'style': 'width: 100%'
+                    'class': 'selectpicker',
+                    'style': 'width: 100%',
+                    'data-style': 'btn bg-gradient-primary',
+                    'data-live-search': 'true'
                 }
             ),
         }
@@ -125,7 +127,13 @@ class ClientForm(ModelForm):
                     'placeholder': 'Enter you address (optional)',
                 }
             ),
-            'gender': forms.Select(),
+            'gender': forms.Select(
+                attrs={
+                    'class': 'selectpicker',
+                    'style': 'width: 100%',
+                    'data-style': 'btn btn-light',
+                }
+            ),
             'email': forms.EmailInput(
                 attrs={
                     'placeholder': 'Enter you email ex: user@mail.com'

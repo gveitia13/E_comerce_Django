@@ -13,14 +13,18 @@
     <link rel="icon" href="{% static 'img/ios7-star-half.png' %}" type="image/x-icon">
     <!-- Material icons -->
     <link rel="stylesheet" href="{% static 'lib/material-icons/css/icons.min.css' %}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{% static 'lib/admin-lte3/css/adminlte.min.css' %}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- jQuery -->
     <script src="{% static 'lib/jquery/jquery-3.6.0.min.js' %}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{% static 'lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-4.6.0-dist/css/bootstrap.min.css' %}">
+    <script src="{% static 'lib/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js' %}"></script>
+
+{% comment %}    <link rel="stylesheet" href="{% static 'lib/bootstrap-5.0.2-dist/css/bootstrap.min.css' %}">
+    <script src="{% static 'lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>{% endcomment %}
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lib/admin-lte3/css/adminlte.min.css' %}">
     <!-- AdminLTE App -->
     <script src="{% static 'lib/admin-lte3/js/adminlte.min.js' %}"></script>
     <!-- sweetAlert -->
