@@ -16,6 +16,54 @@ $(function () {
 })
 
 let
+  listar = function () {
+    tableSale = $('#listTable').DataTable({
+      scrollX: false,
+      autoWidth: false,
+      destroy: true,
+      deferRender: true,
+      ajax: {
+        url: location.pathname,
+        type: 'POST',
+        data: {
+          'action': 'searchdata'
+        },
+        dataSrc: ""
+      },
+      columns: [
+        {'data': 'name'},
+        {'data': 'description'},
+        {'data': 'id'},
+      ],
+      columnDefs: [
+        {
+          targets: [1],
+          class: 'text-center'
+        },
+        {
+          targets: [-1],
+          class: 'text-center',
+          orderable: false,
+          render: (data, type, row) => {
+            return `
+            <a rel="details" class="btn bg-gradient-teal btn-xs">
+                <i class="mdi mdi-magnify-plus mdi-15px w3-text-black"></i></a>
+            <a href="/main/sale/update/${row.id}/" class="btn bg-gradient-warning btn-xs">
+                <i class="mdi mdi-square-edit-outline mdi-15px"></i></a>
+            <a href="/main/sale/invoice/pdf/${row.id}/" target="_blank" 
+                class="btn bg-gradient-info btn-xs">
+                <i class="mdi mdi-file-pdf mdi-15px"></i></a>
+            <a rel="delete" class="btn bg-gradient-danger btn-xs">
+                <i class="mdi mdi-trash-can-outline mdi-15px text-white"></i></a>`
+          }
+        },
+      ],
+      initComplete: function (settings, json) {
+        $('input[type=search]').focus()
+      },
+    })
+  },
+
   btnEvents = function () {
     //Event btn Delete Category
     $('.btnTrash').on('click', function () {

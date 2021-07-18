@@ -2,9 +2,13 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block head %}
-    <script src="{% static 'category/js/CRUD.js' %}"></script>
     {% block head_list %}
+        <script src="{% static 'category/js/CRUD.js' %}"></script>
     {% endblock %}
+{% endblock %}
+
+{% block search %}
+
 {% endblock %}
 
 {% block columns %}
@@ -17,7 +21,7 @@
 {% endblock %}
 
 {% block rows %}
-    {% for foo in lista %}
+  {% comment %}  {% for foo in lista %}
         <tr class="item">
 
             <td id="cat_{{ foo.id }}" style="width: 20%;">{{ foo.name }}</td>
@@ -37,15 +41,15 @@
 
             </td>
         </tr>
-    {% endfor %}
+    {% endfor %}{% endcomment %}
 {% endblock %}
 
 
 {% block javascript %}
     <script>
-{% comment %}      $(window).on('load', () => {
-        w3.sortHTML('#listTable', '.item', 'td:nth-child(1)')
-      }){% endcomment %}
+      {% comment %}      $(window).on('load', () => {
+              w3.sortHTML('#listTable', '.item', 'td:nth-child(1)')
+            }){% endcomment %}
       document.getElementById('nameSort').addEventListener('click', () => {
         w3.sortHTML('#listTable', '.item', 'td:nth-child(1)')
       })

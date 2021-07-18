@@ -26,11 +26,19 @@ $(function () {
 
   $('#myModalDetail div.modal-footer button:first').on('click', function () {
     //hacer que copie de verdad
+    var codigoACopiar = document.getElementById('textoACopiar');
+    var seleccion = document.createRange();
+    seleccion.selectNodeContents(codigoACopiar);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(seleccion);
+    var res = document.execCommand('copy');
+    window.getSelection().removeRange(seleccion);
     $(this).html(`<i class="mdi mdi-content-copy"></i> Copied`)
   })
 
   $('#myModalDetail').on('hidden.bs.modal', function () {
     $('#myModalDetail').trigger('reset');
+    $('#myModalDetail div.modal-footer button:first').html(`<i class="mdi mdi-content-copy"></i> Copy`)
   })
 
   $('.btnAdd').on('click', function () {
