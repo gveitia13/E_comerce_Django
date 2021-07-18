@@ -131,7 +131,7 @@ class ClientForm(ModelForm):
                 attrs={
                     'class': 'selectpicker',
                     'style': 'width: 100%',
-                    'data-style': 'btn btn-light',
+                    'data-style': 'btn btn-default form-control',
                 }
             ),
             'email': forms.EmailInput(

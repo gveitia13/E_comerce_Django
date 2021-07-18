@@ -1,7 +1,8 @@
 {% extends 'baselist.html' %}
 {% load widget_tweaks %}
 {% load static %}
-{% block head %}
+
+{% block head_list %}
     <script src="{% static 'client/js/CRUD.js' %}"></script>
     <script src="{% static 'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}">
@@ -9,51 +10,28 @@
 
     <script src="{% static 'lib/bootstrap-select/bootstrap-select.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'lib/bootstrap-select/bootstrap-select.min.css' %}">
-    {% block head_list %}
-    {% endblock %}
+{% endblock %}
+
+{% block search %}
+
 {% endblock %}
 
 {% block columns %}
     <tr>
-        <th id="sort-by-name" scope="col" style="width: 20%;cursor: pointer">
+        <th scope="col" style="width: 20%;">
             Name <i class="mdi mdi-sort-alphabetical"></i>
         </th>
         <th scope="col" style="width: 25%;">Surnames</th>
-        <th scope="col" style="width: 20%;">DNI</th>
+        <th scope="col" style="width: 20%;" class="text-center">DNI</th>
         <th scope="col" style="width: 15%;">Gender</th>
         <th scope="col" style="width: 20%;" class="w3-center">Options</th>
     </tr>
 {% endblock %}
 
 {% block rows %}
-    {% for foo in lista %}
-        <tr class="item">
-            <td id="name_{{ foo.id }}" style="width: 20%;">{{ foo.name }}</td>
-            <td style="width: 25%;">{{ foo.surnames }}</td>
-            <td style="width: 20%;">{{ foo.dni }}</td>
-            {% if foo.gender == 'female' %}
-                <td style="width: 15%;"><i class="mdi mdi-gender-female"></i> {{ foo.gender }}</td>
-            {% elif foo.gender == 'male' %}
-                <td style="width: 15%;"><i class="mdi mdi-gender-male"></i> {{ foo.gender }}</td>
-            {% else %}
-                <td style="width: 15%;"><i class="mdi mdi-gender-transgender"></i> {{ foo.gender }}</td>
-            {% endif %}
-            <td class="w3-center" style="width: 20%;">
-                <button name="{{ foo.id }}"
-                        class="btn bg-gradient-teal btn-xs btnDetail" data-toggle="tooltip" title="Details"><i
-                        class="mdi mdi-account-details mdi-15px w3-text-black"></i></button>
-                <button name="{{ foo.id }}"
-                        class="btn bg-gradient-warning btn-xs btnUpdate"><i
-                        class="mdi mdi-square-edit-outline mdi-15px"></i></button>
-                <button name="{{ foo.id }}"
-                        class="btn bg-gradient-danger btn-xs btnTrash"><i
-                        class="mdi mdi-trash-can-outline mdi-15px"></i></button>
-            </td>
-        </tr>
-    {% empty %}
-        <td colspan="5" class="text-center" style="width: 100%;"><b>No {{ entity }} registered</b></td>
-    {% endfor %}
+
 {% endblock %}
+
 {% block modal_form %}
     {% include 'modal_horizontal.html' %}
     {% include 'client/modal_detail.html' %}
@@ -79,9 +57,6 @@
           icon: 'error'
         });
       {% endif %}
-      document.getElementById('sort-by-name').addEventListener('click', () => {
-        w3.sortHTML('#listTable', '.item', 'td:nth-child(1)')
-      })
 
       let ent = '{{ entity }}',
         defaultTitleModal = `<b><i class="mdi mdi-plus-circle-outline"></i> New ${ent}</b>`

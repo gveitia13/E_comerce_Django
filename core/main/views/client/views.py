@@ -1,3 +1,6 @@
+import datetime
+import json
+
 from django.db import transaction
 from django.http import JsonResponse
 from django.urls import reverse_lazy
@@ -21,9 +24,7 @@ class ClientView(TemplateView):
         try:
             action = request.POST['action']
             if action == 'searchdata':
-                data = []
-                for i in Client.objects.all():
-                    data.append(i.toJSON())
+                data = [c.toJSON() for c in Client.objects.all()]
             elif action == 'search_client':
                 data = {'object': Client.objects.get(pk=request.POST['id']).toJSON(), }
             elif action == 'add':
@@ -37,7 +38,7 @@ class ClientView(TemplateView):
                     cli.name = request.POST['name']
                     cli.surnames = request.POST['surnames']
                     cli.dni = request.POST['dni']
-                    cli.date_birthday = request.POST['date_birthday']
+                    cli.date_birthday = datetime.date.fromisoformat(request.POST['date_birthday'])
                     cli.address = request.POST['address']
                     cli.gender = request.POST['gender']
                     cli.email = request.POST['email']

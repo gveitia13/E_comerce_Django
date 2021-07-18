@@ -4,8 +4,9 @@ $(function () {
     changeSidebar('.my-accounts', '.my-accounts-client')
   }
 
+  listar()
+
   $('.selectpicker').selectpicker('render')
-  // $('#id_date_birthday').inputmask('yyyy-mm-dd', {'placeholder': 'yyyy-mm-dd'})
 
   $('#id_date_birthday').datepicker({
     todayHighlight: true,
@@ -25,14 +26,14 @@ $(function () {
   })
 
   $('#myModalDetail div.modal-footer button:first').on('click', function () {
-    //hacer que copie de verdad
-    var codigoACopiar = document.getElementById('textoACopiar');
-    var seleccion = document.createRange();
-    seleccion.selectNodeContents(codigoACopiar);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(seleccion);
-    var res = document.execCommand('copy');
-    window.getSelection().removeRange(seleccion);
+    let codigoACopiar = document.querySelector('#myModalDetail .modal-body'),
+      seleccion = document.createRange()
+    seleccion.selectNodeContents(codigoACopiar)
+    window.getSelection().removeAllRanges()
+    window.getSelection().addRange(seleccion)
+    const res = document.execCommand('copy')
+    window.getSelection().removeRange(seleccion)
+    console.log(res)
     $(this).html(`<i class="mdi mdi-content-copy"></i> Copied`)
   })
 
@@ -40,6 +41,69 @@ $(function () {
     $('#myModalDetail').trigger('reset');
     $('#myModalDetail div.modal-footer button:first').html(`<i class="mdi mdi-content-copy"></i> Copy`)
   })
+
+  $('#listTable tbody')
+    .on('click', 'a[rel="delete"]', function () {
+      let tr = tableSale.cell($(this).closest('td, li')).index(),
+        data = tableSale.row(tr.row).data(),
+        parameters = new FormData()
+      parameters.append('action', 'dele')
+      parameters.append('id', data.id)
+      submit_with_ajax_alert(location.pathname, 'Delete!',
+        'Are you sure you want to delete the client <b>' + data.name + '</b>?',
+        parameters,
+        response => {
+          tableSale.row($(this).parents('tr')).remove().draw()
+          Toast(`The ${ent} ${response['name']} was ${response['success']}`)
+        },
+        'mdi mdi-alert-octagram text-danger')
+    })
+    .on('click', 'a[rel="update"]', function () {
+      let tr = tableSale.cell($(this).closest('td, li')).index(),
+        data = tableSale.row(tr.row).data()
+      // Llenar formulario
+      document.querySelector('#id_name').value = data.name
+      document.querySelector('#id_surnames').value = data.surnames
+      document.querySelector('#id_dni').value = data.dni
+      document.querySelector('#id_date_birthday').value = data['date_birthday']
+      if (data.address != null)
+        document.querySelector('#id_address').value = data.address
+      else
+        document.querySelector('#id_address').value = ''
+      document.querySelector('#id_gender').value = data.gender
+      document.querySelector('button[data-id="id_gender"] div div div').innerHTML =
+        document.querySelector('#id_gender').options[
+          document.querySelector('#id_gender').selectedIndex].innerHTML
+      document.querySelector('#id_email').value = data.email
+      // Titulo del formulario
+      document.querySelector('#myModalFormTitle').innerHTML =
+        `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
+      document.querySelector('#myModalFormTitle').name = 'action-edit'
+
+      $('#myModal').modal('show');
+      document.forms[0].elements[1].focus()
+      idToEdit.id = data.id
+    })
+    .on('click', 'a[rel="detail"]', function () {
+      let tr = tableSale.cell($(this).closest('td, li')).index(),
+        data = tableSale.row(tr.row).data(),
+        addr = data.address
+      if (addr == null || addr === '')
+        addr = 'Not available'
+
+      $('#myModalDetail .modal-body').html(
+        `<p><b>Database ID: </b>${data['id']}</p>
+            <p><b>Name: </b>${data['name']}</p>
+            <p><b>Surnames: </b>${data['surnames']}</p>
+            <p><b>E-mail: </b><a href="mailto:${data['email']}?Subject=Hello%20${data['name']}"
+                    target="_top">${data['email']}</a></p>
+            <p><b>DNI: </b>${data['dni']}</p>
+            <p><b>Date birthday: </b>${data['date_birthday']}</p>
+            <p><b>Gender: </b>${data['gender']}</p>
+            <p><b>Address: </b>${addr}</p>`
+      )
+      $('#myModalDetail').modal('show').trigger('reset')
+    })
 
   $('.btnAdd').on('click', function () {
     $('#myModalForm').trigger('reset');
@@ -51,9 +115,102 @@ $(function () {
     $('#myModal').modal('show');
   })
 
-  btnEvents()
 })
 let
+  listar = function () {
+    tableSale = $('#listTable').DataTable({
+      scrollX: false,
+      autoWidth: false,
+      destroy: true,
+      deferRender: true,
+      ajax: {
+        url: location.pathname,
+        type: 'POST',
+        data: {
+          'action': 'searchdata'
+        },
+        dataSrc: ""
+      },
+      columns: [
+        {'data': 'name'},
+        {'data': 'surnames'},
+        {'data': 'dni'},
+        {'data': 'gender'},
+        {'data': 'id'},
+      ],
+      columnDefs: [
+        {
+          targets: [-1],
+          class: 'text-center',
+          orderable: false,
+          render: (data, type, row) => {
+            return `
+              <a rel="detail" class="btn bg-gradient-teal btn-xs">
+                  <i class="mdi mdi-account-details mdi-15px w3-text-black"></i></a>
+              <a rel="update" class="btn bg-gradient-warning btn-xs">
+                  <i class="mdi mdi-square-edit-outline mdi-15px"></i></a>
+              <a rel="delete" class="btn bg-gradient-danger btn-xs">
+                  <i class="mdi mdi-trash-can-outline mdi-15px text-white"></i></a>`
+          }
+        },
+        {
+          targets: [-2],
+          orderable: false,
+          render: (data, type, row) => {
+            let gen = `transgender`
+            if (data === 'female')
+              gen = `female`
+            if (data === 'male')
+              gen = `male`
+            return `<i class="mdi mdi-gender-${gen}"></i> ${data}`
+          }
+        },
+        {
+          targets: [-3],
+          orderable: false,
+          class: 'text-center',
+        },
+      ],
+      initComplete: function (settings, json) {
+        $('input[type=search]').focus()
+      },
+    })
+  },
+
+  callbackCreate = data => {
+    Toast(`${ent}: ${data['object']['full_name']} ${data['success']} successfully`)
+  },
+
+  callbackUpdate = data => {
+    callbackCreate(data)
+  }
+
+/*
+  createTr = (id, name, surnames, dni, gender) => {
+    let gen = `transgender`
+    if (gender === 'female')
+      gen = `female`
+    if (gender === 'male')
+      gen = `male`
+    return `<tr class="item">
+                <td id="name_${id}" style="width: 20%;">${name}</td>
+                <td style="width: 25%;">${surnames}</td>
+                <td style="width: 20%;">${dni}</td>
+                <td style="width: 15%;"><i class="mdi mdi-gender-${gen}"></i> ${gender}</td>
+                <td class="w3-center" style="width: 20%;">
+                    <button name="${id}"
+                            class="btn bg-gradient-teal btn-xs btnDetail" data-toggle="tooltip" title="Details"><i
+                            class="mdi mdi-account-details mdi-15px w3-text-black"></i></button>
+                    <button name="${id}"
+                            class="btn bg-gradient-warning btn-xs btnUpdate"><i
+                            class="mdi mdi-square-edit-outline mdi-15px"></i></button>
+                    <button name="${id}"
+                            class="btn bg-gradient-danger btn-xs btnTrash"><i
+                            class="mdi mdi-trash-can-outline mdi-15px"></i></button>
+                </td>
+            </tr>`
+  },
+
   btnEvents = function () {
     //Event btn Delete Client
     $('.btnTrash').on('click', function () {
@@ -129,44 +286,4 @@ let
         )
       })
     })
-  },
-
-  callbackCreate = data => {
-    document.getElementById('tbody').innerHTML +=
-      createTr(data['object']['id'], data['object']['name'], data['object']['surnames'],
-        data['object']['dni'], data['object']['gender'])
-    document.getElementById('sort-by-name').click()
-    // document.getElementById('sort-by-name').click()
-    Toast(`${ent}: ${data['object']['full_name']} ${data['success']} successfully`)
-    btnEvents()
-  },
-
-  callbackUpdate = data => {
-    document.querySelector(`button[name="${idToEdit.id}"]`).parentElement.parentElement.remove()
-    callbackCreate(data)
-  },
-
-  createTr = (id, name, surnames, dni, gender) => {
-    let gen = `transgender`
-    if (gender === 'female')
-      gen = `female`
-    if (gender === 'male')
-      gen = `male`
-    return `<tr class="item">
-                <td id="name_${id}" style="width: 20%;">${name}</td>
-                <td style="width: 25%;">${surnames}</td>
-                <td style="width: 20%;">${dni}</td>
-                <td style="width: 15%;"><i class="mdi mdi-gender-${gen}"></i> ${gender}</td>
-                <td class="w3-center" style="width: 20%;">
-                    <button name="${id}"
-                            class="btn bg-gradient-teal btn-xs btnDetail" data-toggle="tooltip" title="Details"><i
-                            class="mdi mdi-account-details mdi-15px w3-text-black"></i></button>
-                    <button name="${id}"
-                            class="btn bg-gradient-warning btn-xs btnUpdate"><i
-                            class="mdi mdi-square-edit-outline mdi-15px"></i></button>
-                    <button name="${id}"
-                            class="btn bg-gradient-danger btn-xs btnTrash"><i
-                            class="mdi mdi-trash-can-outline mdi-15px"></i></button>
-                </td>
-            </tr>`
-  }
+  }*/
