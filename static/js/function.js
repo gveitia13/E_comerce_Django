@@ -47,6 +47,7 @@ $(function () {
     }
     submit_with_ajax(window.location.pathname, parameters, function (data) {
       $('.modal').modal('hide');
+      listar()
       if (document.querySelector('#myModalFormTitle').name === 'action-add')
         callbackCreate(data)
       if (document.querySelector('#myModalFormTitle').name === 'action-edit')

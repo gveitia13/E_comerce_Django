@@ -4,15 +4,45 @@ $(function () {
     changeSidebar('.my-stored', '.my-stored-cat')
   }
 
+  listar()
+
   //Event btn Add
   $('.btnAdd').on('click', function () {
-    $('#myModal').modal('show');
     $('#myModalForm').trigger('reset');
-    //$('form')[0].reset();
     document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
     document.querySelector('#myModalFormTitle').name = 'action-add'
+    $('#myModal').modal('show');
   })
-  btnEvents()
+
+  $('#listTable tbody')
+    .on('click', 'a[rel="delete"]', function () {
+      let tr = tableSale.cell($(this).closest('td, li')).index(),
+        data = tableSale.row(tr.row).data(),
+        parameters = new FormData()
+      parameters.append('action', 'dele')
+      parameters.append('id', data.id)
+      submit_with_ajax_alert(location.pathname, 'Delete!',
+        'Are you sure you want to delete the <b>' + data.name + '</b> record?',
+        parameters,
+        response => {
+          tableSale.row($(this).parents('tr')).remove().draw()
+          Toast(`The ${ent} ${response['name']} was ${response['success']}`)
+        },
+        'mdi mdi-alert-octagram text-danger')
+    })
+    .on('click', 'a[rel="update"]', function () {
+      let tr = tableSale.cell($(this).closest('td, li')).index(),
+        data = tableSale.row(tr.row).data()
+      document.querySelector('#id_name').value = data.name
+      document.querySelector('#id_desc').value = data.desc
+      document.querySelector('#myModalFormTitle').innerHTML =
+        `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
+      document.querySelector('#myModalFormTitle').name = 'action-edit'
+
+      $('#myModal').modal('show');
+      document.forms[0].elements[1].focus()
+      idToEdit.id = data.id
+    })
 })
 
 let
@@ -32,27 +62,18 @@ let
       },
       columns: [
         {'data': 'name'},
-        {'data': 'description'},
+        {'data': 'desc'},
         {'data': 'id'},
       ],
       columnDefs: [
-        {
-          targets: [1],
-          class: 'text-center'
-        },
         {
           targets: [-1],
           class: 'text-center',
           orderable: false,
           render: (data, type, row) => {
             return `
-            <a rel="details" class="btn bg-gradient-teal btn-xs">
-                <i class="mdi mdi-magnify-plus mdi-15px w3-text-black"></i></a>
-            <a href="/main/sale/update/${row.id}/" class="btn bg-gradient-warning btn-xs">
+            <a rel="update" class="btn bg-gradient-warning btn-xs">
                 <i class="mdi mdi-square-edit-outline mdi-15px"></i></a>
-            <a href="/main/sale/invoice/pdf/${row.id}/" target="_blank" 
-                class="btn bg-gradient-info btn-xs">
-                <i class="mdi mdi-file-pdf mdi-15px"></i></a>
             <a rel="delete" class="btn bg-gradient-danger btn-xs">
                 <i class="mdi mdi-trash-can-outline mdi-15px text-white"></i></a>`
           }
@@ -102,17 +123,10 @@ let
   },
 
   callbackCreate = function (data) {
-    document.getElementById('tbody').innerHTML +=
-      createTr(data['object']['id'], data['object']['name'], data['object']['desc'])
-    document.getElementById('nameSort').click()
-
     Toast(`${ent}: ${data['object']['name']} ${data['success']} successfully`)
-    btnEvents()
   },
 
   callbackUpdate = function (data) {
-    document.querySelector(`#cat_${idToEdit.id}`).innerText = data['object']['name']
-    document.querySelector(`#desc_${idToEdit.id}`).innerText = data['object']['desc']
     Toast(`${ent}: ${data['object']['name']} ${data['success']} successfully`)
   },
 
