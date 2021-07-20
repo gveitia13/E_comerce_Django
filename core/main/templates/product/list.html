@@ -1,14 +1,9 @@
 {% extends 'baselist.html' %}
 {% load widget_tweaks %}
 {% load static %}
-{% block head %}
+{% block head_list %}
     <script src="{% static 'product/js/CRUD.js' %}"></script>
     <link rel="stylesheet" href="{% static 'product/css/mystyle.css' %}">
-
-    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
-    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
-    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
-    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
 
     <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}">
     <script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
@@ -16,18 +11,22 @@
     <script src="{% static 'lib/bootstrap-select/bootstrap-select.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'lib/bootstrap-select/bootstrap-select.min.css' %}">
 
+    <link rel="stylesheet"
+          href="{% static 'lib/datatables-1.10.20/plugins/ColReorder-1.5.4/css/colReorder.bootstrap4.min.css' %}">
+    <script src="{% static 'lib/datatables-1.10.20/plugins/ColReorder-1.5.4/js/dataTables.colReorder.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/ColReorder-1.5.4/js/colReorder.bootstrap4.min.js' %}"></script>
+
     <script type="text/javascript" src="{% static 'lib/html2canvas.min.js' %}"></script>
-    {% block head_list %}
-    {% endblock %}
+{% endblock %}
+
+{% block search %}
+
 {% endblock %}
 
 {% block columns %}
     <tr>
-        <th id="nameSort" scope="col" style="width: 10%;" class="w3-center">
-            Stock
-        </th>
-        <th id="sort-by-name" scope="col" style="width: 20%;cursor: pointer">
-            Name <i class="mdi mdi-sort-alphabetical"></i></th>
+        <th scope="col" style="width: 10%;" class="w3-center">Stock</th>
+        <th scope="col" style="width: 20%;cursor: pointer">Name</th>
         <th scope="col" style="width: 20%;">Category</th>
         <th scope="col" style="width: 15%;" class="w3-center">Image</th>
         <th scope="col" style="width: 15%;" class="w3-center">Price</th>
@@ -36,37 +35,9 @@
 {% endblock %}
 
 {% block rows %}
-    {% for foo in lista %}
-        <tr class="item">
-            {% if foo.stock %}
-                <td id="stock_{{ foo.id }}" style="width: 10%;" class="w3-center">
-                    <span class="badge badge-success">{{ foo.stock }}</span></td>
-            {% else %}
-                <td id="stock_{{ foo.id }}" style="width: 10%;" class="w3-center">
-                    <span class="badge badge-danger">{{ foo.stock }}</span></td>
-            {% endif %}
-            <td id="name_{{ foo.id }}" style="width: 20%;">{{ foo.name }}</td>
-            <td id="cat_{{ foo.id }}" style="width: 20%;">{{ foo.cat.name }}</td>
-            <td style="width: 15%;"><img src="{{ foo.get_image }}" class="img-fluid d-block mx-auto"
-                                         style="width: 20px; height: 20px;"></td>
-            <td style="width: 15%;" class="w3-center">$ {{ foo.s_price|floatformat:2 }}</td>
 
-            <td class="w3-center" style="width: 20%;">
-                <button name="{{ foo.id }}"
-                        class="btn bg-gradient-teal btn-xs btnDetail"><i
-                        class="mdi mdi-magnify-plus mdi-15px w3-text-black"></i></button>
-                <button name="{{ foo.id }}"
-                        class="btn bg-gradient-warning btn-xs btnUpdate"><i
-                        class="mdi mdi-square-edit-outline mdi-15px"></i></button>
-                <button name="{{ foo.id }}"
-                        class="btn bg-gradient-danger btn-xs btnTrash"><i
-                        class="mdi mdi-trash-can-outline mdi-15px"></i></button>
-            </td>
-        </tr>
-    {% empty %}
-        <td colspan="6" class="text-center" style="width: 100%;"><b>No {{ entity }} registered</b></td>
-    {% endfor %}
 {% endblock %}
+
 {% block modal_form %}
     {% include 'modal.html' %}
     {% include 'product/modal_detail.html' %}
@@ -91,18 +62,17 @@
           icon: 'error'
         });
       {% endif %}
-      document.getElementById('sort-by-name').addEventListener('click', () => {
-        w3.sortHTML('#listTable', '.item', 'td:nth-child(2)')
-      })
 
       let ent = '{{ entity }}',
         defaultTitleModal = `<b><i class="mdi mdi-plus-circle-outline"></i> New ${ent}</b>`
 
       document.getElementById('hola').addEventListener('click', e => {
-        Toast('hola', 'success')
-        console.log('{{ lista }}')
-        console.log(idToEdit.id)
+        Toast('hola', 'error')
+        $('#links').modal('show')
       })
+      setInterval(() => {
+        document.querySelector('#hola i').classList.toggle('mdi-spin')
+      }, 3000)
 
     </script>
 {% endblock %}

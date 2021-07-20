@@ -46,3 +46,66 @@
 .text-decoration-underline {
     text-decoration: underline !important;
 }
+
+.table > thead > tr > th {
+    border-bottom: solid 1px #000 !important;
+}
+
+.modal-dialog.modal-dialog-top {
+    margin-top: 0 !important
+}
+
+
+.modal.fade .modal-dialog {
+    transition-duration: .12s
+}
+
+.modal.fade .modal-dialog.modal-dialog-popin {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1)
+}
+
+.modal.fade .modal-dialog.modal-dialog-popout {
+    -webkit-transform: scale(.9);
+    transform: scale(.9)
+}
+
+.modal.fade .modal-dialog.modal-dialog-slideup {
+    -webkit-transform: translate(0, 10%);
+    transform: translate(0, 10%)
+}
+
+.modal.fade .modal-dialog.modal-dialog-slideright {
+    -webkit-transform: translate(-10%, 0);
+    transform: translate(-10%, 0)
+}
+
+.modal.fade .modal-dialog.modal-dialog-slideleft {
+    -webkit-transform: translate(10%, 0);
+    transform: translate(10%, 0)
+}
+
+.modal.fade .modal-dialog.modal-dialog-fromright {
+    -webkit-transform: translateX(25%) rotate(10deg) scale(.9);
+    transform: translateX(25%) rotate(10deg) scale(.9)
+}
+
+.modal.fade .modal-dialog.modal-dialog-fromleft {
+    -webkit-transform: translateX(-25%) rotate(-10deg) scale(.9);
+    transform: translateX(-25%) rotate(-10deg) scale(.9)
+}
+
+.modal.show .modal-dialog.modal-dialog-popin, .modal.show .modal-dialog.modal-dialog-popout {
+    -webkit-transform: scale(1);
+    transform: scale(1)
+}
+
+.modal.show .modal-dialog.modal-dialog-slideleft, .modal.show .modal-dialog.modal-dialog-slideright, .modal.show .modal-dialog.modal-dialog-slideup {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0)
+}
+
+.modal.show .modal-dialog.modal-dialog-fromleft, .modal.show .modal-dialog.modal-dialog-fromright {
+    -webkit-transform: translateX(0) rotate(0) scale(1);
+    transform: translateX(0) rotate(0) scale(1)
+}

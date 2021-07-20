@@ -1,0 +1,46 @@
+{% load widget_tweaks %}
+<div class="modal fade" id="links" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" style="min-width: 350px">
+    <div class="modal-dialog modal-sm modal-dialog-top modal-dialog-slideup" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary">
+                <h5 class="modal-title">
+                    <i class="mdi mdi-link-variant mdi-18px"></i> Quick access
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <a class="btn btn-app pt-0 text-body" href="{% url 'dashboard' %}" target="_blank">
+                        <i class="mdi mdi-monitor-dashboard mdi-24px d-block"></i> Dashboard
+                    </a>
+                    <a class="btn btn-app pt-0 text-body" href="{% url 'main:sale_create' %}" target="_blank">
+                        <span class="badge bg-info">12</span>
+                        <i class="mdi mdi-cart-plus mdi-24px d-block"></i> Sales
+                    </a>
+                    <a class="btn btn-app pt-0 text-body" target="_blank">
+                        <span class="badge bg-teal">67</span>
+                        <i class="mdi mdi-account-multiple mdi-24px d-block"></i> Users
+                    </a>
+                </div>
+                <div class="row">
+                    <a class="btn btn-app pt-0 text-body" href="{% url 'main:category_list' %}" target="_blank">
+                        <i class="mdi mdi-widgets mdi-24px d-block"></i> Categories
+                    </a>
+                    <a class="btn btn-app pt-0 text-body" href="{% url 'main:product_list' %}" target="_blank">
+                        <span class="badge bg-warning">3</span>
+                        <i class="mdi mdi-package-variant d-block mdi-24px"></i> Products
+                    </a>
+                    <a class="btn btn-app pt-0 text-body" href="{% url 'main:client_list' %}" target="_blank">
+                        <span class="badge bg-success">300</span>
+                        <i class="mdi mdi-account-multiple-check mdi-24px d-block"></i> Clients
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

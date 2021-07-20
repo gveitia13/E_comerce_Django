@@ -14,6 +14,7 @@ $(function () {
   myModal.on('shown.bs.modal', function (e) {
     $('input[name="name"]').focus();
   })
+
   $('.close').on('click', () => {
     $('.modal').modal('hide');
   })
@@ -186,5 +187,10 @@ let changeSidebar = function (nav_treeview, nav_item) {
       icon: icon,
       title: text
     })
+  },
+  setHeightTable = () => {
+    $('#listTable_wrapper').height($(window).height() - (
+      $('footer').height() + $('div.card-footer').height() + $('div.card-header').height() +
+      $('div.content-header').height() + $('nav.main-header').height() + 151))
   }
 

@@ -3,6 +3,9 @@ $(function () {
   if (window.location.pathname.includes('product')) {
     changeSidebar('.my-stored', '.my-stored-prod')
   }
+  listar()
+  formStyles()
+
   //Event btn Add
   $('.btnAdd').on('click', function () {
     document.querySelector('#image_span').innerHTML = 'Nothing selected yet'
@@ -14,12 +17,6 @@ $(function () {
     $('#myModal').modal('show');
   })
 
-  formStyles()
-
-  $('.select2').select2({
-    theme: "bootstrap4",
-    language: 'es',
-  })
   $('.selectpicker').selectpicker('render')
 
   $("input[name='stock']").TouchSpin({
@@ -71,120 +68,190 @@ $(function () {
     $('#myModalDetail').modal('hide');
   })
 
-  $('#myModalDetail div.modal-footer button:first').on('click', function () {
+  $('a[rel="save-img"]').on('click', function () {
     //hacer que guarde imagen wjajajajaj x gusto
+    downloadCanvas('card-info', 'imagen.png');
   })
 
-  btnEvents()
-
-})
-
-let
-  btnEvents = function () {
-    //Event btn Delete Product
-    $('.btnTrash').on('click', function () {
-      let parameters = new FormData()
+  $('#listTable tbody')
+    .on('click', 'a[rel="delete"]', function () {
+      let tr = tableSale.cell($(this).closest('td, li')).index(),
+        data = tableSale.row(tr.row).data(),
+        parameters = new FormData()
       parameters.append('action', 'dele')
-      parameters.append('id', this.name)
-      idToDelete.id = this.name
-      console.log(document.querySelector(`button[name="${idToDelete.id}"]`).name)
-
-      let prod_name = this.parentNode.parentNode.children[1].innerText
-      submit_with_ajax_alert(window.location.pathname, 'Delete',
-        `Are you sure you want to delete the ${ent}:<b> ${prod_name}</b> record?`,
+      parameters.append('id', data.id)
+      submit_with_ajax_alert(location.pathname, 'Delete!',
+        'Are you sure you want to delete the product <b>' + data.full_name + '</b>?',
         parameters,
-        (data) => {
-          document.querySelector(`button[name="${idToDelete.id}"]`).parentElement.parentElement.remove()
-          Toast(`${data['object']['full_name']} ${data['success']} successfully`)
+        response => {
+          tableSale.row($(this).parents('tr')).remove().draw()
+          Toast(`The ${ent} ${response['object']['full_name']} was ${response['success']}`)
         },
-        'mdi mdi-alert-octagram text-danger'
-      )
+        'mdi mdi-alert-octagram text-danger')
     })
-
-    //Event btn Update Product
-    $('.btnUpdate').on('click', function () {
+    .on('click', 'a[rel="update"]', function () {
       $('#myModalForm').trigger('reset')
-      let parameters = new FormData()
-      parameters.append('action', 'search_product')
-      parameters.append('id', this.name)
-      ajaxFunction(window.location.pathname, parameters, (data) => {
-        document.querySelector('#id_name').value = data['object']['name']
-        document.querySelector('#id_stock').value = data['object']['stock']
-        document.querySelector('#id_s_price').value = data['object']['s_price']
-        document.querySelector('#id_cat').attributes[6].ownerElement.value =
-          data['object']['cat']['id']
-        document.querySelector('button[data-id="id_cat"] div div div').innerHTML =
-          data['object']['cat']['name']
-      })
+      let tr = tableSale.cell($(this).closest('td, li')).index(),
+        data = tableSale.row(tr.row).data()
+      document.querySelector('#id_name').value = data['name']
+      document.querySelector('#id_stock').value = data['stock']
+      document.querySelector('#id_s_price').value = data['s_price']
+      document.querySelector('#id_cat').attributes[6].ownerElement.value =
+        data['cat']['id']
+      document.querySelector('button[data-id="id_cat"] div div div').innerHTML =
+        data['cat']['name']
+
       document.querySelector('#myModalFormTitle').innerHTML =
         `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
       document.querySelector('#myModalFormTitle').name = 'action-edit'
-      idToEdit.id = this.name
+      idToEdit.id = data['id']
       $('#myModal').modal('show')
     })
-
-    //Event btn Contact Client
-    $('.btnDetail').on('click', function () {
-      let parameters = new FormData()
-      parameters.append('action', 'search_product')
-      parameters.append('id', this.name)
-      ajaxFunction(location.pathname, parameters, data => {
-        $('#myModalDetail .modal-body').html(`
-          <div class="card">
-              <img class="card-img-top img-fluid" src="${data['object']['image']}" alt="Card image cap">
+    .on('click', 'a[rel="detail"]', function () {
+      let tr = tableSale.cell($(this).closest('td, li')).index(),
+        data = tableSale.row(tr.row).data()
+      $('#myModalDetail .modal-body').html(`
+          <div class="card" id="card-info">
+              <img class="card-img-top img-fluid" src="${data['image']}" alt="Card image cap">
               <div class="card-body">
-                  <h5 class="card-title"><b>${data['object']['full_name']}</b></h5>
+                  <h5 class="card-title"><b>${data['full_name']}</b></h5>
                   <br>
-                  <span class="card-text"><b>Selling price: </b>$ ${data['object']['s_price']}</span>
+                  <span class="card-text"><b>Selling price: </b>$ ${data['s_price']}</span>
                   <br>
-                  <span class="card-text"><b>Stock: </b>${data['object']['stock']}</span>
+                  <span class="card-text"><b>Stock: </b>${data['stock']}</span>
               </div>
           </div>`)
-      })
       $('#myModalDetail').modal('show')
+    })
+})
+
+let
+  downloadCanvas = function (canvasId, filename) {
+    // Obteniendo la etiqueta la cual se desea convertir en imagen
+    const domElement = document.getElementById(canvasId);
+
+    // Utilizando la función html2canvas para hacer la conversión
+    html2canvas(domElement, {
+      onrendered: function (domElementCanvas) {
+        // Obteniendo el contexto del canvas ya generado
+        const context = domElementCanvas.getContext('2d');
+
+        // Creando enlace para descargar la imagen generada
+        let link = document.createElement('a');
+        link.href = domElementCanvas.toDataURL("image/png");
+        link.download = filename;
+
+        // Simulando clic para descargar
+        link.click();
+      }
+    })
+  },
+
+  listar = function () {
+    tableSale = $('#listTable').DataTable({
+      scrollX: false,
+      autoWidth: false,
+      responsive: true,
+      destroy: true,
+      buttons: [
+        {extend: 'copy', className: 'btn-sm'},
+        // {extend: 'csv', className: 'btn-sm'},
+        {extend: 'excel', className: 'btn-sm'},
+        {extend: 'pdf', className: 'btn-sm'},
+        {extend: 'print', className: 'btn-sm'}
+      ],
+      dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+      colReorder: true,
+      // fixedHeader: {
+      //   header: true,
+      //   headerOffset: 1
+      // },
+      searching: true,
+      // pagingType: "full_numbers",
+      // pageLength: 8,
+      // lengthMenu: [[5, 8, 15, 20], [5, 8, 15, 20]],
+      // oLanguage: {
+      //   sLengthMenu: ""
+      // },
+      // dom: "<'row'<'col-sm-12'tr>>" +
+      //   "<'row'<'col-sm-6'i><'col-sm-6'p>>",
+      deferRender: true,
+      ajax: {
+        url: location.pathname,
+        type: 'POST',
+        data: {
+          'action': 'searchdata'
+        },
+        dataSrc: ""
+      },
+      columns: [
+        {'data': 'stock'},
+        {'data': 'name'},
+        {'data': 'cat.name'},
+        {'data': 'image'},
+        {'data': 's_price'},
+        {'data': 'id'},
+      ],
+      columnDefs: [
+        {
+          targets: [-1],
+          class: 'text-center',
+          orderable: false,
+          render: (data, type, row) => {
+            return `
+              <a rel="detail" class="btn bg-gradient-teal btn-xs">
+                  <i class="mdi mdi-image-search mdi-15px w3-text-black"></i></a>
+              <a rel="update" class="btn bg-gradient-warning btn-xs">
+                  <i class="mdi mdi-square-edit-outline mdi-15px"></i></a>
+              <a rel="delete" class="btn bg-gradient-danger btn-xs">
+                  <i class="mdi mdi-trash-can-outline mdi-15px text-white"></i></a>`
+          }
+        },
+        {
+          targets: [-2],
+          orderable: true,
+          class: 'text-center',
+          render: (data, type, row) => {
+            return `$ ${parseFloat(data).toFixed(2)}`
+          }
+        },
+        {
+          targets: [-3],
+          orderable: false,
+          class: 'text-center',
+          render: data => {
+            return `<img src="${data}" class="img-fluid d-block mx-auto"
+             style="width: 20px; height: 20px;">`
+          }
+        },
+        {
+          targets: [0],
+          orderable: true,
+          class: 'text-center',
+          render: data => {
+            let span = `danger`
+            if (data > 0) span = `success`
+            return `<span class="badge badge-${span}">${data}</span>`
+          }
+        }
+      ],
+      drawCallback: function () {
+        $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
+      },
+      initComplete: function (settings, json) {
+        $('input[type=search]').focus()
+        // $('#searchInput').focus()
+        setHeightTable()
+      },
     })
   },
 
   callbackCreate = data => {
-    document.getElementById('tbody').innerHTML +=
-      createTr(data['object']['id'], data['object']['stock'], data['object']['name'],
-        data['object']['cat']['name'], data['object']['image'], data['object']['s_price'])
-    document.getElementById('sort-by-name').click()
-    document.getElementById('sort-by-name').click()
     Toast(`${ent}: ${data['object']['full_name']} ${data['success']} successfully`)
-    btnEvents()
   },
 
-  callbackUpdate = function (data) {
-    document.querySelector(`button[name="${idToEdit.id}"]`).parentElement.parentElement.remove()
+  callbackUpdate = data => {
     callbackCreate(data)
-  },
-
-  createTr = (id, stock, name, cat_name, image, s_price) => {
-    let span = `danger`
-    if (stock > 0) span = `success`
-    console.log(image)
-    return `<tr class="item">
-            <td style="width: 10%;" class="w3-center">
-                    <span class="badge badge-${span}">${stock}</span></td>
-            <td style="width: 20%;">${name}</td>
-            <td id="name_${id}" style="width: 20%;">${cat_name}</td>
-            <td style="width: 15%;"><img src="${image}" class="img-fluid d-block mx-auto"
-             style="width: 20px; height: 20px;"></td>
-            <td style="width: 15%;" class="w3-center">$ ${parseFloat(s_price).toFixed(2)}</td>
-
-            <td class="w3-center" style="width: 20%;">
-                <button name="${id}"
-                        class="btn bg-gradient-teal btn-xs btnDetail"><i
-                        class="mdi mdi-magnify-plus mdi-15px w3-text-black"></i></button>
-                <button name="${id}"
-                        class="btn bg-gradient-warning btn-xs btnUpdate"><i
-                        class="mdi mdi-square-edit-outline mdi-15px"></i></button>
-                <button name="${id}"
-                        class="btn bg-gradient-danger btn-xs btnTrash"><i
-                        class="mdi mdi-trash-can-outline mdi-15px"></i></button>
-            </td>
-        </tr>`
   },
 
   formStyles = () => {

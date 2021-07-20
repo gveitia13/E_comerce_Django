@@ -1,10 +1,10 @@
 {% load widget_tweaks %}
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true" style="min-width: 350px">
     {% block form %}
         <form id="myModalForm" enctype="multipart/form-data" method="post" name="" action=".">
             {% csrf_token %}
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-fromright" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalFormTitle">

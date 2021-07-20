@@ -144,3 +144,43 @@ $(function () {
     });
   });
 })
+
+
+$("#scroll-vertical-datatable").DataTable({
+  scrollY: "350px",
+  scrollCollapse: !0,
+  paging: !1,
+  language: {paginate: {previous: "<i class='mdi mdi-chevron-left'>", next: "<i class='mdi mdi-chevron-right'>"}},
+  drawCallback: function () {
+    $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
+  }
+})
+
+
+// Add Row
+// -----------------------------------------------------------------
+var t = $('#demo-dt-addrow').DataTable({
+  "responsive": true,
+  "language": {
+    "paginate": {
+      "previous": '<i class="demo-psi-arrow-left"></i>',
+      "next": '<i class="demo-psi-arrow-right"></i>'
+    }
+  },
+  "dom": '<"newtoolbar">frtip'
+});
+$('#demo-custom-toolbar2').appendTo($("div.newtoolbar"));
+
+var randomInt = function (min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+$('#demo-dt-addrow-btn').on('click', function () {
+  t.row.add([
+    'Adam Doe',
+    'New Row',
+    'New Row',
+    randomInt(1, 100),
+    '2015/10/15',
+    '$' + randomInt(1, 100) + ',000'
+  ]).draw();
+});

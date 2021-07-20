@@ -11,8 +11,6 @@ from core.main.models import Category, Product
 
 class ProductView(TemplateView, ):
     template_name = 'product/list.html'
-    model = Product
-    form_class = ProductForm
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -24,13 +22,12 @@ class ProductView(TemplateView, ):
         try:
             action = request.POST['action']
             if action == 'searchdata':
-                data = []
-                for i in Category.objects.all():
-                    data.append(i.toJSON())
+                data = [p.toJSON() for p in Product.objects.all()]
             elif action == 'search_product':
                 data = {'object': Product.objects.get(pk=request.POST['id']).toJSON(), }
             elif action == 'add':
                 with transaction.atomic():
+                    print(request.POST)
                     ProductForm(request.POST).save()
                     data['success'] = 'added'
                     data['object'] = Product.objects.get(name=request.POST['name']).toJSON()

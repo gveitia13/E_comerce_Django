@@ -11,6 +11,23 @@
     <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
     <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
 
+    <link rel="stylesheet"
+          href="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/css/buttons.bootstrap4.min.css' %}">
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.colVis.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/pdfmake.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/vfs_fonts.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/jszip-2.5.0/jszip.min.js' %}"></script>
+
+    <link href="{% static 'lib/datatables-1.10.20/plugins/FixedHeader-3.1.9/css/fixedHeader.bootstrap4.css' %}"
+          rel="stylesheet">
+    <script src="{% static 'lib/datatables-1.10.20/plugins/FixedHeader-3.1.9/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/FixedHeader-3.1.9/js/fixedHeader.bootstrap4.min.js' %}"></script>
+
     {% block head_list %}
 
     {% endblock %}
@@ -27,18 +44,19 @@
             {% block search %}
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
-                        <input id="searchInput" oninput="w3.filterHTML('#listTable', '.item', this.value)" type="text"
+                        <input id="searchInput" oninput="w3.filterHTML('#listTable', ['.odd', '.even'], this.value)"
+                               type="text"
                                name="table_search"
                                class="form-control float-right"
-                               placeholder="Search" autofocus>
+                               placeholder="Search">
 
                     </div>
                 </div>
             {% endblock %}
         </div>
         <!-- /.card-header -->
-        <div class="card-body table-responsive " style="min-height: 325px;">
-            <table id="listTable" class="table table-head-fixed text-nowrap w3-hoverable-light">
+        <div class="card-body table-responsive p-2" style="min-height: 325px;">
+            <table id="listTable" class="table w3-hoverable-light">
                 <thead>
                 {% block columns %}
 
@@ -64,8 +82,8 @@
                     <a href="{{ list_url }}" class="btn bg-gradient-success">
                         <i class="mdi mdi-sync"></i> Refresh
                     </a>
-                    <button type="button" id="hola" class="btn bg-gradient-red waves-effect waves-light"><i
-                            class="mdi mdi-heart-half-full"></i></button>
+                    <button type="button" id="hola" class="btn bg-gradient-maroon btn-sm"><i
+                            class="mdi mdi-star mdi-18px"></i></button>
                 </div>
             </div>
         {% endblock %}
