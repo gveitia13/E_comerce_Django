@@ -109,3 +109,7 @@
     -webkit-transform: translateX(0) rotate(0) scale(1);
     transform: translateX(0) rotate(0) scale(1)
 }
+
+.max-width-70px {
+    max-width: 70px !important;
+}

@@ -17,24 +17,25 @@
                         <i class="mdi mdi-monitor-dashboard mdi-24px d-block"></i> Dashboard
                     </a>
                     <a class="btn btn-app pt-0 text-body" href="{% url 'main:sale_create' %}" target="_blank">
-                        <span class="badge bg-info">12</span>
+                        <span class="badge bg-info">{{ entity_count.sale }}</span>
                         <i class="mdi mdi-cart-plus mdi-24px d-block"></i> Sales
                     </a>
                     <a class="btn btn-app pt-0 text-body" target="_blank">
-                        <span class="badge bg-teal">67</span>
+                        <span class="badge bg-warning">123</span>
                         <i class="mdi mdi-account-multiple mdi-24px d-block"></i> Users
                     </a>
                 </div>
                 <div class="row">
                     <a class="btn btn-app pt-0 text-body" href="{% url 'main:category_list' %}" target="_blank">
+                        <span class="badge bg-teal">{{ entity_count.cat }}</span>
                         <i class="mdi mdi-widgets mdi-24px d-block"></i> Categories
                     </a>
                     <a class="btn btn-app pt-0 text-body" href="{% url 'main:product_list' %}" target="_blank">
-                        <span class="badge bg-warning">3</span>
+                        <span class="badge bg-teal">{{ entity_count.prod }}</span>
                         <i class="mdi mdi-package-variant d-block mdi-24px"></i> Products
                     </a>
                     <a class="btn btn-app pt-0 text-body" href="{% url 'main:client_list' %}" target="_blank">
-                        <span class="badge bg-success">300</span>
+                        <span class="badge bg-success">{{ entity_count.cli }}</span>
                         <i class="mdi mdi-account-multiple-check mdi-24px d-block"></i> Clients
                     </a>
                 </div>

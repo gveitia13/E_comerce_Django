@@ -10,9 +10,10 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, ListView, UpdateView, TemplateView
 
-from core.main.forms import SaleForm, ClientForm
+from core.main.forms import SaleForm, ClientForm, ReportForm
 from core.main.mixins import ValidatePermissionRequiredMixin
 from core.main.models import Sale, Product, DetSale, Client
+from core.main.views.dashboard.views import countEntity
 
 
 def search_autocomplete_jquery(request, *args, **kwargs):
@@ -135,6 +136,7 @@ class SaleCreateView(CreateView):
         context['action'] = 'add'
         context['det'] = []
         context['frmClient'] = ClientForm()
+        context['entity_count'] = countEntity()
         return context
 
 
@@ -174,6 +176,7 @@ class SaleListView(TemplateView):
         context['create_url'] = reverse_lazy('main:sale_create')
         context['list_url'] = reverse_lazy('main:sale_list')
         context['entity'] = 'Sale'
+        context['entity_count'] = countEntity()
         return context
 
 
@@ -244,6 +247,67 @@ class SaleUpdateView(UpdateView):
         context['action'] = 'edit'
         context['det'] = json.dumps(self.get_details_product())  # pa q el navegador lea JS
         context['frmClient'] = ClientForm()
+        context['entity_count'] = countEntity()
+        return context
+
+
+class ReportSaleView(TemplateView):
+    template_name = 'sale/report.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search_report':
+                data = []
+                start_date = request.POST.get('start_date', '')
+                end_date = request.POST.get('end_date', '')
+                search = Sale.objects.all()
+
+                if len(start_date) and len(end_date):
+                    search = search.filter(date_joined__range=[start_date, end_date])
+
+                    subtotal = 0.00
+                    iva = 0.00
+                    total = 0.00
+                    for s in search:
+                        data.append([
+                            s.id,
+                            s.cli.name,
+                            s.date_joined.strftime('%Y-%m-%d'),
+                            format(s.subtotal, '.2f'),
+                            format(s.iva, '.2f'),
+                            format(s.total, '.2f'),
+                        ])
+                        subtotal += float(s.subtotal)
+                        iva += float(s.iva)
+                        total += float(s.total)
+
+                    data.append([
+                        '---',
+                        '---',
+                        '---',
+                        format(subtotal, '.2f'),
+                        format(iva, '.2f'),
+                        format(total, '.2f'),
+                    ])
+            else:
+                data['error'] = 'Pastillas es lo que estas cerrando'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Sale\'s report'
+        context['entity'] = 'Reports'
+        context['list_url'] = reverse_lazy('main:sale_report')
+        context['form'] = ReportForm()
+        context['entity_count'] = countEntity()
         return context
 
 

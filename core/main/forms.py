@@ -191,3 +191,10 @@ class SaleForm(ModelForm):
                 'disabled': True,
             }),
         }
+
+
+class ReportForm(forms.Form):
+    date_range = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'autocomplete': 'off',
+    }))

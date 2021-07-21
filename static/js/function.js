@@ -188,9 +188,38 @@ let changeSidebar = function (nav_treeview, nav_item) {
       title: text
     })
   },
+
   setHeightTable = () => {
     $('#listTable_wrapper').height($(window).height() - (
       $('footer').height() + $('div.card-footer').height() + $('div.card-header').height() +
       $('div.content-header').height() + $('nav.main-header').height() + 151))
-  }
+  },
 
+  buttonsDataTable = () => {
+    return [
+      {
+        extend: 'copy',
+        text: 'Copy <i class="mdi mdi-content-copy"></i>',
+        className: 'btn-sm bg-gradient-secondary btn',
+        titleAttr: 'Copy',
+      },
+      {
+        extend: 'excelHtml5',
+        text: 'Excel <i class="mdi mdi-file-excel"></i>',
+        titleAttr: 'Excel',
+        className: 'btn bg-gradient-success btn-sm'
+      },
+      {
+        extend: 'pdfHtml5',
+        text: 'PDF <i class="mdi mdi-file-pdf"></i>',
+        titleAttr: 'PDF',
+        className: 'btn bg-gradient-danger btn-sm'
+      },
+      {
+        extend: 'print',
+        text: 'Print <i class="mdi mdi-printer"></i>',
+        titleAttr: 'Print',
+        className: 'btn bg-gradient-info btn-sm'
+      }
+    ]
+  }

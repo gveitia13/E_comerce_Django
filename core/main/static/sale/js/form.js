@@ -129,6 +129,11 @@ $(function () {
     theme: "bootstrap4",
     language: 'en'
   })
+
+  if (window.location.pathname.includes('sale')) {
+    changeSidebar('.my-sales', '.my-sales-add')
+  }
+
   $("input[name='iva']").TouchSpin({
     min: 0,
     max: Number.POSITIVE_INFINITY,

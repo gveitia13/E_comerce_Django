@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 
 from core.main.forms import ProductForm
 from core.main.models import Category, Product
+from core.main.views.dashboard.views import countEntity
 
 
 class ProductView(TemplateView, ):
@@ -58,6 +59,6 @@ class ProductView(TemplateView, ):
         context['title'] = 'Product\'s list'
         context['list_url'] = reverse_lazy('main:product_list')
         context['form'] = ProductForm()
-        context['lista'] = Product.objects.all()
+        context['entity_count'] = countEntity()
         context['entity'] = 'Product'
         return context

@@ -6,13 +6,7 @@ let tableSale,
       destroy: true,
       deferRender: true,
       searching: true,
-      buttons: [
-        {extend: 'copy', className: 'btn-sm bg-gradient-secondary'},
-        // {extend: 'csv', className: 'btn-sm'},
-        {extend: 'excel', className: 'btn-sm bg-gradient-green'},
-        {extend: 'pdf', className: 'btn-sm bg-gradient-red'},
-        {extend: 'print', className: 'btn-sm bg-gradient-info'}
-      ],
+      buttons: buttonsDataTable(),
       dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
       ajax: {
         url: location.pathname,

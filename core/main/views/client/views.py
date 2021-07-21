@@ -10,6 +10,7 @@ from django.views.generic import TemplateView
 
 from core.main.forms import ClientForm
 from core.main.models import Client
+from core.main.views.dashboard.views import countEntity
 
 
 class ClientView(TemplateView):
@@ -63,5 +64,5 @@ class ClientView(TemplateView):
         context['list_url'] = reverse_lazy('main:client_list')
         context['entity'] = 'Client'
         context['form'] = ClientForm()
-        context['lista'] = Client.objects.all()
+        context['entity_count'] = countEntity()
         return context

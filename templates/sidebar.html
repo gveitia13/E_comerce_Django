@@ -17,7 +17,7 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <a href="{% static 'img/profile.jpg' %}" class="image">
                 <img alt src="{% static 'img/profile.jpg' %}" class="img-circle elevation-2"
-                style="width: 37px;height: 37px">
+                     style="width: 37px;height: 37px">
             </a>
             <div class="info">
                 <a href="#" class="d-block">Gilbert Veitia {{ user.id }}</a>
@@ -94,13 +94,19 @@
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
+                            <a href="{% url 'main:sale_create' %}" class="nav-link my-sales-add">
+                                <i class="mdi mdi-cart-plus nav-icon"></i>
+                                <p>Create sale</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{% url 'main:sale_list' %}" class="nav-link my-sales-sales">
                                 <i class=" mdi mdi-finance nav-icon"></i>
                                 <p>Sales list</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link my-sales-reports">
+                            <a href="{% url 'main:sale_report' %}" class="nav-link my-sales-reports">
                                 <i class="mdi mdi-chart-bar nav-icon"></i>
                                 <p>Sales report</p>
                             </a>

@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from core.main.forms import CategoryForm
 from core.main.models import Category
+from core.main.views.dashboard.views import countEntity
 
 
 class CategoryView(TemplateView):
@@ -58,4 +59,5 @@ class CategoryView(TemplateView):
         context['form'] = CategoryForm()
         context['lista'] = Category.objects.all()
         context['entity'] = 'Category'
+        context['entity_count'] = countEntity()
         return context
