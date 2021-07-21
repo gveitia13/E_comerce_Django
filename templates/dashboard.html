@@ -5,6 +5,8 @@
     <script src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
     <script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
     <script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
+
+    <script src="{% static 'dashboard/js/chars.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -23,37 +25,37 @@
         <br>
     </div>
     <script type="application/javascript">
-      let graphcolumn = Highcharts.chart('container', {
+      graphcolumn = Highcharts.chart('container', {
         chart: {
           type: 'column'
         },
         title: {
-          text: `Reporte de ventas del año ${new Date().getFullYear()}`
+          text: `${new Date().getFullYear()} Sales reports`
         },
         subtitle: {
-          text: 'Reporte por columnas'
+          text: 'Reports by columns'
         },
         xAxis: {
           categories: [
-            'Enero',
-            'Febrero',
-            'Marzo',
-            'Abril',
-            'Mayo',
-            'Junio',
-            'Julio',
-            'Agosto',
-            'Septiembre',
-            'Octubre',
-            'Noviembre',
-            'Diciembre'
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
           ],
           crosshair: true
         },
         yAxis: {
           min: 0,
           title: {
-            text: 'Valores $'
+            text: 'Values $'
           }
         },
         tooltip: {
@@ -70,9 +72,8 @@
             borderWidth: 0
           }
         },
-      });
-
-      let graphpie = Highcharts.chart('container-pie', {
+      })
+      graphpie = Highcharts.chart('container-pie', {
         chart: {
           plotBackgroundColor: null,
           plotBorderWidth: null,
@@ -80,7 +81,7 @@
           type: 'pie'
         },
         title: {
-          text: 'Porcentaje de ventas de productos por el mes ' + new Date().getMonth() + ' del ' + new Date().getFullYear()
+          text: 'Percentage of sales of products for month ' + new Date().getMonth() + ' of ' + new Date().getFullYear()
         },
         tooltip: {
           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
@@ -100,56 +101,6 @@
             }
           }
         },
-      });
-
-
-      let get_graph_sales_years_month = function () {
-        $.ajax({
-          url: window.location.pathname,
-          type: 'POST',
-          data: {
-            'action': 'get_graph_sales_years_month'
-          },
-          dataType: 'json',
-        }).done(function (data) {
-          if (!data.hasOwnProperty('error')) {
-            console.log(data)
-            graphcolumn.addSeries(data)
-            return false
-          }
-          message_error(data.error)
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-          alert(textStatus + ': ' + errorThrown)
-        }).always(function (data) {
-
-        });
-      }
-
-      let get_graph_sales_products_year_month = function () {
-        $.ajax({
-          url: window.location.pathname,
-          type: 'POST',
-          data: {
-            'action': 'get_graph_sales_products_year_month'
-          },
-          dataType: 'json',
-        }).done(function (data) {
-          if (!data.hasOwnProperty('error')) {
-            console.log(data)
-            graphpie.addSeries(data)
-            return false
-          }
-          message_error(data.error)
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-          alert(textStatus + ': ' + errorThrown)
-        }).always(function (data) {
-
-        });
-      }
-
-      {% comment %}        $(function () {
-                  get_graph_sales_years_month()
-                  get_graph_sales_products_year_month()
-              }){% endcomment %}
+      })
     </script>
 {% endblock %}

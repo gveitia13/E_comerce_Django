@@ -31,10 +31,7 @@ $(function () {
   document.querySelectorAll('a').forEach(e => {
     e.classList.remove('active', 'w3-blue-grey')
   })
-  //Set active class to Dashboard path
-  if (window.location.pathname === '/') {
-    document.querySelector('.my-dash').classList.add('active')
-  }
+
   //Event submit Modal Form
   $('#myModalForm').on('submit', function (e) {
     e.preventDefault();
