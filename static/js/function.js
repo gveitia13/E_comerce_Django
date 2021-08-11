@@ -142,6 +142,10 @@ let changeSidebar = function (nav_treeview, nav_item) {
     })
   },
 
+  testFetch = ()=>{
+
+  },
+
   //Jquery confirm alert
   alert_action = function (title, content, callback, cancel, icon) {
     $.confirm({

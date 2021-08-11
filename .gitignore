@@ -1,5 +1,5 @@
 /venv
 inflando.txt
-requirements.txt
 /static/lib
 .idea
+/node_modules/
