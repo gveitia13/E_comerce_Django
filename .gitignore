@@ -1,5 +1,7 @@
 /venv
 inflando.txt
-/static/lib
 .idea
 /node_modules/
+database.json
+package-lock.json
+test.sqlite3
