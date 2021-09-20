@@ -1,0 +1,69 @@
+{% extends 'baselist.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block head_list %}
+    <script src="{% static 'user/js/CRUD.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-select/bootstrap-select.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-select/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+{% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block columns %}
+    <tr>
+        <th scope="col" style="width: 20%;">
+            Name <i class="mdi mdi-sort-alphabetical"></i>
+        </th>
+        <th scope="col" style="width: 15%;">Username</th>
+        <th scope="col" style="width: 15%;">Date joined</th>
+        <th scope="col" style="width: 10%;">Image</th>
+        <th scope="col" style="width: 20%;">Groups</th>
+        <th scope="col" style="width: 20%;" class="w3-center">Options</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+
+{% endblock %}
+
+{% block modal_form %}
+    {% include 'modal_horizontal.html' %}
+{% endblock %}
+
+{% block javascript %}
+    <script>
+      {% if form.errors %}
+        let errors = '';
+        {% for field in form %}
+          {% for error in field.errors %}
+            errors += '{{ error }}\n';
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          errors += '{{ error }}\n';
+        {% endfor %}
+
+        Swal.fire({
+          title: 'Error',
+          text: errors,
+          icon: 'error'
+        });
+      {% endif %}
+
+      let ent = '{{ entity }}',
+        defaultTitleModal = `<b><i class="mdi mdi-plus-circle-outline"></i> New ${ent}</b>`
+
+      document.getElementById('hola').addEventListener('click', e => {
+        Toast('hola', 'success')
+        console.log('{{ lista }}')
+        console.log(idToEdit.id)
+      })
+
+    </script>
+{% endblock %}

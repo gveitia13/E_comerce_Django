@@ -1,8 +1,7 @@
 $(function () {
   //Set active class to Sale path
-  if (window.location.pathname.includes('sale')) {
+  if (window.location.pathname.includes('sale'))
     changeSidebar('.my-sales', '.my-sales-reports')
-  }
 
   $('input[name="date_range"]')
     .daterangepicker({
@@ -133,9 +132,7 @@ let
           targets: [-1, -2, -3],
           class: 'text-center',
           orderable: false,
-          render: function (data, type, row) {
-            return `$ ${parseFloat(data).toFixed(2)}`
-          }
+          render: data => `$ ${parseFloat(data).toFixed(2)}`
         },
       ],
       initComplete: (settings, json) => {

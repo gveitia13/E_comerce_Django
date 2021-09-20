@@ -44,10 +44,8 @@ let
   }
 
 $(function () {
-  //Set active class to Dashboard path
   if (window.location.pathname === '/')
     document.querySelector('.my-dash').classList.add('active')
-
   get_graph_sales_years_month()
   get_graph_sales_products_year_month()
 })

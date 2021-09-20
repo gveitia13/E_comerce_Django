@@ -1,0 +1,85 @@
+{% extends 'body.html' %}
+{% load widget_tweaks %}
+{% block head %}
+    {% block head_form %}
+
+    {% endblock %}
+{% endblock %}
+{% block content %}
+    <form method="post" action="." enctype="multipart/form-data">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="mdi mdi-plus"></i>
+                    {% else %}
+                        <i class="mdi mdi-square-edit-outline"></i>
+                    {% endif %}
+
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                {% csrf_token %}
+
+                <input type="hidden" name="action" value="{{ action }}">
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                        <h5><i class="icon fas fa-ban"></i>Ha ocurrido un error al querer guardar el registro</h5>
+                        <ul>
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% for field in form.visible_fields %}
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label">{{ field.label }}:</label>
+                        <div class="col-sm-10">
+                            {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn bg-gradient-primary">
+                    <i class="mdi mdi-content-save"></i> Save {{ entity }}
+                </button>
+                <a href="{{ list_url }}" class="btn bg-gradient-danger">
+                    <i class="mdi mdi-cancel"></i> Cancel
+                </a>
+            </div>
+        </div>
+    </form>
+    <script>
+      {% if form.errors %}
+        let errors = '';
+        {% for field in form %}
+          {% for error in field.errors %}
+            errors += '{{ error }}\n';
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          errors += '{{ error }}\n';
+        {% endfor %}
+
+        Swal.fire({
+          title: 'Error',
+          text: errors,
+          icon: 'error'
+        });
+      {% endif %}
+
+      $('form').on('submit', function (e) {
+        e.preventDefault();
+        let parameters = new FormData(this)
+        {#parameters.append('action', 'add')#}
+        submit_with_ajax_alert(window.location.pathname, 'Notification', 'Are you sure?', parameters, () =>
+          location.href = '{{ list_url }}', 'mdi mdi-cancel')
+      })
+    </script>
+{% endblock %}

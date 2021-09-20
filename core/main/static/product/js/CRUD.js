@@ -1,8 +1,8 @@
-$(function () {
+$(() => {
   //Set active class to Product path
-  if (window.location.pathname.includes('product')) {
+  if (window.location.pathname.includes('product'))
     changeSidebar('.my-stored', '.my-stored-prod')
-  }
+
   listar()
   formStyles()
 
@@ -13,8 +13,8 @@ $(function () {
     document.querySelector('#id_cat').attributes[6].ownerElement.value = ''
     document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
     document.querySelector('#myModalFormTitle').name = 'action-add'
-    $('#myModalForm').trigger('reset');
-    $('#myModal').modal('show');
+    $('#myModalForm').trigger('reset')
+    $('#myModal').modal('show')
   })
 
   $('.selectpicker').selectpicker('render')
@@ -68,10 +68,9 @@ $(function () {
     $('#myModalDetail').modal('hide');
   })
 
-  $('a[rel="save-img"]').on('click', function () {
+  $('a[rel="save-img"]').on('click', () =>
     //hacer que guarde imagen wjajajajaj x gusto
-    downloadCanvas('card-info', 'imagen.png');
-  })
+    downloadCanvas('card-info', 'imagen.png'))
 
   $('#listTable tbody')
     .on('click', 'a[rel="delete"]', function () {
@@ -191,63 +190,52 @@ let
           targets: [-1],
           class: 'text-center',
           orderable: false,
-          render: (data, type, row) => {
-            return `
-              <a rel="detail" class="btn bg-gradient-teal btn-xs">
+          render: () => `
+              <a rel="detail" class="btn bg-gradient-teal btn-xs rounded-pill ">
                   <i class="mdi mdi-image-search mdi-15px w3-text-black"></i></a>
-              <a rel="update" class="btn bg-gradient-warning btn-xs">
+              <a rel="update" class="btn bg-gradient-warning btn-xs rounded-pill mx-1">
                   <i class="mdi mdi-square-edit-outline mdi-15px"></i></a>
-              <a rel="delete" class="btn bg-gradient-danger btn-xs">
+              <a rel="delete" class="btn bg-gradient-danger btn-xs rounded-pill">
                   <i class="mdi mdi-trash-can-outline mdi-15px text-white"></i></a>`
-          }
         },
         {
           targets: [-2],
           orderable: true,
           class: 'text-center',
-          render: (data, type, row) => {
-            return `$ ${parseFloat(data).toFixed(2)}`
-          }
+          render: (data, type, row) => `$ ${parseFloat(data).toFixed(2)}`
         },
         {
           targets: [-3],
           orderable: false,
           class: 'text-center',
-          render: data => {
-            return `<img src="${data}" class="img-fluid d-block mx-auto"
+          render: data =>
+            `<img src="${data}" class="img-fluid d-block mx-auto"
              style="width: 20px; height: 20px;">`
-          }
         },
         {
           targets: [0],
           orderable: true,
           class: 'text-center',
-          render: data => {
-            let span = `danger`
-            if (data > 0) span = `success`
-            return `<span class="badge badge-${span}">${data}</span>`
-          }
+          render: data =>
+            `<span class="badge rounded-pill badge-${data ? 'success' : 'danger'}">${data}</span>`
         }
       ],
-      drawCallback: function () {
+      drawCallback: () =>
         $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
-      },
-      initComplete: function (settings, json) {
+      ,
+      initComplete: (settings, json) => {
         $('input[type=search]').focus()
         // $('#searchInput').focus()
         setHeightTable()
       },
     })
   },
-
-  callbackCreate = data => {
+  callbackCreate = data =>
     Toast(`${ent}: ${data['object']['full_name']} ${data['success']} successfully`)
-  },
-
-  callbackUpdate = data => {
+  ,
+  callbackUpdate = data =>
     callbackCreate(data)
-  },
-
+  ,
   formStyles = () => {
     document.querySelector('#id_image').style.display = 'none'
     document.querySelector('#id_image').parentElement.innerHTML += `
@@ -258,11 +246,9 @@ let
           <span id="image_span">Nothing selected yet</span>
       </div>`
 
-    document.querySelector('#id_image').addEventListener('change', function () {
+    document.querySelector('#id_image').addEventListener('change', () =>
+      // console.log(document.querySelector('#id_image').attributes)
       document.querySelector('#image_span').innerHTML =
-        document.querySelector('#id_image').files[0].name
-
-      console.log(document.querySelector('#id_image').attributes)
-    })
+        document.querySelector('#id_image').files[0].name)
   }
 

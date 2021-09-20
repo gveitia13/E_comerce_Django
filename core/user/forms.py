@@ -14,27 +14,27 @@ class UserForm(ModelForm):
         model = User
         fields = 'first_name', 'last_name', 'email', 'username', 'password', 'image', 'groups'
         widgets = {
-                      'first_name': forms.TextInput(attrs={
-                          'placeholder': 'Enter your names'
-                      }),
-                      'last_name': forms.TextInput(attrs={
-                          'placeholder': 'Enter your last_names'
-                      }),
-                      'email': forms.EmailInput(attrs={
-                          'placeholder': 'Enter you email'
-                      }),
-                      'username': forms.TextInput(attrs={
-                          'placeholder': 'Enter your username'
-                      }),
-                      'password': forms.PasswordInput(attrs={
-                          'placeholder': 'Enter you password'
-                      }, render_value=True),
-                      'groups': forms.SelectMultiple(attrs={
-                          'class': 'form-control select2',
-                          'style': 'width: 100%',
-                          'multiple': 'multiple',
-                      }),
-                  },
+            'first_name': forms.TextInput(attrs={
+                'placeholder': 'Enter your names',
+            }),
+            'last_name': forms.TextInput(attrs={
+                'placeholder': 'Enter your last_names',
+            }),
+            'email': forms.EmailInput(attrs={
+                'placeholder': 'Enter you email',
+            }),
+            'username': forms.TextInput(attrs={
+                'placeholder': 'Enter your username',
+            }),
+            'password': forms.PasswordInput(attrs={
+                'placeholder': 'Enter you password',
+            }, render_value=True),
+            'groups': forms.SelectMultiple(attrs={
+                'class': 'form-control select2',
+                'style': 'width: 100%',
+                'multiple': 'multiple',
+            }),
+        }
         exclude = ['user_permissions', 'last_login', 'date_joined', 'is_superuser', 'is_staff', 'is_active']
 
     def save(self, commit=True):

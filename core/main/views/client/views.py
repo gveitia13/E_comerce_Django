@@ -60,7 +60,7 @@ class ClientView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Client\'s list'
+        context['title'] = 'Client list'
         context['list_url'] = reverse_lazy('main:client_list')
         context['entity'] = 'Client'
         context['form'] = ClientForm()

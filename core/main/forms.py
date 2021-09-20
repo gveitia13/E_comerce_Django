@@ -70,7 +70,7 @@ class ProductForm(ModelForm):
                 attrs={
                     'class': 'selectpicker',
                     'style': 'width: 100%',
-                    'data-style': 'btn bg-gradient-primary',
+                    'data-style': 'btn bg-gradient-primary circular',
                     'data-live-search': 'true'
                 }
             ),

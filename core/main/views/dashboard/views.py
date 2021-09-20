@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
 from core.main.models import Category, Product, Client, Sale, DetSale
+from core.user.models import User
 
 
 def get_graph_sales_products_year_month():
@@ -97,4 +98,5 @@ def countEntity():
         'prod': Product.objects.count(),
         'cli': Client.objects.count(),
         'sale': Sale.objects.count(),
+        'user': User.objects.count(),
     }

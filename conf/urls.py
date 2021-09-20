@@ -23,6 +23,7 @@ from core.main.views.dashboard.views import DashboardView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/', include('core.main.urls')),
+    path('user/', include('core.user.urls')),
     path('', DashboardView.as_view(), name='dashboard'),
 ]
 

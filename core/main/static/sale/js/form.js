@@ -33,22 +33,11 @@ let
       total: 0.00,
       products: []
     },
-    get_ids: function () {
-      let ids = []
-      this.items.products.forEach(value => {
-        ids.push(value.id)
-      })
-      return ids
-    },
+    get_ids: () => Sale.items.products.map(value => value.id)
+    ,
     calculate_invoice: function () {
-      let subtotal = 0.00,
-        iva = $('input[name="iva"]').val()
-      this.items.products.forEach(e => {
-        e.subtotal = e.cant * parseFloat(e.s_price)
-        subtotal += e.subtotal
-      })
-      this.items.subtotal = subtotal
-      this.items.iva = this.items.subtotal * iva
+      this.items.subtotal = sumar(this.items.products.map(e => e.cant * parseFloat(e.s_price)))
+      this.items.iva = this.items.subtotal * $('input[name="iva"]').val()
       this.items.total = this.items.subtotal + this.items.iva
 
       $('input[name="subtotal"]').val('$ ' + this.items.subtotal.toFixed(2))
@@ -77,35 +66,28 @@ let
         columnDefs: [{
           targets: [-4],
           class: 'text-center',
-          render: function (data, type, row) {
-            return `<span class="badge badge-secondary"> ${data}</span>`
-          }
+          render: data => `<span class="badge badge-secondary"> ${data}</span>`
         },
           {
             targets: [0],
             class: 'text-center',
             orderable: false,
-            render: (data, type, row) => {
-              return `<a rel="remove" class="btn bg-gradient-danger btn-xs text-white">
+            render: () => `<a rel="remove" class="btn bg-gradient-danger btn-xs text-white">
                           <i class="mdi mdi-trash-can-outline mdi-15px"></i></a>`
-            }
           },
           {
             targets: [-3, -1],
             class: 'text-center',
             orderable: false,
-            render: (data, type, row) => {
-              return `$ ${parseFloat(data).toFixed(2)}`
-            }
+            render: data => `$ ${parseFloat(data).toFixed(2)}`
           },
           {
             targets: [-2],
             class: 'text-center',
             orderable: false,
-            render: (data, type, row) => {
-              return `<input type="text" name="cant" class="form-control form-control-sm input-sm" 
+            render: (data, type, row) =>
+              `<input type="text" name="cant" class="form-control form-control-sm input-sm" 
                                     autocomplete="off" value="${row.cant}" style="text-align: center">`
-            }
           }
         ],
         rowCallback(row, data, displayNum, displayIndex, dataIndex) {
@@ -118,10 +100,14 @@ let
         initComplete: (settings, json) => {
         },
       });
-      // console.clear()
-      console.log(this.items)
-      console.log(this.get_ids())
+      // console.log(this.items)
+      // console.log(this.get_ids())
     },
+  },
+  sumar = iterable => {
+    let num = 0
+    Array.from(iterable).forEach(e => num += !isNaN(e) ? e : 0)
+    return num
   }
 
 $(function () {
@@ -130,9 +116,8 @@ $(function () {
     language: 'en'
   })
 
-  if (window.location.pathname.includes('sale')) {
+  if (window.location.pathname.includes('sale'))
     changeSidebar('.my-sales', '.my-sales-add')
-  }
 
   $("input[name='iva']").TouchSpin({
     min: 0,
@@ -176,13 +161,13 @@ $(function () {
   })
 
   $('#myModalSearchProducts').on('shown.bs.modal', function () {
-    // $('input[name="table_search"]').focus();
+    // $('input[name="table_search"]').focus()
     $('#listTableSearchProducts_filter label input[type=search]').focus()
   })
 
   $('.btnAddClient').on('click', function () {
-    $('#myModalClient').modal('show');
-    $('#myModalFormClient').trigger('reset');
+    $('#myModalClient').modal('show')
+    $('#myModalFormClient').trigger('reset')
   })
 
   //event cant
@@ -232,32 +217,26 @@ $(function () {
           targets: [-4],
           class: 'text-center',
           orderable: false,
-          render: (data, type, row) => {
-            return `<img src="${data}" class="img-fluid d-block mx-auto" style="width: 20px; height: 20px;">`
-          }
+          render: (data, type, row) =>
+            `<img src="${data}" class="img-fluid d-block mx-auto" style="width: 20px; height: 20px;">`
         },
         {
           targets: [-3],
           class: 'text-center',
-          render: (data, type, row) => {
-            return `<span class="badge badge-secondary"> ${data}</span>`
-          }
+          render: data => `<span class="badge badge-secondary"> ${data}</span>`
         },
         {
           targets: [-2],
           class: 'text-center',
           orderable: false,
-          render: (data, type, row) => {
-            return '$' + parseFloat(data).toFixed(2)
-          }
+          render: data => '$' + parseFloat(data).toFixed(2)
         },
         {
           targets: [-1],
           class: 'text-center',
           orderable: false,
-          render: (data, type, row) => {
-            return '<a rel="add" class="btn bg-gradient-success btn-xs"><i class="mdi mdi-plus mdi-15px"></i></a>'
-          }
+          render: () =>
+            '<a rel="add" class="btn bg-gradient-success btn-xs"><i class="mdi mdi-plus mdi-15px"></i></a>'
         },
       ],
       initComplete: function (settings, json) {
@@ -296,17 +275,13 @@ $(function () {
       delay: 250,
       type: 'POST',
       url: window.location.pathname,
-      data: (params) => {
-        return {
-          term: params.term,
-          action: 'search_clients'
-        };
-      },
-      processResults: (data) => {
-        return {
-          results: data
-        }
-      },
+      data: params => ({
+        term: params.term,
+        action: 'search_clients'
+      })
+      ,
+      processResults: data => ({results: data})
+      ,
     },
     placeholder: 'Find a client',
     minimumInputLength: 1,
@@ -321,18 +296,14 @@ $(function () {
       delay: 250,
       type: 'POST',
       url: window.location.pathname,
-      data: (params) => {
-        return {
-          term: params.term,
-          action: 'search_autocomplete',
-          ids: JSON.stringify(Sale.get_ids())
-        };
-      },
-      processResults: (data) => {
-        return {
-          results: data
-        }
-      },
+      data: params => ({
+        term: params.term,
+        action: 'search_autocomplete',
+        ids: JSON.stringify(Sale.get_ids())
+      })
+      ,
+      processResults: data => ({results: data})
+      ,
     },
     placeholder: 'Find products',
     minimumInputLength: 1,
@@ -345,13 +316,13 @@ $(function () {
     data.subtotal = 0.00
     Sale.add(data)
     $(this).val('').trigger('change.select2')
-  });
+  })
 
   $('#myModalFormClient').on('submit', function (e) {
     e.preventDefault()
     let parameters = new FormData(this)
     parameters.append('action', 'create_client')
-    submit_with_ajax(location.pathname, parameters, (data) => {
+    submit_with_ajax(location.pathname, parameters, data => {
       let newOption = new Option(data['full_name'], data['id'], false, true)
       $('select[name="cli"]').append(newOption).trigger('change')
       $('#myModalClient').modal('hide')
@@ -373,22 +344,20 @@ $(function () {
     parameters.append('action', $('input[name="action"]').val())
     parameters.append('sale', JSON.stringify(Sale.items))
 
-    let icon = 'mdi mdi-square-edit-outline'
-    if ($('input[name="action"]').val() === 'add')
-      icon = 'mdi mdi-plus-circle-outline'
     submit_with_ajax_alert(
       location.pathname, title,
       'Are you sure you save the sale record?',
       parameters,
-      (response) => {
+      response =>
         alert_action('Print', 'Do you want to print the sale ballot?',
           () => {
             window.open(`/main/sale/invoice/pdf/${response.id}/`, '_blank')
             location.href = '/main/sale/'
-          }, () => {
-            location.href = '/main/sale/'
-          })
-      }, icon
+          }, () => location.href = '/main/sale/'
+          , 'mdi mdi-printer-alert'
+        ),
+      $('input[name="action"]').val() === 'add' ?
+        'mdi mdi-plus-circle-outline' : 'mdi mdi-square-edit-outline'
     )
   })
   Sale.list()

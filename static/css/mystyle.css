@@ -113,3 +113,19 @@
 .max-width-70px {
     max-width: 70px !important;
 }
+
+/*Pastillas circulares*/
+
+.circular-left {
+    border-top-left-radius: 50rem !important;
+    border-bottom-left-radius: 50rem !important;
+}
+
+.circular-right {
+    border-top-right-radius: 50rem !important;
+    border-bottom-right-radius: 50rem !important;
+}
+
+.circular, input[type='text'],input[type='search'] {
+    border-radius: 50rem !important;
+}
