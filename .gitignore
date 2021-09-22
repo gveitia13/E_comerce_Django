@@ -5,3 +5,6 @@ inflando.txt
 database.json
 package-lock.json
 test.sqlite3
+/node_modules/@sweetalert2/
+/node_modules/list.js/
+/node_modules/string-natural-compare/
