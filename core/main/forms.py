@@ -18,14 +18,16 @@ class CategoryForm(ModelForm):
         widgets = {
             'name': forms.TextInput(
                 attrs={
-                    'placeholder': 'Enter a name'
+                    'placeholder': 'Enter a name',
+                    'class': 'circular',
                 }
             ),
             'desc': forms.Textarea(
                 attrs={
                     'placeholder': 'Enter a short description',
                     'rows': 3,
-                    'cols': '3'
+                    'cols': '3',
+                    'class': 'circular',
                 }
             ),
         }
@@ -64,6 +66,7 @@ class ProductForm(ModelForm):
             'name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter a name',
+                    'class': 'circular'
                 }
             ),
             'cat': Select(
@@ -101,42 +104,48 @@ class ClientForm(ModelForm):
             'name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter you name',
-                    'minlength': 2
+                    'minlength': 2,
+                    'class': 'circular',
                 }
             ),
             'surnames': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter your surnames',
-                    'minlength': 2
-                }
-            ),
-            'dni': forms.TextInput(
-                attrs={
-                    'placeholder': 'Enter you DNI',
-                    'minlength': 11
+                    'minlength': 2,
+                    'class': 'circular',
                 }
             ),
             'date_birthday': forms.DateInput(
                 format='%Y-%m-%d',
                 attrs={
                     'value': datetime.now().strftime('%Y-%m-%d'),
+                    'class': 'circular',
+                }
+            ),
+            'dni': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter you DNI',
+                    'minlength': 11,
+                    'class': 'circular',
                 }
             ),
             'address': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter you address (optional)',
+                    'class': 'circular',
                 }
             ),
             'gender': forms.Select(
                 attrs={
                     'class': 'selectpicker',
                     'style': 'width: 100%',
-                    'data-style': 'btn btn-default form-control',
+                    'data-style': 'btn btn-default form-control circular',
                 }
             ),
             'email': forms.EmailInput(
                 attrs={
-                    'placeholder': 'Enter you email ex: user@mail.com'
+                    'placeholder': 'Enter you email ex: user@mail.com',
+                    'class': 'circular'
                 }
             )
         }
@@ -166,14 +175,14 @@ class SaleForm(ModelForm):
         fields = '__all__'
         widgets = {
             'cli': Select(attrs={
-                'class': 'custom-select select2'
+                'class': 'custom-select select2 circular-left'
             }),
             'date_joined': forms.DateInput(
                 format='%Y-%m-%d',
                 attrs={
                     'value': datetime.now().strftime('%Y-%m-%d'),
                     'autocomplete': 'off',
-                    'class': 'form-control',
+                    'class': 'form-control circular',
                     'id': 'id_date_joined',
                 }
             ),
@@ -195,6 +204,6 @@ class SaleForm(ModelForm):
 
 class ReportForm(forms.Form):
     date_range = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
+        'class': 'form-control circular',
         'autocomplete': 'off',
     }))

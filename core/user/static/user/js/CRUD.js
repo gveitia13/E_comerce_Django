@@ -25,7 +25,7 @@ $(function () {
         parameters,
         response => {
           tableSale.row($(this).parents('tr')).remove().draw()
-          Toast(`The ${ent} ${response['name']} was ${response['success']}`)
+          Toast(`The ${ent} ${response['object']['name']} was ${response['success']}`)
         },
         'mdi mdi-alert-octagram text-danger')
     })
@@ -81,7 +81,8 @@ let
           class: 'text-center',
           orderable: false,
           render: (data, type, row) =>
-            row.groups.map(e => `<span class="badge badge-success">${e.name}</span> `).join(' ')
+            row.groups.map(e => `<span class="badge badge-${e.name === 'admin' ? 'danger' : 'success'}
+                circular">${e.name}</span> `).join(' ')
         },
         {
           targets: [-3],

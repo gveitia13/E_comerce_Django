@@ -35,8 +35,8 @@
 
 {% block content %}
 
-    <div class="card card-primary">
-        <div class="card-header">
+    <div class="card card-primary circular">
+        <div class="card-header circular-top">
             <h3 class="card-title">
                 <i class="mdi mdi-format-list-bulleted-square mdi-18px"></i>
                 {{ title }}
@@ -74,7 +74,7 @@
         </div>
         <!-- /.card-body -->
         {% block buttons_list %}
-            <div class="card-footer row">
+            <div class="card-footer row circular-bottom">
                 <div class="col-8">
                     <a href="#" class="btn bg-gradient-primary btnAdd circular">
                         <i class="mdi mdi-plus"></i> New {{ entity }}

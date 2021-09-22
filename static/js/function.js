@@ -26,7 +26,7 @@ $(function () {
   //Event submit Modal Form
   $('#myModalForm').on('submit', function (e) {
     e.preventDefault()
-    const parameters = new FormData(this)
+    let parameters = new FormData(this)
     if (document.querySelector('#myModalFormTitle').name === 'action-add') {
       parameters.append('action', 'add')
     }
@@ -80,20 +80,20 @@ let changeSidebar = function (nav_treeview, nav_item) {
       content: content,
       columnClass: 'small',
       typeAnimated: true,
-      cancelButtonClass: 'bg-gradient-primary',
+      cancelButtonClass: 'bg-gradient-primary circular',
       draggable: true,
       dragWindowBorder: false,
       buttons: {
         info: {
           text: "Yes",
-          btnClass: 'bg-gradient-primary',
+          btnClass: 'bg-gradient-primary circular',
           action: function () {
             ajaxFunction(url, parameters, callback)
           }
         },
         danger: {
           text: "No",
-          btnClass: 'bg-gradient-danger',
+          btnClass: 'bg-gradient-danger circular',
           action: () => {
 
           }
@@ -143,18 +143,18 @@ let changeSidebar = function (nav_treeview, nav_item) {
       content: content,
       columnClass: 'small',
       typeAnimated: true,
-      cancelButtonClass: 'bg-gradient-primary',
+      cancelButtonClass: 'bg-gradient-primary circular',
       draggable: true,
       dragWindowBorder: false,
       buttons: {
         info: {
           text: "Yes",
-          btnClass: 'bg-gradient-primary',
+          btnClass: 'bg-gradient-primary circular',
           action: () => callback()
         },
         danger: {
           text: "No",
-          btnClass: 'bg-gradient-red',
+          btnClass: 'bg-gradient-red circular',
           action: () => cancel()
         },
       }

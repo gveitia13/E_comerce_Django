@@ -23,11 +23,9 @@
 {% block buttons_list %}
     <div class="card-footer row">
         <div class="col-lg-8">
-            <a href="{{ create_url }}" class="btn bg-gradient-primary btnAdd">
+            <a href="{{ create_url }}" class="btn bg-gradient-primary btnAdd circular">
                 <i class="mdi mdi-plus"></i> New {{ entity }}
             </a>
-            <button type="button" id="hola" class="btn bg-gradient-red waves-effect waves-light"><i
-                    class="mdi mdi-heart-half-full"></i></button>
         </div>
     </div>
 {% endblock %}
@@ -36,8 +34,8 @@
     <div class="modal fade" id="myModalDet" tabindex="-1" role="dialog" aria-labelledby="myModalDetLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-content circular">
+                <div class="modal-header circular-top">
                     <h5 class="modal-title" id="myModalDetLabel"><i class="mdi mdi-cart"></i>
                          Details of the sale </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

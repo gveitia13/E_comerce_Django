@@ -3,8 +3,8 @@
      aria-hidden="true" style="min-width: 350px">
     {% csrf_token %}
     <div class="modal-dialog modal-dialog-centered modal-sm modal-dialog-popout" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-gradient-teal">
+        <div class="modal-content circular">
+            <div class="modal-header bg-gradient-teal circular-top">
                 <h5 class="modal-title" id="myModalDetailTitle">
                     <b><i class="mdi mdi-account-details"></i> {{ entity }} details</b>
                 </h5>
@@ -16,13 +16,13 @@
 
             </div>
             <div class="modal-footer">
-                <button class="btn bg-gradient-info">
+                <button class="btn bg-gradient-info circular">
                     <i class="mdi mdi-content-copy"></i> Copy
                 </button>
-                <button class="btn bg-gradient-secondary">
+                <button class="btn bg-gradient-secondary circular">
                     <i class="mdi mdi-printer"></i> Print
                 </button>
-                <button class="btn bg-gradient-danger">
+                <button class="btn bg-gradient-danger circular">
                     <i class="mdi mdi-cancel"></i> Close
                 </button>
             </div>

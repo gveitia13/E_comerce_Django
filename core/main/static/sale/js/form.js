@@ -9,16 +9,16 @@ let
       return repo.text
 
     return $(`
-      <div class="wrapper container">
+      <div class="wrapper container circular">
           <div class="row">
               <div class="col-2">
-                  <img src="${repo.image}" class="img-fluid img-thumbnail d-block mx-auto rounded">
+                  <img src="${repo.image}" class="img-fluid img-thumbnail d-block mx-auto circular">
               </div>
               <div class="col-10 text-left shadow-sm">
                   <p style="margin-bottom: 0;">
                       <b>Name: </b> ${repo.full_name} <br>
                       <b>Stock:</b> ${repo.stock} <br>
-                      <b>Price:</b> <span class="badge badge-warning">$ ${repo.s_price}</span>
+                      <b>Price:</b> <span class="badge badge-warning circular">$ ${repo.s_price}</span>
                   </p>
               </div>
           </div>
@@ -63,11 +63,12 @@ let
           {"data": "cant"},
           {"data": "subtotal"},
         ],
-        columnDefs: [{
-          targets: [-4],
-          class: 'text-center',
-          render: data => `<span class="badge badge-secondary"> ${data}</span>`
-        },
+        columnDefs: [
+          {
+            targets: [-4],
+            class: 'text-center',
+            render: data => `<span class="badge badge-secondary circular"> ${data}</span>`
+          },
           {
             targets: [0],
             class: 'text-center',
@@ -95,6 +96,8 @@ let
             min: 1,
             max: data.stock,
             step: 1,
+            buttondown_class: 'btn bg-gradient-secondary circular-left',
+            buttonup_class: 'btn bg-gradient-secondary circular-right'
           })
         },
         initComplete: (settings, json) => {
@@ -119,6 +122,8 @@ $(function () {
   if (window.location.pathname.includes('sale'))
     changeSidebar('.my-sales', '.my-sales-add')
 
+  $('.selectpicker').selectpicker('render')
+
   $("input[name='iva']").TouchSpin({
     min: 0,
     max: Number.POSITIVE_INFINITY,
@@ -126,8 +131,8 @@ $(function () {
     maxboostedstep: 10,
     step: 0.01,
     decimals: 2,
-    buttondown_class: 'btn bg-gradient-secondary',
-    buttonup_class: 'btn bg-gradient-secondary'
+    buttondown_class: 'btn bg-gradient-secondary circular-left',
+    buttonup_class: 'btn bg-gradient-secondary circular-right'
   }).on('change', function () {
     if (parseFloat(this.value) === 0) {
       this.parentElement.children[0].children[0].classList.remove('bg-gradient-secondary')
@@ -155,9 +160,18 @@ $(function () {
     todayHighlight: true,
     autoclose: true,
     format: 'yyyy-mm-dd',
-    endDate: 'today',
+    endDate: 'tomorrow',
     clearBtn: true,
     startDate: '1920-1-1',
+  }).on('change', function () {
+    document.querySelector('#id_dni').value =
+      this.value.replaceAll('-', '').substr(2) +
+      document.querySelector('#id_dni').value.slice(6)
+  })
+
+  document.querySelector('#id_dni').addEventListener('keyup', function () {
+    if (isNaN(this.value)) this.classList.add('is-invalid')
+    else this.classList.remove('is-invalid')
   })
 
   $('#myModalSearchProducts').on('shown.bs.modal', function () {
@@ -177,17 +191,13 @@ $(function () {
       Sale.items.products.splice(tr.row, 1)//seriedad
       Sale.list()
     })
-    .on('change', 'input[name="cant"]', function () {
+    .on('change', 'input[name= "cant"]', function () {
       let tr = listTableProduct.cell($(this).closest('td, li')).index()
       Sale.items.products[tr.row].cant = parseInt($(this).val())
       Sale.calculate_invoice()
       $('td:eq(5)', listTableProduct.row(tr.row).node())
-        .html(`$ ${Sale.items.products[tr.row].subtotal.toFixed(2)}`)
+        .html(`$${Sale.items.products[tr.row].subtotal.toFixed(2)}`)
     })
-
-  // $('.btnClearSearch').on('click', function () {
-  //   $('input[name="search"]').val('').focus();
-  // })
 
   $('#btnSearchProduct').on('click', function () {
     listTableSearchProducts = $('#listTableSearchProducts').DataTable({
@@ -223,7 +233,7 @@ $(function () {
         {
           targets: [-3],
           class: 'text-center',
-          render: data => `<span class="badge badge-secondary"> ${data}</span>`
+          render: data => `<span class="badge badge-secondary circular"> ${data}</span>`
         },
         {
           targets: [-2],

@@ -1,26 +1,26 @@
 {% load static %}
 <aside class="main-sidebar elevation-4 sidebar-light-primary" id="sidebar">
     <!-- Brand Logo -->
-    <div class="user-panel d-flex">
-        <a href="#" class="brand-link">
-            <img src="{% static 'img/ios7-star-half.png' %}" alt="TechnoSTAR Logo"
-                 class="brand-image img-circle elevation-3"
-                 style="opacity: .8;">
-            <span class="brand-text font-weight-light"><b>Techno</b>STAR™</span>
+    <div class="user-panel d-flex elevation-2">
+        <a href="#" class="brand-link border-bottom-0">
+            <img src="{% static 'img/Imagen3.png' %}" alt="TechnoSTAR Logo"
+                 class="brand-image img-circle"
+                 style="margin-left: .4rem;">
+            <span class="brand-text font-weight-light"><b>Techno</b><strong>STAR™</strong></span>
         </a>
         <a class="nav-link" href="#">
             <i class="mdi mdi-weather-night mdi-24px w3-text-black" aria-hidden="true" id="theme"></i>
         </a>
     </div>
-    <div class="sidebar">
+    <div class="sidebar pl-0">
 
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <a href="{% static 'img/profile.jpg' %}" class="image">
-                <img alt src="{% static 'img/profile.jpg' %}" class="img-circle elevation-2"
+        <div class="user-panel mt-3 d-flex border-bottom-0">
+            <a href="#" class="image">
+                <img alt src="{{ user.get_image }}" class="img-circle elevation-1"
                      style="width: 37px;height: 37px">
             </a>
             <div class="info">
-                <a href="#" class="d-block">Gilbert Veitia {{ user.id }}</a>
+                <a href="#" class="d-block">{{ user.get_full_name }} | {{ user.username }}</a>
             </div>
         </div>
 
@@ -30,6 +30,7 @@
                 role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
+                <div class="my-2 ml-1" style="border-top: 1px solid #4f5962"></div>
                 <li class="nav-item has-treeview">
                     <a href="{% url 'dashboard' %}" class="nav-link active my-dash">
                         <i class="nav-icon mdi mdi-monitor-dashboard"></i>

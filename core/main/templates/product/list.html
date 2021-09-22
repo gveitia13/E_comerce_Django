@@ -66,12 +66,5 @@
       let ent = '{{ entity }}',
         defaultTitleModal = `<b><i class="mdi mdi-plus-circle-outline"></i> New ${ent}</b>`
 
-      document.getElementById('hola').addEventListener('click', e => {
-        Toast('hola', 'error')
-      })
-      setInterval(() => {
-        document.querySelector('#hola i').classList.toggle('mdi-spin')
-      }, 3000)
-
     </script>
 {% endblock %}

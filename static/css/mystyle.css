@@ -116,16 +116,56 @@
 
 /*Pastillas circulares*/
 
-.circular-left {
-    border-top-left-radius: 50rem !important;
-    border-bottom-left-radius: 50rem !important;
+.circular-left,
+span.select2-selection {
+    border-top-left-radius: 1rem !important;
+    border-bottom-left-radius: 1rem !important;
 }
 
 .circular-right {
-    border-top-right-radius: 50rem !important;
-    border-bottom-right-radius: 50rem !important;
+    border-top-right-radius: 1rem !important;
+    border-bottom-right-radius: 1rem !important;
 }
 
-.circular, input[type='text'],input[type='search'] {
-    border-radius: 50rem !important;
+.circular-top {
+    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1rem !important;
+}
+
+.circular-bottom {
+    border-bottom-right-radius: 1rem !important;
+    border-bottom-left-radius: 1rem !important;
+}
+
+.circular,
+input[type='search'],
+.dropdown-menu,
+.daterangepicker,
+span.select2-dropdown,
+li.select2-results__option,
+div.calendar-table table.table-condensed tbody tr td,
+div.bs-searchbox > *,
+div.jconfirm-box {
+    border-radius: 1rem !important;
+}
+
+.circular-circle, a.btn-xs {
+    border-radius: 100% !important;
+}
+
+a.btn-xs {
+    width: 27px;
+}
+
+a.nav-link {
+    border-radius: 0 2rem 2rem 0 !important;
+}
+.nav-sidebar > .nav-item > .nav-link.active {
+    box-shadow: none !important;
+}
+a.brand-link img {
+    margin-left: .5rem;
+}
+.main-sidebar{
+    width: 250px;
 }

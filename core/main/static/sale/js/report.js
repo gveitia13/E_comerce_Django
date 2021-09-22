@@ -11,8 +11,8 @@ $(function () {
         cancelLabel: '<i class="mdi mdi-cancel"></i> Cancel',
       },
       maxDate: 'today',
-      cancelButtonClasses: 'bg-gradient-danger',
-      applyButtonClasses: 'bg-gradient-primary',
+      cancelButtonClasses: 'bg-gradient-danger circular',
+      applyButtonClasses: 'bg-gradient-primary circular',
     })
     .on('apply.daterangepicker', function (ev, picker) {
       date_range = picker
@@ -65,7 +65,7 @@ let
           extend: 'excelHtml5',
           text: 'Excel <i class="mdi mdi-file-excel"></i>',
           titleAttr: 'Excel',
-          className: 'btn bg-gradient-green btn-sm max-width-70px'
+          className: 'btn bg-gradient-green btn-sm max-width-70px circular-left'
         },
         {
           extend: 'pdfHtml5',
@@ -124,7 +124,7 @@ let
           extend: 'print',
           text: 'Print <i class="mdi mdi-printer"></i>',
           titleAttr: 'Print',
-          className: 'btn bg-gradient-info btn-sm'
+          className: 'btn bg-gradient-info btn-sm circular-right'
         },
       ],
       columnDefs: [

@@ -1,9 +1,9 @@
 {% extends 'baselist.html' %}
 {% load widget_tweaks %}
 {% load static %}
-    {% block head_list %}
-        <script src="{% static 'category/js/CRUD.js' %}"></script>
-    {% endblock %}
+{% block head_list %}
+    <script src="{% static 'category/js/CRUD.js' %}"></script>
+{% endblock %}
 
 {% block search %}
 
@@ -27,11 +27,5 @@
     <script>
       let ent = '{{ entity }}',
         defaultTitleModal = `<b><i class="mdi mdi-plus-circle-outline"></i> New ${ent}</b>`
-
-      document.getElementById('hola').addEventListener('click', e => {
-        Toast('hola', 'success')
-        console.log('{{ lista }}')
-        console.log(idToEdit.id)
-      })
     </script>
 {% endblock %}

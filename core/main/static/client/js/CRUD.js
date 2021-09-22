@@ -12,9 +12,18 @@ $(function () {
     todayHighlight: true,
     autoclose: true,
     format: 'yyyy-mm-dd',
-    endDate: 'today',
+    endDate: 'tomorrow',
     clearBtn: true,
     startDate: '1920-1-1',
+  }).on('change', function () {
+    document.querySelector('#id_dni').value =
+      this.value.replaceAll('-', '').substr(2) +
+      document.querySelector('#id_dni').value.slice(6)
+  })
+
+  document.querySelector('#id_dni').addEventListener('keyup', function () {
+    if (isNaN(this.value)) this.classList.add('is-invalid')
+    else this.classList.remove('is-invalid')
   })
 
   $('.close').on('click', () => myModalDetail.modal('hide'))

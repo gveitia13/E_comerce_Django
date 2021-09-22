@@ -1,17 +1,16 @@
 $(function () {
   //Set active class to Category path
-  if (window.location.pathname.includes('category')) {
+  if (window.location.pathname.includes('category'))
     changeSidebar('.my-stored', '.my-stored-cat')
-  }
 
   listar()
 
   //Event btn Add
   $('.btnAdd').on('click', function () {
-    $('#myModalForm').trigger('reset');
+    $('#myModalForm').trigger('reset')
     document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
     document.querySelector('#myModalFormTitle').name = 'action-add'
-    $('#myModal').modal('show');
+    $('#myModal').modal('show')
   })
 
   $('#listTable tbody')
@@ -26,7 +25,7 @@ $(function () {
         parameters,
         response => {
           tableSale.row($(this).parents('tr')).remove().draw()
-          Toast(`The ${ent} ${response['name']} was ${response['success']}`)
+          Toast(`The ${ent} ${response['object']['name']} was ${response['success']}`)
         },
         'mdi mdi-alert-octagram text-danger')
     })
@@ -39,7 +38,7 @@ $(function () {
         `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
       document.querySelector('#myModalFormTitle').name = 'action-edit'
 
-      $('#myModal').modal('show');
+      $('#myModal').modal('show')
       document.forms[0].elements[1].focus()
       idToEdit.id = data.id
     })
@@ -72,13 +71,11 @@ let
           targets: [-1],
           class: 'text-center',
           orderable: false,
-          render: (data, type, row) => {
-            return `
+          render: (data, type, row) => `
             <a rel="update" class="btn bg-gradient-warning btn-xs">
                 <i class="mdi mdi-square-edit-outline mdi-15px"></i></a>
             <a rel="delete" class="btn bg-gradient-danger btn-xs">
                 <i class="mdi mdi-trash-can-outline mdi-15px text-white"></i></a>`
-          }
         },
       ],
       initComplete: function (settings, json) {

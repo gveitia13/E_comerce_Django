@@ -1,28 +1,31 @@
 {% extends 'baselist.html' %}
 {% load widget_tweaks %}
 {% load static %}
-    {% block head_list %}
-        <link rel="stylesheet" href="{% static 'lib/jquery-ui/jquery-ui.min.css' %}">
-        <script src="{% static 'lib/jquery-ui/jquery-ui.min.js' %}"></script>
+{% block head_list %}
+    <link rel="stylesheet" href="{% static 'lib/jquery-ui/jquery-ui.min.css' %}">
+    <script src="{% static 'lib/jquery-ui/jquery-ui.min.js' %}"></script>
 
-        <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
-        <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
-        <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
 
-        <script src="{% static 'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
-        <link rel="stylesheet" href="{% static 'lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}">
+    <script src="{% static 'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}">
 
-        <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}">
-        <script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}">
+    <script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
 
-        <script src="{% static 'sale/js/form.js' %}"></script>
-    {% endblock %}
+    <script src="{% static 'lib/bootstrap-select/bootstrap-select.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-select/bootstrap-select.min.css' %}">
+
+    <script src="{% static 'sale/js/form.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <form method="post" id="formSale">
         {% csrf_token %}
-        <div class="card card-primary">
-            <div class="card-header">
+        <div class="card card-primary circular">
+            <div class="card-header circular-top">
                 <h3 class="card-title">
                     {% if action == 'add' %}
                         <i class="mdi mdi-plus-circle-outline mdi-15px"></i>
@@ -35,20 +38,21 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-8">
-                        <div class="card card-info">
-                            <div class="card-header">
+                        <div class="card card-info circular">
+                            <div class="card-header circular-top">
                                 <h3 class="card-title"><i class="mdi mdi-details"></i> Product's details</h3>
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <select class="form-control select2" name="search"></select>
+                                        <select class="form-control select2 circular" name="search"></select>
                                         <div class="input-group-append circular-left">
-    {% comment %}                                        <button type="button" data-toggle="tooltip" title="Empty the list"
+                                            {% comment %}                                        <button type="button" data-toggle="tooltip" title="Empty the list"
                                                     class="btn bg-gradient-warning btn-sm input-group-btn btnClean">
                                                 <i class="mdi mdi-trash-can-outline mdi-18px"></i>
                                             </button>{% endcomment %}
-                                            <button id="btnSearchProduct" class="btn bg-gradient-success input-group-btn"
+                                            <button id="btnSearchProduct"
+                                                    class="btn bg-gradient-success input-group-btn circular-right"
                                                     type="button">
                                                 <i class="mdi mdi-format-list-bulleted"></i> All products
                                             </button>
@@ -76,8 +80,8 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="card card-info">
-                            <div class="card-header">
+                        <div class="card card-info circular">
+                            <div class="card-header circular-top">
                                 <h3 class="card-title"><i class="mdi mdi-cart"></i> Invoice data</h3>
                             </div>
                             <div class="card-body">
@@ -92,7 +96,7 @@
                                     <div class="input-group">
                                         {{ form.cli|add_class:'input-group-text' }}
                                         <div class="input-group-append">
-                                            <button class="btn bg-gradient-success btnAddClient input-group-btn"
+                                            <button class="btn bg-gradient-success btnAddClient input-group-btn circular-right"
                                                     type="button">
                                                 <i class="mdi mdi-account-plus"></i></button>
                                         </div>
@@ -115,15 +119,9 @@
                                 <div class="form-group-sm row">
                                     <div class="form-group col-sm-6">
                                         <p class="text-center w3-margin-bottom-7"><label>Calculated IVA:</label></p>
-                                        {% comment %}<div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">$</span>
-                                            </div>{% endcomment %}
                                         <input type="text" class="form-control-plaintext text-center" disabled readonly
-                                               name="ivacalc"
-                                               value="0.0">
+                                               name="ivacalc" value="0.0">
                                     </div>
-                                    {#                                    </div>#}
                                     <div class="form-group col-sm-6">
                                         <p class="text-center w3-margin-bottom-7"><label>Total to pay:</label></p>
                                         {{ form.total|add_class:'text-decoration-underline' }}
@@ -135,10 +133,10 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn bg-gradient-primary">
+                <button type="submit" class="btn bg-gradient-primary circular">
                     <i class="mdi mdi-content-save"></i> Save record
                 </button>
-                <a href="{{ list_url }}" class="btn bg-gradient-danger">
+                <a href="{{ list_url }}" class="btn bg-gradient-danger circular">
                     <i class="mdi mdi-cancel"></i> Cancelar
                 </a>
             </div>
@@ -150,7 +148,7 @@
         <form id="myModalFormClient" class="form-horizontal" enctype="multipart/form-data" method="post">
 
             <div class="modal-dialog modal-dialog-fromleft" role="document">
-                <div class="modal-content">
+                <div class="modal-content circular">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalFormTitleClient">
                             <b><i class="mdi mdi-plus-circle-outline"></i> Create new Client</b>
@@ -171,7 +169,7 @@
                         {% endfor %}
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-gradient-primary">
+                        <button type="submit" class="btn bg-gradient-primary circular">
                             <i class="mdi mdi-content-save"></i> Save Client
                         </button>
                     </div>
@@ -184,8 +182,8 @@
     <div class="modal fade" id="myModalSearchProducts" tabindex="-1" role="dialog"
          aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-popin modal-dialog-scrollable modal-dialog-top" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-content circular">
+                <div class="modal-header circular-top">
                     <h5 class="modal-title" id="exampleModal">
                         <b><i class="mdi mdi-magnify"></i> All availability products</b>
                     </h5>

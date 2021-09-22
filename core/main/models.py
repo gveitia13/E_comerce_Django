@@ -39,7 +39,7 @@ class Product(models.Model):
     """ Product Model"""
     name = models.CharField(max_length=50, verbose_name='Name', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category')
-    image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True, verbose_name='Image')
+    image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True)
     stock = models.IntegerField(default=1, verbose_name='Stock')
     s_price = models.DecimalField(default=0.01, max_digits=9, decimal_places=2, verbose_name='Selling price')
 
@@ -76,8 +76,8 @@ gender_choices = (
 class Client(models.Model):
     name = models.CharField(max_length=50, verbose_name='Names')
     surnames = models.CharField(max_length=80, verbose_name='Surnames')
-    dni = models.CharField(max_length=11, unique=True, verbose_name='DNI')
     date_birthday = models.DateField(default=datetime.now, verbose_name='Date birthday')
+    dni = models.CharField(max_length=11, unique=True, verbose_name='DNI')
     address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Address')
     gender = models.CharField(max_length=50, choices=gender_choices, default='todo', verbose_name='Gender')
     email = models.EmailField(verbose_name='Email', unique=True, max_length=50)

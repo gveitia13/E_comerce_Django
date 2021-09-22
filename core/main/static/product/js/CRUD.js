@@ -25,8 +25,8 @@ $(() => {
     step: 1,
     boostat: 5,
     maxboostedstep: 10,
-    buttondown_class: 'btn bg-gradient-primary',
-    buttonup_class: 'btn bg-gradient-primary',
+    buttondown_class: 'btn bg-gradient-primary circular-left',
+    buttonup_class: 'btn bg-gradient-primary circular-right',
     postfix: '#',
   }).on('change', function () {
     if (this.value === '0') {
@@ -49,8 +49,8 @@ $(() => {
     prefix: `$`,
     step: 0.01,
     decimals: 2,
-    buttondown_class: 'btn bg-gradient-primary',
-    buttonup_class: 'btn bg-gradient-primary'
+    buttondown_class: 'btn bg-gradient-primary circular-left',
+    buttonup_class: 'btn bg-gradient-primary circular-right'
   }).on('change', function () {
     if (parseFloat(this.value) === 0) {
       document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.remove('bg-gradient-primary')
@@ -65,7 +65,7 @@ $(() => {
   })
 
   $('#myModalDetail div.modal-footer button:last').on('click', function () {
-    $('#myModalDetail').modal('hide');
+    $('#myModalDetail').modal('hide')
   })
 
   $('a[rel="save-img"]').on('click', () =>
@@ -110,9 +110,9 @@ $(() => {
       let tr = tableSale.cell($(this).closest('td, li')).index(),
         data = tableSale.row(tr.row).data()
       $('#myModalDetail .modal-body').html(`
-          <div class="card" id="card-info">
-              <img class="card-img-top img-fluid" src="${data['image']}" alt="Card image cap">
-              <div class="card-body">
+          <div class="card circular bg-light" id="card-info">
+              <img class="card-img-top img-fluid circular" src="${data['image']}" alt="Card image cap">
+              <div class="card-body circular">
                   <h5 class="card-title"><b>${data['full_name']}</b></h5>
                   <br>
                   <span class="card-text"><b>Selling price: </b>$ ${data['s_price']}</span>
@@ -191,11 +191,11 @@ let
           class: 'text-center',
           orderable: false,
           render: () => `
-              <a rel="detail" class="btn bg-gradient-teal btn-xs rounded-pill ">
+              <a rel="detail" class="btn bg-gradient-teal btn-xs circular-circle">
                   <i class="mdi mdi-image-search mdi-15px w3-text-black"></i></a>
-              <a rel="update" class="btn bg-gradient-warning btn-xs rounded-pill mx-1">
+              <a rel="update" class="btn bg-gradient-warning btn-xs circular-circle mx-1">
                   <i class="mdi mdi-square-edit-outline mdi-15px"></i></a>
-              <a rel="delete" class="btn bg-gradient-danger btn-xs rounded-pill">
+              <a rel="delete" class="btn bg-gradient-danger btn-xs circular-circle">
                   <i class="mdi mdi-trash-can-outline mdi-15px text-white"></i></a>`
         },
         {
@@ -210,7 +210,7 @@ let
           class: 'text-center',
           render: data =>
             `<img src="${data}" class="img-fluid d-block mx-auto"
-             style="width: 20px; height: 20px;">`
+             style="width: 25px; height: 25px;">`
         },
         {
           targets: [0],
@@ -239,8 +239,8 @@ let
   formStyles = () => {
     document.querySelector('#id_image').style.display = 'none'
     document.querySelector('#id_image').parentElement.innerHTML += `
-      <div class="form-control" style="overflow: hidden">
-          <label for="id_image" id="image_label" class="btn bg-gradient-primary text-nowrap">
+      <div class="form-control circular" style="overflow: hidden">
+          <label for="id_image" id="image_label" class="btn bg-gradient-primary text-nowrap circular-left">
               <i class="mdi mdi-image-plus"></i> Upload a image
           </label>
           <span id="image_span">Nothing selected yet</span>

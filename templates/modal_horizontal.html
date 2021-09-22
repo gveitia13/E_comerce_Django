@@ -5,7 +5,7 @@
         <form id="myModalForm" class="form-horizontal" enctype="multipart/form-data" method="post" name="" action=".">
             {% csrf_token %}
             <div class="modal-dialog modal-dialog-fromright" role="document">
-                <div class="modal-content">
+                <div class="modal-content circular">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalFormTitle">
 
@@ -27,7 +27,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-gradient-primary">
+                        <button type="submit" class="btn bg-gradient-primary circular">
                             <i class="mdi mdi-content-save"></i> Save {{ entity }}
                         </button>
                     </div>
