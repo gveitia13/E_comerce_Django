@@ -206,3 +206,5 @@ let changeSidebar = function (nav_treeview, nav_item) {
       className: 'btn bg-gradient-info btn-sm circular-right'
     }
   ]
+  ,
+  truncate = (str, len, end = '..') => str.replace(new RegExp('(.{' + len + '}).*'), '$1' + end + '')

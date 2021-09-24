@@ -118,23 +118,23 @@
 
 .circular-left,
 span.select2-selection {
-    border-top-left-radius: 1rem !important;
-    border-bottom-left-radius: 1rem !important;
+    border-top-left-radius: 1.5rem !important;
+    border-bottom-left-radius: 1.5rem !important;
 }
 
 .circular-right {
-    border-top-right-radius: 1rem !important;
-    border-bottom-right-radius: 1rem !important;
+    border-top-right-radius: 1.5rem !important;
+    border-bottom-right-radius: 1.5rem !important;
 }
 
 .circular-top {
-    border-top-left-radius: 1rem !important;
-    border-top-right-radius: 1rem !important;
+    border-top-left-radius: 1.5rem !important;
+    border-top-right-radius: 1.5rem !important;
 }
 
 .circular-bottom {
-    border-bottom-right-radius: 1rem !important;
-    border-bottom-left-radius: 1rem !important;
+    border-bottom-right-radius: 1.5rem !important;
+    border-bottom-left-radius: 1.5rem !important;
 }
 
 .circular,
@@ -146,7 +146,7 @@ li.select2-results__option,
 div.calendar-table table.table-condensed tbody tr td,
 div.bs-searchbox > *,
 div.jconfirm-box {
-    border-radius: 1rem !important;
+    border-radius: 1.5rem !important;
 }
 
 .circular-circle, a.btn-xs {

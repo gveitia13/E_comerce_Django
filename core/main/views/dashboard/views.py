@@ -87,6 +87,7 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['panel'] = 'Admin panel'
+        context['title'] = 'Dashboard'
         context['graph_sale_years'] = get_graph_sales_years_month()
         context['entity_count'] = countEntity()
         return context

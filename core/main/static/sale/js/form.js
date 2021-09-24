@@ -36,13 +36,20 @@ let
     get_ids: () => Sale.items.products.map(value => value.id)
     ,
     calculate_invoice: function () {
-      this.items.subtotal = sumar(this.items.products.map(e => e.cant * parseFloat(e.s_price)))
+      let subtotal = 0.00
+      $.each(this.items.products, (pos, dict) => {
+        dict.pos = pos
+        dict.subtotal = dict.cant * parseFloat(dict.s_price)
+        subtotal += dict.subtotal
+      })
+      // this.items.subtotal = sumar(this.items.products.map(e => e.cant * parseFloat(e.s_price)))
+      this.items.subtotal = subtotal
       this.items.iva = this.items.subtotal * $('input[name="iva"]').val()
       this.items.total = this.items.subtotal + this.items.iva
 
-      $('input[name="subtotal"]').val('$ ' + this.items.subtotal.toFixed(2))
-      $('input[name="ivacalc"]').val('$ ' + this.items.iva.toFixed(2))
-      $('input[name="total"]').val('$ ' + this.items.total.toFixed(2))
+      $('input[name="subtotal"]').val('$' + this.items.subtotal.toFixed(2))
+      $('input[name="ivacalc"]').val('$' + this.items.iva.toFixed(2))
+      $('input[name="total"]').val('$' + this.items.total.toFixed(2))
     },
     add: function (item) {
       Sale.items.products.push(item)
@@ -80,7 +87,7 @@ let
             targets: [-3, -1],
             class: 'text-center',
             orderable: false,
-            render: data => `$ ${parseFloat(data).toFixed(2)}`
+            render: data => `$${parseFloat(data).toFixed(2)}`
           },
           {
             targets: [-2],
@@ -109,7 +116,7 @@ let
   },
   sumar = iterable => {
     let num = 0
-    Array.from(iterable).forEach(e => num += !isNaN(e) ? e : 0)
+    Array.from(iterable).forEach(e => num += isNaN(e) ? e : 0)
     return num
   }
 

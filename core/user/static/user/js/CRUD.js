@@ -81,7 +81,8 @@ let
           class: 'text-center',
           orderable: false,
           render: (data, type, row) =>
-            row.groups.map(e => `<span class="badge badge-${e.name === 'admin' ? 'danger' : 'success'}
+            row.groups.map(e => `<span class="badge badge-${e.name === 'admin'
+              ? 'danger' : e.name.includes('user') ? 'warning' : 'success'}
                 circular">${e.name}</span> `).join(' ')
         },
         {
@@ -90,7 +91,7 @@ let
           class: 'text-center',
           render: data =>
             `<img src="${data}" class="img-fluid d-block mx-auto"
-             style="width: 20px; height: 20px;">`
+             style="width: 25px; height: 25px;">`
         },
       ],
       initComplete: function (settings, json) {

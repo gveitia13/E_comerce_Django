@@ -92,6 +92,7 @@ $(() => {
       $('#myModalForm').trigger('reset')
       let tr = tableSale.cell($(this).closest('td, li')).index(),
         data = tableSale.row(tr.row).data()
+      console.log(data)
       document.querySelector('#id_name').value = data['name']
       document.querySelector('#id_stock').value = data['stock']
       document.querySelector('#id_s_price').value = data['s_price']
@@ -99,6 +100,10 @@ $(() => {
         data['cat']['id']
       document.querySelector('button[data-id="id_cat"] div div div').innerHTML =
         data['cat']['name']
+      let ext = data['image'].substr(data['image'].lastIndexOf('.')),
+        nombre = data['image'].substring(26, data['image'].lastIndexOf('.'))
+      document.querySelector('#image_span').innerHTML =
+        nombre.length < 30 ? nombre + ext : truncate(nombre, 30) + ext
 
       document.querySelector('#myModalFormTitle').innerHTML =
         `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
@@ -233,8 +238,7 @@ let
   callbackCreate = data =>
     Toast(`${ent}: ${data['object']['full_name']} ${data['success']} successfully`)
   ,
-  callbackUpdate = data =>
-    callbackCreate(data)
+  callbackUpdate = data => callbackCreate(data)
   ,
   formStyles = () => {
     document.querySelector('#id_image').style.display = 'none'
@@ -246,9 +250,15 @@ let
           <span id="image_span">Nothing selected yet</span>
       </div>`
 
-    document.querySelector('#id_image').addEventListener('change', () =>
+    document.querySelector('#id_image').addEventListener('change', () => {
       // console.log(document.querySelector('#id_image').attributes)
+      let ext = document.querySelector('#id_image').files[0].name
+          .substr(document.querySelector('#id_image').files[0].name.lastIndexOf('.')),
+        nombre = document.querySelector('#id_image').files[0].name
+          .substring(0, document.querySelector('#id_image').files[0].name.lastIndexOf('.'))
+
       document.querySelector('#image_span').innerHTML =
-        document.querySelector('#id_image').files[0].name)
+        nombre.length < 30 ? nombre + ext : truncate(nombre, 30) + ext
+    })
   }
 
