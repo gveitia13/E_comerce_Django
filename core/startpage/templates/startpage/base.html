@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{{ title }}</title>
+    <link rel="icon" href="{% static 'startpage/img/favicon.png' %}" type="image/x-icon">
+    <!-- Material icons -->
+    <link rel="stylesheet" href="{% static 'lib/material-icons/css/icons.min.css' %}">
+    <!-- jQuery -->
+    <script src="{% static 'lib/jquery/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lib/admin-lte3/css/adminlte.min.css' %}">
+    <script src="{% static 'lib/admin-lte3/js/adminlte.min.js' %}"></script>
+    <!-- jquery-confirm -->
+    <link rel="stylesheet" href="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}">
+    <script src="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}"></script>
+    <!-- Functions -->
+    <script src="{% static 'js/function.js' %}"></script>
+    <!-- My css -->
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+    <link rel="stylesheet" href="{% static 'startpage/css/style.css' %}">
+    {% block head %}
+
+    {% endblock %}
+</head>
+{% block body %}
+
+{% endblock %}
+</html>

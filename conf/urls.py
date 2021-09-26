@@ -19,12 +19,16 @@ from django.contrib import admin
 from django.urls import path, include
 
 from core.main.views.dashboard.views import DashboardView
+from core.startpage.views import StartPageView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/', include('core.main.urls')),
     path('user/', include('core.user.urls')),
-    path('', DashboardView.as_view(), name='dashboard'),
+    path('login/', include('core.login.urls')),
+    # Dashboard
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
+    path('', StartPageView.as_view(), name='startpage'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

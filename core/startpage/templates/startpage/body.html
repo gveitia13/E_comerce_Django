@@ -1,0 +1,30 @@
+{% extends 'startpage/base.html' %}
+{% block body %}
+    <body class="sidebar-mini layout-fixed layout-navbar-fixed">
+    <div class="wrapper">
+        <!-- Header -->
+        {% include 'startpage/header.html' %}
+        <!-- Sidebar -->
+        {% include 'startpage/sidebar.html' %}
+        <!-- Content -->
+        <div class="content-wrapper circular-bottom">
+            <div class="content">
+                <div class="container-fluid w3-animate-zoom px-lg-3">
+                    {% block content %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        {% include 'startpage/footer.html' %}
+
+    </div>
+    <!-- Block javascript -->
+    {% block javascript %}
+
+    {% endblock %}
+    </body>
+    <!--    modal-->
+    {% include 'startpage/modal_contact.html' %}
+{% endblock %}

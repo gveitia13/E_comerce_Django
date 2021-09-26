@@ -16,11 +16,13 @@
 
         <div class="user-panel mt-3 d-flex border-bottom-0">
             <a href="#" class="image">
-                <img alt src="{{ user.get_image }}" class="img-circle elevation-1"
+                <img alt src="{% if user.get_image %}{{ user.get_image }}{% else %}{% static 'img/user2.png' %}{% endif %}"
+                     class="img-circle elevation-1"
                      style="width: 37px;height: 37px">
             </a>
             <div class="info">
-                <a href="#" class="d-block">{{ user.get_full_name }} | {{ user.username }}</a>
+                <a href="#" class="d-block">{% if user.get_full_name %}{{ user.get_full_name }} | {{ user.username }}
+                {% elif user.username %}{{ user.username }}{% else %}Guest{% endif %}</a>
             </div>
         </div>
 

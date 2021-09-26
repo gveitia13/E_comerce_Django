@@ -1,0 +1,171 @@
+{% load static %}
+{% comment %}
+<aside class="main-sidebar elevation-4 sidebar-light-primary" id="sidebar">
+    <!-- Brand Logo -->
+    <div class="user-panel d-flex elevation-2">
+        <a href="#" class="brand-link border-bottom-0">
+            <img src="{% static 'img/Imagen3.png' %}" alt="TechnoSTAR Logo"
+                 class="brand-image img-circle"
+                 style="margin-left: .4rem;">
+            <span class="brand-text font-weight-light"><b>Techno</b><strong>STAR™</strong></span>
+        </a>
+        <a class="nav-link" href="#">
+            <i class="mdi mdi-weather-night mdi-24px w3-text-black" aria-hidden="true" id="theme"></i>
+        </a>
+    </div>
+    <div class="sidebar pl-0">
+
+        <div class="user-panel mt-3 d-flex border-bottom-0">
+            <a href="#" class="image">
+                <img alt src="{% if user.get_image %}{{ user.get_image }}{% else %}{% static 'img/user2.png' %}{% endif %}"
+                     class="img-circle elevation-1"
+                     style="width: 37px;height: 37px">
+            </a>
+            <div class="info">
+                <a href="#" class="d-block">{% if user.get_full_name %}{{ user.get_full_name }} | {{ user.username }}
+                {% elif user.username %}{{ user.username }}{% else %}Guest{% endif %}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview"
+                role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+                <div class="my-2 ml-1" style="border-top: 1px solid #4f5962"></div>
+                <li class="nav-item has-treeview">
+                    <a href="{% url 'dashboard' %}" class="nav-link active my-dash">
+                        <i class="nav-icon mdi mdi-monitor-dashboard"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview ">
+                    <a href="#" class="nav-link my-stored">
+                        <i class="nav-icon mdi mdi-store"></i>
+                        <p>
+                            Availability stored
+                            <i class="right mdi mdi-menu-left-outline"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="{% url 'main:category_list' %}" class="nav-link my-stored-cat">
+                                <i class="mdi mdi-widgets nav-icon"></i>
+                                <p>Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'main:product_list' %}" class="nav-link my-stored-prod">
+                                <i class="mdi mdi-package-variant-closed nav-icon"></i>
+                                <p>Products</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link my-accounts">
+                        <i class="nav-icon mdi mdi-account-multiple-check"></i>
+                        <p>
+                            Registered accounts
+                            <i class="right mdi mdi-menu-left-outline"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="{% url 'main:client_list' %}" class="nav-link my-accounts-client">
+                                <i class="mdi mdi-account-star nav-icon"></i>
+                                <p>Clients</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'user:user_list' %}" class="nav-link my-accounts-worker">
+                                <i class="mdi mdi-worker nav-icon"></i>
+                                <p>Workers</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link my-sales">
+                        <i class="nav-icon mdi mdi-cart"></i>
+                        <p>
+                            Sales record
+                            <i class="right mdi mdi-menu-left-outline"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="{% url 'main:sale_create' %}" class="nav-link my-sales-add">
+                                <i class="mdi mdi-cart-plus nav-icon"></i>
+                                <p>Create sale</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'main:sale_list' %}" class="nav-link my-sales-sales">
+                                <i class=" mdi mdi-finance nav-icon"></i>
+                                <p>Sales list</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'main:sale_report' %}" class="nav-link my-sales-reports">
+                                <i class="mdi mdi-chart-bar nav-icon"></i>
+                                <p>Sales report</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- /.sidebar -->
+</aside>{% endcomment %}
+<!-- Sidebar -->
+<aside class="main-sidebar sidebar-light-primary elevation-4">
+    <div class="user-panel d-flex elevation-4">
+        <a href="#" class="brand-link navbar-primary border-bottom-0 elevation-4 text-white">
+            <img src="{% static 'startpage/img/icon1.png' %}"
+                 alt="TechnoSTAR Logo"
+                 class="brand-image img-circle" style="margin-left: .4rem;">
+            <span class="brand-text font-weight-light"><strong
+                    style="font-family: 'JetBrains Mono ExtraBold',sans-serif">TechnoSTAR™</strong></span>
+        </a>
+    </div>
+    <div class="sidebar border-top-0  px-0">
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false" id="ul-sidebar">
+                <li class="nav-item">
+                    <a rel="servicios" id="lol" class="nav-link" style="cursor: pointer">
+                        <i class="nav-icon mdi mdi-settings"></i>
+                        <p>
+                            Services
+                        </p>
+                    </a>
+                </li>
+                <div class="mt-2 mb-2" style="border-top: 1px solid #4f5962"></div>
+                <li class="nav-header pt-1">Categories</li>
+                <li class="nav-item">
+                    <a rel="todos" class="nav-link active" style="cursor: pointer">
+                        <i class="nav-icon mdi mdi-widgets"></i>
+                        <p>
+                            See all
+                        </p>
+                    </a>
+                </li>
+                {% for cat in cats %}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon  mdi mdi-star"></i>
+                            <p>{{ cat.name }}</p>
+                        </a>
+                    </li>
+                {% endfor %}
+
+            </ul>
+        </nav>
+    </div>
+</aside>

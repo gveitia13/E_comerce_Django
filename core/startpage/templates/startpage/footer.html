@@ -1,0 +1,24 @@
+{% load static %}
+<!-- Main Footer -->
+<footer class="main-footer text-center border-top-0 pt-2 pb-1 d-none d-md-block">
+    <div>
+        <a href="https://t.me/LilGil"><i class="mdi mdi-telegram w3-hover-opacity" style="color: #2da5e1"></i></a>
+        <a href="https://api.whatsapp.com/send/?phone=+5358496023&text=Hola&app_absent=1"><i
+                class="mdi mdi-whatsapp w3-hover-opacity" style="color: #2bc54e"></i></a>
+        <a href="https://www.linkedin.com/in/gilberto-veitia-urbay-45941116b"><i
+                class="mdi mdi-linkedin w3-hover-opacity" style="color: #1178b3"></i></a>
+        <a href="https://github.com/gveitia13"><i class="mdi mdi-github-face w3-hover-opacity"
+                                                  style="color: dimgray"></i></a>
+        <a href="https://facebook.com/GilbeStar"><i class="mdi mdi-facebook w3-hover-opacity"
+                                                    style="color:#1976d2;"></i></a>
+        <a href="https://instagram.com/gilbertveitiaurbay"><i class="mdi mdi-instagram w3-hover-opacity"
+                                                              style="color:#c93470"></i></a>
+        <a href="https://twitter.com/GilbeStar?s=08"><i class="mdi mdi-twitter w3-hover-opacity"></i></a>
+    </div>
+    <strong>Copyright &copy; <span class="year">2021-2022</span> <a href="/">Techno$TΛЯ™</a></strong> All rights
+    reserved.
+</footer>
+<script>
+  const currentYear = new Date().getFullYear()
+  document.querySelectorAll('.year').forEach(e => e.innerHTML = currentYear === 2021 ? 2021 : `2021-${currentYear}`)
+</script>

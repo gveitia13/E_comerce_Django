@@ -12,6 +12,7 @@ class Category(BaseModel):
     # Category Model
     name = models.CharField(max_length=50, verbose_name='Name', unique=True)
     desc = models.CharField(max_length=500, null=True, blank=True, verbose_name='Description')
+    # icon_class = models.CharField(verbose_name='icon', blank=True, null=True, default='mdi mdi-star')
 
     def __str__(self):
         return self.name

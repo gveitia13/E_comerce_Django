@@ -12,7 +12,7 @@ class User(AbstractUser):
     def get_image(self):
         if self.image:
             return '{}{}'.format(MEDIA_URL, self.image)
-        return '{}{}'.format(STATIC_URL, 'img/empty.png')
+        return '{}{}'.format(STATIC_URL, 'img/user2.png')
 
     def toJSON(self):
         item = model_to_dict(self, exclude=['password', 'user_permissions', 'last_login'])
