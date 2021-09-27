@@ -44,7 +44,7 @@ let
   }
 
 $(function () {
-  if (window.location.pathname === '/')
+  if (window.location.pathname.includes('dash'))
     document.querySelector('.my-dash').classList.add('active')
   get_graph_sales_years_month()
   get_graph_sales_products_year_month()

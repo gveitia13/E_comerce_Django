@@ -12,7 +12,7 @@
             </a>
         </li>
     </ul>
-    <form class="form-inline ml-3">
+    <form class="form-inline ml-3 formHeader">
         <div class="input-group input-group-sm">
             <input class="form-control form-control-navbar expand-focus" type="search" placeholder="Find product"
                    aria-label="Search">
@@ -25,16 +25,31 @@
     </form>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
+            <a rel="cart" class="nav-link pl-1 pr-1 " style="cursor: pointer"><i
+                    class="mdi mdi-cart d-sm-inline-block"></i>
+                <span class="d-sm-inline-block d-none"> S. cart</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a rel="modal" class="nav-link pl-1 pr-1 " style="cursor: pointer"><i
                     class="mdi mdi-contacts d-sm-inline-block"></i>
                 <span class="d-sm-inline-block d-none"> About us</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a rel="list" class="nav-link px-1" style="cursor:pointer;">
-                <i class="mdi mdi-login d-sm-inline-block"></i>
-                <span class="d-sm-inline-block d-none"> Login</span>
-            </a>
-        </li>
+        {% if not request.user.is_authenticated %}
+            <li class="nav-item">
+                <a href="{% url 'login' %}" class="nav-link px-1" style="cursor:pointer;">
+                    <i class="mdi mdi-login d-sm-inline-block"></i>
+                    <span class="d-sm-inline-block d-none"> Login</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a href="{% url 'dashboard' %}" class="nav-link px-1" style="cursor:pointer;">
+                    <i class="mdi mdi-monitor-dashboard d-sm-inline-block"></i>
+                    <span class="d-sm-inline-block d-none"> Dash</span>
+                </a>
+            </li>
+        {% endif %}
     </ul>
 </nav>

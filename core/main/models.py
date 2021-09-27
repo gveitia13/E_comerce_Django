@@ -12,6 +12,7 @@ class Category(BaseModel):
     # Category Model
     name = models.CharField(max_length=50, verbose_name='Name', unique=True)
     desc = models.CharField(max_length=500, null=True, blank=True, verbose_name='Description')
+
     # icon_class = models.CharField(verbose_name='icon', blank=True, null=True, default='mdi mdi-star')
 
     def __str__(self):
@@ -41,7 +42,7 @@ class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name='Name', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category')
     image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True)
-    stock = models.IntegerField(default=1, verbose_name='Stock')
+    stock = models.PositiveIntegerField(default=1, verbose_name='Stock')
     s_price = models.DecimalField(default=0.01, max_digits=9, decimal_places=2, verbose_name='Selling price')
 
     def __str__(self):
@@ -60,6 +61,11 @@ class Product(models.Model):
         if self.image:
             return '{}{}'.format(MEDIA_URL, self.image)
         return '{}{}'.format(STATIC_URL, 'img/empty.png')
+
+    def get_desc(self):
+        return 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci consequatur corporis doloremque ' \
+               'dolorum, eaque illo, illum, inventore iure maiores molestias pariatur porro qui quia quos ratione ' \
+               'repudiandae suscipit tenetur totam. '
 
     class Meta:
         verbose_name = 'Product'

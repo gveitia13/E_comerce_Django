@@ -134,7 +134,7 @@
                     style="font-family: 'JetBrains Mono ExtraBold',sans-serif">TechnoSTAR™</strong></span>
         </a>
     </div>
-    <div class="sidebar border-top-0  px-0">
+    <div class="sidebar border-top-0 pl-0">
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false" id="ul-sidebar">
@@ -149,13 +149,22 @@
                 <div class="mt-2 mb-2" style="border-top: 1px solid #4f5962"></div>
                 <li class="nav-header pt-1">Categories</li>
                 <li class="nav-item">
-                    <a rel="todos" class="nav-link active" style="cursor: pointer">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon mdi mdi-view-list"></i>
+                        <p>
+                            See list
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'startpage' %}" class="nav-link active startpage">
                         <i class="nav-icon mdi mdi-widgets"></i>
                         <p>
                             See all
                         </p>
                     </a>
                 </li>
+
                 {% for cat in cats %}
                     <li class="nav-item">
                         <a href="#" class="nav-link">

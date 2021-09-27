@@ -10,3 +10,153 @@
 .w3-animate-zoom {
     animation: animatezoom .6s
 }
+
+.card-zoom {
+    border-radius: 15px;
+    transition-timing-function: ease-in;
+    transition: transform .5s;
+}
+
+.card-zoom:hover {
+    transform: scale(1.03);
+}
+
+.w3-hover-shadow-light:hover {
+    box-shadow: 0 4px 10px 0 rgba(240, 240, 240, 0.2), 0 4px 20px 0 rgba(240, 240, 240, 0.19)
+}
+
+.mdi-15px.mdi-set, .mdi-15px.mdi:before {
+    font-size: 15px;
+}
+
+.div-img {
+    width: 100%;
+    display: block;
+    height: 165px;
+    background-size: cover !important;
+    border-radius: 15px 15px 0 0;
+    border-top: 5px solid transparent;
+    cursor: pointer;
+}
+
+.div-img {
+    opacity: .9;
+}
+
+.div-img:hover {
+    opacity: 1;
+}
+
+.div-img-profile {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    background: url("../img/profile.jpg");
+    background-size: cover !important;
+}
+
+.div-img, .div-img-profile {
+    background-position: center !important;
+    position: relative;
+    background-repeat: no-repeat !important;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .div-img {
+        height: 200px;
+    }
+}
+
+p.prod-desc, h5.card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+h5.card-title {
+    -webkit-line-clamp: 1;
+}
+
+p.prod-desc {
+    -webkit-line-clamp: 2;
+}
+
+@media only screen and (max-width: 575px) {
+    .div-img, .row-card {
+        height: 150px;
+    }
+
+    .div-img {
+        border-bottom-left-radius: 1.5rem;
+        border-top-right-radius: 0 !important;
+    }
+
+    .btn.circular-circle {
+        width: 40px;
+    }
+
+    p.prod-desc, h5.card-title {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    p.prod-desc {
+        -webkit-line-clamp: 2;
+    }
+}
+
+.main-header {
+    border-bottom: 1px solid #4f5962;
+}
+
+.w-h {
+    width: 73px;
+    height: 60px;
+}
+
+.w3-hover-shadow-light:hover {
+    box-shadow: 0 4px 10px 0 rgba(240, 240, 240, 0.2), 0 4px 20px 0 rgba(240, 240, 240, 0.19)
+}
+
+a.nav-link {
+    border-radius: 0 50rem 50rem 0 !important;
+}
+
+.nav-sidebar > .nav-item > .nav-link.active {
+    box-shadow: none !important;
+}
+
+input.expand-focus {
+    transition-timing-function: ease;
+    transition: width .5s;
+    border-radius: 50rem 0 0 50rem !important;
+    width: 130px !important;
+    border-right: none !important;
+    padding-left: 13px !important;
+}
+
+input.expand-focus:focus {
+    width: 170px !important;
+}
+
+form.form-inline > div > div > button {
+    border-bottom-right-radius: 50rem !important;
+    border-top-right-radius: 50rem !important;
+}
+
+a.brand-link img {
+    margin-left: .5rem;
+}
+
+h4.my-4:first-child {
+    padding-top: 10px;
+}
+

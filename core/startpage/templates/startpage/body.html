@@ -7,9 +7,9 @@
         <!-- Sidebar -->
         {% include 'startpage/sidebar.html' %}
         <!-- Content -->
-        <div class="content-wrapper circular-bottom">
-            <div class="content">
-                <div class="container-fluid w3-animate-zoom px-lg-3">
+        <div class="content-wrapper">
+            <div class="content px-lg-4 pt-3 px-0">
+                <div class="container-fluid w3-animate-zoom">
                     {% block content %}
 
                     {% endblock %}
@@ -25,6 +25,6 @@
 
     {% endblock %}
     </body>
-    <!--    modal-->
+    <!--  modal-->
     {% include 'startpage/modal_contact.html' %}
 {% endblock %}
