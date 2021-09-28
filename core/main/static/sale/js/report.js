@@ -124,7 +124,7 @@ let
           extend: 'print',
           text: 'Print <i class="mdi mdi-printer"></i>',
           titleAttr: 'Print',
-          className: 'btn bg-gradient-info btn-sm circular-right'
+          className: 'btn bg-gradient-info btn-sm circular-right max-width-70px'
         },
       ],
       columnDefs: [

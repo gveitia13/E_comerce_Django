@@ -1,0 +1,42 @@
+{% load static %}
+<!--    modal-->
+<div class="modal fade modal-card " id="prodDetails" tabindex="-1" role="dialog" aria-labelledby="prodDetails"
+     aria-hidden="true" style="min-width: 350px;height: auto;padding: 0" data-target="#prodDetails">
+    <div class="modal-dialog modal-dialog-popout modal-dialog-top modal-dialog-scrollable modal" role="document">
+        <div class="modal-content circular border-0 shadow-none">
+            <div class="modal-header border-bottom-0 circular-top">
+                <h5 class="modal-title user-select-none">
+                    <img src="{% static 'img/logo-red-black.png' %}"
+                         alt="TechnoSTAR Logo"
+                         style="margin-left: .4rem;" width="45" height="35">
+                    <span class="brand-text font-weight-light"><strong
+                            style="font-family: 'JetBrains Mono ExtraBold',sans-serif">TechnoSTAR™</strong></span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body p-0 circular-bottom bg-light">
+                <div class="img-fluid imgProdDetails" style="background: url('{% static 'img/empty.png' %}')"></div>
+
+                <div class="card-body circular">
+                    <h5 class="card-title"><b>Name</b></h5>
+                    <br>
+                    <span class="card-text"><b> Stock:</b> 6</span>
+                    <p class="card-text text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus
+                        deserunt
+                        dicta et impedit iure necessitatibus officia provident quod sed, voluptas. Blanditiis
+                        deleniti dignissimos dolore dolorum minima molestias qui quod repellendus.</p>
+                    <div>
+                        <span class="cart-text text-indigo"><b>123</b> CUP</span>
+                        <button class="btn bg-gradient-cyan circular float-right">
+                            <i class="mdi mdi-cart-plus"></i>
+                            <div class="d-inline-block">Add to cart</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

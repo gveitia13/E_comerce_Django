@@ -18,14 +18,17 @@
     <script src="{% static 'lib/bootstrap-select/bootstrap-select.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'lib/bootstrap-select/bootstrap-select.min.css' %}">
 
+    <link rel="stylesheet" href="{% static 'sale/css/style.css' %}">
     <script src="{% static 'sale/js/form.js' %}"></script>
 {% endblock %}
-
+{% block content_header %}
+<div class="py-2"></div>
+{% endblock %}
 {% block content %}
     <form method="post" id="formSale">
         {% csrf_token %}
-        <div class="card card-primary circular">
-            <div class="card-header circular-top">
+        <div class="card circular user-select-none">
+            <div class="card-header circular-top border-bottom-0">
                 <h3 class="card-title">
                     {% if action == 'add' %}
                         <i class="mdi mdi-plus-circle-outline mdi-15px"></i>
@@ -35,10 +38,10 @@
                     {{ title }}
                 </h3>
             </div>
-            <div class="card-body">
+            <div class="card-body pt-1 px-0 p-sm-2">
                 <div class="row">
                     <div class="col-lg-8">
-                        <div class="card card-info circular">
+                        <div class="card card-indigo circular">
                             <div class="card-header circular-top">
                                 <h3 class="card-title"><i class="mdi mdi-details"></i> Product's details</h3>
                             </div>
@@ -47,14 +50,11 @@
                                     <div class="input-group">
                                         <select class="form-control select2 circular" name="search"></select>
                                         <div class="input-group-append circular-left">
-                                            {% comment %}                                        <button type="button" data-toggle="tooltip" title="Empty the list"
-                                                    class="btn bg-gradient-warning btn-sm input-group-btn btnClean">
-                                                <i class="mdi mdi-trash-can-outline mdi-18px"></i>
-                                            </button>{% endcomment %}
                                             <button id="btnSearchProduct"
-                                                    class="btn bg-gradient-success input-group-btn circular-right"
+                                                    class="btn bg-gradient-cyan input-group-btn circular-right"
                                                     type="button">
-                                                <i class="mdi mdi-format-list-bulleted"></i> All products
+                                                <i class="mdi mdi-format-list-bulleted"></i> <span
+                                                    class="d-none d-sm-inline-block"> All products</span>
                                             </button>
                                         </div>
                                     </div>
@@ -63,11 +63,11 @@
                                     <table id="listTableProduct" class="table table-head-fixed w3-hoverable-light">
                                         <thead>
                                         <tr>
-                                            <th scope="col" style="width: 10%;" class="text-center">Remove</th>
+                                            <th scope="col" style="width: 5%;" class="text-center">Del</th>
                                             <th scope="col" style="width: 30%;">Product</th>
                                             <th scope="col" style="width: 10%;" class="text-center">Stock</th>
                                             <th scope="col" style="width: 15%;" class="text-center">Price</th>
-                                            <th scope="col" style="width: 20%;" class="text-center">Quantify</th>
+                                            <th scope="col" style="width: 25%;" class="text-center">Quantify</th>
                                             <th scope="col" style="width: 15%;" class="text-center">Subtotal</th>
                                         </tr>
                                         </thead>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="card card-info circular">
+                        <div class="card card-indigo circular">
                             <div class="card-header circular-top">
                                 <h3 class="card-title"><i class="mdi mdi-cart"></i> Invoice data</h3>
                             </div>
@@ -96,20 +96,20 @@
                                     <div class="input-group">
                                         {{ form.cli|add_class:'input-group-text' }}
                                         <div class="input-group-append">
-                                            <button class="btn bg-gradient-success btnAddClient input-group-btn circular-right"
+                                            <button class="btn bg-gradient-cyan btnAddClient input-group-btn circular-right"
                                                     type="button">
                                                 <i class="mdi mdi-account-plus"></i></button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group-sm row">
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-6">
                                         <div class="form-group">
                                             <p class="text-center w3-margin-bottom-7"><label>IVA:</label></p>
                                             {{ form.iva }}
                                         </div>
                                     </div>
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-6">
                                         <div class="form-group">
                                             <p class="text-center w3-margin-bottom-7"><label>Subtotal:</label></p>
                                             {{ form.subtotal }}
@@ -117,12 +117,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group-sm row">
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-6">
                                         <p class="text-center w3-margin-bottom-7"><label>Calculated IVA:</label></p>
                                         <input type="text" class="form-control-plaintext text-center" disabled readonly
                                                name="ivacalc" value="0.0">
                                     </div>
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-6">
                                         <p class="text-center w3-margin-bottom-7"><label>Total to pay:</label></p>
                                         {{ form.total|add_class:'text-decoration-underline' }}
                                     </div>
@@ -132,8 +132,8 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <button type="submit" class="btn bg-gradient-primary circular">
+            <div class="d-inline-block px-3 pb-3 pt-1">
+                <button type="submit" class="btn bg-gradient-indigo circular">
                     <i class="mdi mdi-content-save"></i> Save record
                 </button>
                 <a href="{{ list_url }}" class="btn bg-gradient-danger circular">
@@ -169,7 +169,7 @@
                         {% endfor %}
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn bg-gradient-primary circular">
+                        <button type="submit" class="btn bg-gradient-indigo circular">
                             <i class="mdi mdi-content-save"></i> Save Client
                         </button>
                     </div>

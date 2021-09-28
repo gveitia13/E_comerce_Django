@@ -25,18 +25,18 @@ $(() => {
     step: 1,
     boostat: 5,
     maxboostedstep: 10,
-    buttondown_class: 'btn bg-gradient-primary circular-left',
-    buttonup_class: 'btn bg-gradient-primary circular-right',
+    buttondown_class: 'btn bg-gradient-indigo circular-left',
+    buttonup_class: 'btn bg-gradient-indigo circular-right',
     postfix: '#',
   }).on('change', function () {
     if (this.value === '0') {
-      document.querySelector('.bootstrap-touchspin-down').classList.remove('bg-gradient-primary')
+      document.querySelector('.bootstrap-touchspin-down').classList.remove('bg-gradient-indigo')
       document.querySelector('.bootstrap-touchspin-down').classList.add('bg-gradient-danger')
       this.classList.add('w3-text-red')
     }
     if (this.value !== '0') {
       document.querySelector('.bootstrap-touchspin-down').classList.remove('bg-gradient-danger')
-      document.querySelector('.bootstrap-touchspin-down').classList.add('bg-gradient-primary')
+      document.querySelector('.bootstrap-touchspin-down').classList.add('bg-gradient-indigo')
       this.classList.remove('w3-text-red')
     }
   })
@@ -49,11 +49,11 @@ $(() => {
     prefix: `$`,
     step: 0.01,
     decimals: 2,
-    buttondown_class: 'btn bg-gradient-primary circular-left',
-    buttonup_class: 'btn bg-gradient-primary circular-right'
+    buttondown_class: 'btn bg-gradient-indigo circular-left',
+    buttonup_class: 'btn bg-gradient-indigo circular-right'
   }).on('change', function () {
     if (parseFloat(this.value) === 0) {
-      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.remove('bg-gradient-primary')
+      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.remove('bg-gradient-indigo')
       document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.add('bg-gradient-danger')
       this.classList.add('w3-text-red')
     }
@@ -244,7 +244,7 @@ let
     document.querySelector('#id_image').style.display = 'none'
     document.querySelector('#id_image').parentElement.innerHTML += `
       <div class="form-control circular" style="overflow: hidden">
-          <label for="id_image" id="image_label" class="btn bg-gradient-primary text-nowrap circular-left">
+          <label for="id_image" id="image_label" class="btn bg-gradient-indigo text-nowrap circular-left">
               <i class="mdi mdi-image-plus"></i> Upload a image
           </label>
           <span id="image_span">Nothing selected yet</span>

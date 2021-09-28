@@ -58,9 +58,11 @@ let
     list: function () {
       this.calculate_invoice()
       listTableProduct = $('#listTableProduct').DataTable({
-        responsive: true,
+        responsive: false,
         autoWidth: false,
         destroy: true,
+        paginate: false,
+        info: false,
         data: this.items.products,
         columns: [
           {"data": "id"},
@@ -210,6 +212,7 @@ $(function () {
     listTableSearchProducts = $('#listTableSearchProducts').DataTable({
       responsive: true,
       autoWidth: false,
+      scrollX: false,
       destroy: true,
       deferRender: true,
       ajax: {

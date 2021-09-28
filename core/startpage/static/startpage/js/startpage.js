@@ -21,6 +21,10 @@ $(function () {
       })
     }, 250)
   })
+
+  d.querySelectorAll('.div-img').forEach(e => e.addEventListener('click', function () {
+    $('#prodDetails').modal('show')
+  }))
 })
 let
   removeAcents = str => {

@@ -35,7 +35,7 @@
 
 {% block content %}
 
-    <div class="card card-primary circular">
+    <div class="card card-indigo circular">
         <div class="card-header circular-top">
             <h3 class="card-title">
                 <i class="mdi mdi-format-list-bulleted-square mdi-18px"></i>
@@ -74,17 +74,10 @@
         </div>
         <!-- /.card-body -->
         {% block buttons_list %}
-            <div class="card-footer row circular-bottom">
-                <div class="col-8">
-                    <a href="#" class="btn bg-gradient-primary btnAdd circular">
-                        <i class="mdi mdi-plus"></i> New {{ entity }}
-                    </a>
-{#                    <a href="{{ list_url }}" class="btn bg-gradient-success">#}
-{#                        <i class="mdi mdi-sync"></i> Refresh#}
-{#                    </a>#}
-{#                    <button type="button" id="hola" class="btn bg-gradient-maroon btn-sm"><i#}
-{#                            class="mdi mdi-star mdi-18px"></i></button>#}
-                </div>
+            <div class="card-footer circular-bottom">
+                <a href="#" class="btn bg-gradient-indigo btnAdd circular">
+                    <i class="mdi mdi-plus"></i> New {{ entity }}
+                </a>
             </div>
         {% endblock %}
 

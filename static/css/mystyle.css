@@ -2,6 +2,12 @@
     font-size: 15px;
 }
 
+.user-select-none {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    user-select: none !important;
+}
+
 .w3-hoverable-light tbody tr:hover, .w3-ul.w3-hoverable-light li:hover {
     background-color: rgba(0, 0, 0, .1);
 }
@@ -97,7 +103,7 @@
 
 .modal.show .modal-dialog.modal-dialog-popin, .modal.show .modal-dialog.modal-dialog-popout {
     -webkit-transform: scale(1);
-    transform: scale(1)
+    transform: scale(1);
 }
 
 .modal.show .modal-dialog.modal-dialog-slideleft, .modal.show .modal-dialog.modal-dialog-slideright, .modal.show .modal-dialog.modal-dialog-slideup {
@@ -149,6 +155,10 @@ div.jconfirm-box {
     border-radius: 1.5rem !important;
 }
 
+input[type='search'] {
+    padding-left: 8px!important;
+}
+
 .circular-circle, a.btn-xs {
     border-radius: 100% !important;
 }
@@ -160,12 +170,27 @@ a.btn-xs {
 a.nav-link {
     border-radius: 0 2rem 2rem 0 !important;
 }
+
 .nav-sidebar > .nav-item > .nav-link.active {
     box-shadow: none !important;
 }
+
 a.brand-link img {
     margin-left: .5rem;
 }
-.main-sidebar{
+
+.main-sidebar {
     width: 250px;
+}
+
+.modal-content {
+    box-shadow: none !important;
+}
+
+.dropdown-item.active {
+    background-color: var(--indigo);
+}
+
+a.dropdown-item.active:hover {
+    color: #fff
 }

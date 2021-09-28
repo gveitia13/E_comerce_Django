@@ -21,6 +21,7 @@ class CategoryForm(ModelForm):
                 attrs={
                     'placeholder': 'Enter a name',
                     'class': 'circular',
+                    'minlength': 3
                 }
             ),
             'desc': forms.Textarea(
@@ -67,14 +68,15 @@ class ProductForm(ModelForm):
             'name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter a name',
-                    'class': 'circular'
+                    'class': 'circular',
+                    'minlength': 3
                 }
             ),
             'cat': Select(
                 attrs={
                     'class': 'selectpicker',
                     'style': 'width: 100%',
-                    'data-style': 'btn bg-gradient-primary circular',
+                    'data-style': 'btn bg-gradient-indigo circular',
                     'data-live-search': 'true'
                 }
             ),
@@ -188,16 +190,16 @@ class SaleForm(ModelForm):
                 }
             ),
             'iva': forms.TextInput(attrs={
-                'class': 'form-control w3-center',
+                'class': 'form-control text-center',
             }),
             'subtotal': forms.TextInput(attrs={
                 'readonly': True,
-                'class': 'form-control-plaintext w3-center',
+                'class': 'form-control-plaintext text-center',
                 'disabled': True,
             }),
             'total': forms.TextInput(attrs={
                 'readonly': True,
-                'class': 'form-control-plaintext w3-center',
+                'class': 'form-control-plaintext text-center',
                 'disabled': True,
             }),
         }

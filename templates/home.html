@@ -7,8 +7,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{{ title }}</title>
     <!-- w3 css and js-->
-    <link rel="stylesheet" href="{% static 'lib/w3-school/css/w3.min.css' %}">
-    <script src="{% static 'lib/w3-school/js/w3.js' %}"></script>
+{#    <link rel="stylesheet" href="{% static 'lib/w3-school/css/w3.min.css' %}">#}
+{#    <script src="{% static 'lib/w3-school/js/w3.js' %}"></script>#}
 
     <link rel="icon" href="{% static 'img/gestion.png' %}" type="image/x-icon">
     <!-- Material icons -->
@@ -31,6 +31,11 @@
     <script src="{% static 'js/function.js' %}"></script>
     <!-- My css -->
     <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+    <!--jquery validator -->
+    <script src="{% static 'lib/jquery-validation-1.19.3/dist/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'lib/jquery-validation-1.19.3/dist/additional-methods.min.js' %}"></script>
+{#    <script src="{% static 'lib/jquery-validate/jquery-validate/localization/messages_eu.min.js' %}"></script>#}
+    {#    <script src="{% static 'lib/jquery-validate/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js' %}"></script>#}
 
     <!-- Block head -->
     {% block head %}
