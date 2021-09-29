@@ -123,6 +123,8 @@ $(() => {
                   <span class="card-text"><b>Selling price: </b>$ ${data['s_price']}</span>
                   <br>
                   <span class="card-text"><b>Stock: </b>${data['stock']}</span>
+                  <br>
+                  <span class="card-text desc">${data['desc']}</span>
               </div>
           </div>`)
       $('#myModalDetail').modal('show')

@@ -80,6 +80,14 @@ class ProductForm(ModelForm):
                     'data-live-search': 'true'
                 }
             ),
+            'desc': forms.Textarea(
+                attrs={
+                    'placeholder': 'Enter a description (optional)',
+                    'class': 'circular',
+                    'rows': 2,
+                    'cols': 3,
+                }
+            )
         }
 
     def save(self, commit=True):

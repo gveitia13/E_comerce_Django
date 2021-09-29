@@ -44,6 +44,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True)
     stock = models.PositiveIntegerField(default=1, verbose_name='Stock')
     s_price = models.DecimalField(default=0.01, max_digits=9, decimal_places=2, verbose_name='Selling price')
+    desc = models.CharField(max_length=150, verbose_name='Description', null=True, blank=True, )
 
     def __str__(self):
         return self.name
@@ -64,6 +65,7 @@ class Product(models.Model):
         return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
     def get_desc(self):
+        if self.desc is not None: return self.desc
         return 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci consequatur corporis doloremque ' \
                'dolorum, eaque illo, illum, inventore iure maiores molestias pariatur porro qui quia quos ratione ' \
                'repudiandae suscipit tenetur totam. '
