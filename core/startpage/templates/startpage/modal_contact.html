@@ -1,52 +1,54 @@
+{% load static %}
 <!--    modal-->
-<div class="modal fade modal-card " id="links1" tabindex="-1" role="dialog" aria-labelledby="links1"
-     aria-hidden="true" style="min-width: 350px" data-target="#links1">
+<div class="modal fade modal-card " id="contact" tabindex="-1" role="dialog" aria-labelledby="links1"
+     aria-hidden="true" style="min-width: 350px" data-target="#contact">
     <div class="modal-dialog modal-dialog-top  modal-dialog-popout" role="document">
         <div class="modal-content circular">
-            <div class="modal-header bg-navy border-bottom-0 circular-top">
-                <h5 class="modal-title">
-                    <i class="mdi mdi-account-star mdi-18px"></i> Contacto
+            <div class="modal-header bg-light border-bottom-0 circular-top">
+                <h5 class="modal-title user-select-none">
+                    <img src="{% static 'img/logo-red-black.png' %}"
+                         alt="TechnoSTAR Logo"
+                         style="margin-left: .4rem;" width="45" height="35">
+                    <span class="brand-text font-weight-light"><strong
+                            style="font-family: 'JetBrains Mono ExtraBold',sans-serif">TechnoSTAR™</strong></span>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body bg-light pb-0 circular">
+            <div class="modal-body bg-light py-0 circular">
                 <div class="card bg-ligh circular">
-                    <div class="card-header text-muted border-bottom-0">
-                        Programador
-                    </div>
-                    <div class="card-body pt-0">
+                    <div class="card-body asd">
                         <div class="row">
                             <div class="col-7">
-                                <h2 class="lead"><b>Gilberto Veitia</b></h2>
-                                <p class="text-muted text-sm">Web Developer / UX / Graphic Artist
+                                <p class="text-muted ">Selling items | Web design | Programming | Home service |
+                                    Marketing
                                 </p>
-                                <ul class="ml-4 mb-0 fa-ul text-muted">
-                                    <li class="small"><span class="fa-li"><i
-                                            class="mdi mdi-home-city"></i></span> Dirección: Caibarién / Villa
-                                        Clara / Cuba
-                                    </li>
-                                    <li class="small"><span class="fa-li"><i
-                                            class="mdi mdi-cellphone-android"></i></span>
-                                        Teléfono #:<a href="tel:+53 58496023" class="text-muted"> +53 58496023</a>
-                                    </li>
-                                    <li class="small"><span class="fa-li"><i class="mdi mdi-email"></i></span>
-                                        Correo: <a href="mailto:gveitia13@gmail.com?Subject=Hola%20Gilbert"
-                                                   target="_top" class="text-muted">gveitia13@gmail.com</a>
-                                    </li>
-                                </ul>
-                                <p class="text-muted text-sm">Contáctame por WhatsApp o por otra de mis redes
-                                    sociales</p>
+                                <div class="card-text text-muted text-sm">
+                                    <span class="d-block"><i class="mdi mdi-home-city"></i><span class="d-sm-inline-block d-none"> &nbsp;Dirección: </span>
+                                        Caibarién / Villa
+                                        Clara / Cuba</span>
+
+                                    <span class="d-block"><i class="mdi mdi-cellphone-android"></i>
+                                    <span class="d-sm-inline-block d-none">&nbsp;Phone #:</span>
+                                    <a href="tel:+53 58496023" class="text-muted"> +53 58496023</a></span>
+
+                                    <span class="d-block"><i class="mdi mdi-email"></i>
+                                    <span class="d-sm-inline-block d-none">&nbsp;Mail:</span>
+                                    <a href="mailto:gveitia13@gmail.com?Subject=Hola%20Gilbert"
+                                               target="_top" class="text-muted">gveitia13@gmail.com</a></span>
+
+                                </div>
                             </div>
                             <div class="col-5 text-center">
-                                <div class="img-circle img-fluid div-img-profile"></div>
+                                <div class="img-circle img-fluid img-contact"></div>
                                 <!-- <img src="static/img/profile.jpg" alt="" class="img-circle img-fluid">-->
                             </div>
                         </div>
                     </div>
                     <div class="card-footer ">
-                        <div class="text-right circular-bottom">
+                        <div class="text-right circular-bottom user-select-none">
+                            <span class="d-inline-block float-left">Follow me:</span>
                             <a href="https://t.me/LilGil"><i class="mdi mdi-telegram w3-hover-opacity"
                                                              style="color: #2da5e1"></i></a>
                             <a href="https://api.whatsapp.com/send/?phone=+5358496023&text=Hola&app_absent=1"><i
@@ -62,9 +64,10 @@
                             <a href="https://twitter.com/GilbeStar?s=08"><i
                                     class="mdi mdi-twitter w3-hover-opacity"></i></a>
 
-                            <a href="https://gveitia13.github.io/cv/" class="btn btn-sm btn-outline-primary"
+                            <a href="https://gveitia13.github.io/cv/" class="btn btn-sm btn-outline-primary circular"
                                target="_blank">
-                                <i class="mdi mdi-account"></i> Ver más
+                                <i class="mdi mdi-account-plus"></i> <span
+                                    class="d-sm-inline-block d-none">See more</span>
                             </a>
                         </div>
                     </div>

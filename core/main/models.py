@@ -55,6 +55,7 @@ class Product(models.Model):
         item['image'] = self.get_image()
         item['s_price'] = format(float(self.s_price), '.2f')
         item['subtotal'] = 0.00
+        item['desc'] = self.get_desc()
         return item
 
     def get_image(self):

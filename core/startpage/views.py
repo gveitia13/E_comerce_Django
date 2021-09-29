@@ -1,3 +1,5 @@
+from django.db import transaction
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -20,6 +22,15 @@ class StartPageView(TemplateView):
         context['prods'] = Product.objects.all()
         return context
 
-    def get(self, request, *args, **kwargs):
-        data = super().get(request, *args, **kwargs)
-        return data
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'getProd':
+                with transaction.atomic():
+                    data = Product.objects.get(id=request.POST['id']).toJSON()
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)

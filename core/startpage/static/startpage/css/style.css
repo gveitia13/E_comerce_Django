@@ -38,6 +38,14 @@
     border-top: 5px solid transparent;
     cursor: pointer;
 }
+.img-contact {
+    width: 10rem;
+    height: 10rem;
+    /*border-radius: 50%;*/
+    /*background: url("../../../../../static/img/logo-red-black.png");*/
+    background: url("../img/contact.png");
+    background-size: cover !important;
+}
 
 .div-img {
     opacity: .9;
@@ -47,7 +55,7 @@
     opacity: 1;
 }
 
-.div-img, .div-img-profile {
+.div-img, .img-contact {
     background-position: center !important;
     position: relative;
     background-repeat: no-repeat !important;

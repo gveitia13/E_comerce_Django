@@ -4,10 +4,14 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="mdi mdi-menu mdi-18px"></i></a>
         </li>
         <li>
-            <a class="nav-link" data-toggle="modal" data-target="#links" role="button"><i class="mdi mdi-link-variant mdi-18px"></i></a>
+            <a class="nav-link pl-0" data-toggle="modal" data-target="#links" role="button"><i
+                    class="mdi mdi-link-variant mdi-18px"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="{% url 'dashboard' %}" class="nav-link">Home</a>
+        <li class="nav-item">
+            <a href="{% url 'dashboard' %}" class="nav-link pl-0"><i
+                    class="mdi mdi-home d-sm-inline-block pl-0 pr-0"></i>
+                <span class=" d-none d-sm-inline-block"> Home</span>
+            </a>
         </li>
     </ul>
     <ul class="navbar-nav ml-auto">
