@@ -29,6 +29,10 @@ class CategoryView(TemplateView):
                     cat = Category()
                     cat.name = request.POST['name']
                     cat.desc = request.POST['desc']
+                    if request.POST['icon_class'].find('mdi mdi-') > -1:
+                        cat.icon_class = request.POST['icon_class']
+                    else:
+                        cat.icon_class = 'mdi mdi-star'
                     cat.save()
                     data['success'] = 'added'
                     data['object'] = cat.toJSON()
@@ -37,6 +41,10 @@ class CategoryView(TemplateView):
                     cat = Category.objects.get(pk=request.POST['id'])
                     cat.name = request.POST['name']
                     cat.desc = request.POST['desc']
+                    if request.POST['icon_class'].find('mdi mdi-') > -1:
+                        cat.icon_class = request.POST['icon_class']
+                    else:
+                        cat.icon_class = 'mdi mdi-star'
                     cat.save()
                     data['success'] = 'updated'
                     data['object'] = cat.toJSON()

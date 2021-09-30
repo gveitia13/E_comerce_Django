@@ -37,6 +37,7 @@ $(function () {
       document.querySelector('#myModalFormTitle').innerHTML =
         `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`
       document.querySelector('#myModalFormTitle').name = 'action-edit'
+      document.querySelector('#id_icon_class').value = data.icon_class
 
       $('#myModal').modal('show')
       document.forms[0].elements[1].focus()
@@ -64,6 +65,7 @@ let
       columns: [
         {'data': 'name'},
         {'data': 'desc'},
+        {'data': 'icon_class'},
         {'data': 'id'},
       ],
       columnDefs: [
@@ -77,6 +79,12 @@ let
             <a rel="delete" class="btn bg-gradient-danger btn-xs">
                 <i class="mdi mdi-trash-can-outline mdi-15px text-white"></i></a>`
         },
+        {
+          targets: [-2],
+          class: 'text-center',
+          orderable: false,
+          render: data => `<i class="${data} mdi-18px"></i>`
+        }
       ],
       initComplete: function (settings, json) {
         $('input[type=search]').focus()

@@ -32,6 +32,12 @@ class CategoryForm(ModelForm):
                     'class': 'circular',
                 }
             ),
+            'icon_class': forms.TextInput(
+                attrs={
+                    'placeholder': 'Example: mdi mdi-star',
+                    'class': 'circular'
+                }
+            ),
         }
         exclude = ['user_updated', 'user_creation']
 

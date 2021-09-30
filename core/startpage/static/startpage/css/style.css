@@ -178,3 +178,7 @@ h4.my-4:first-child {
     background-color: rgb(0, 153, 154);
     color: #fff;
 }
+
+p.desc{
+    word-wrap: break-word;
+}

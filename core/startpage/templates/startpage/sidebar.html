@@ -126,12 +126,16 @@
 <!-- Sidebar -->
 <aside class="main-sidebar sidebar-light-indigo elevation-4">
     <div class="user-panel d-flex elevation-4">
-        <a href="{% url 'startpage' %}" class="brand-link navbar-indigo border-bottom-0 elevation-4 text-white">
+        <a href="{% url 'startpage' %}" class="brand-link navbar-indigo border-bottom-0 elevation-4 py-1 text-white">
             <img src="{% static 'startpage/img/icon1.png' %}"
                  alt="TechnoSTAR Logo"
-                 class="brand-image img-circle" style="margin-left: .4rem;">
-            <span class="brand-text font-weight-light"><strong
-                    style="font-family: 'JetBrains Mono ExtraBold',sans-serif">TechnoSTAR™</strong></span>
+                 style="margin-left: 0rem;height: 49px;width: 64px"
+                 class="d-none">
+
+            <img src="{% static 'img/logo-lg-yellow-white.png' %}"
+                 alt="TechnoSTAR Logo"
+                 style="margin-left: 0;width: 120px;height: 49px"
+                 class="">
         </a>
     </div>
     <div class="sidebar border-top-0 pl-0">
@@ -146,8 +150,6 @@
                         </p>
                     </a>
                 </li>
-                <div class="mt-2 mb-2" style="border-top: 1px solid #4f5962"></div>
-                <li class="nav-header pt-1">Categories</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon mdi mdi-view-list"></i>
@@ -156,6 +158,8 @@
                         </p>
                     </a>
                 </li>
+                <div class="mt-2 mb-2" style="border-top: 1px solid #4f5962"></div>
+                <li class="nav-header pt-1">Categories</li>
                 <li class="nav-item">
                     <a href="{% url 'startpage' %}" class="nav-link active startpage">
                         <i class="nav-icon mdi mdi-widgets"></i>
@@ -168,7 +172,7 @@
                 {% for cat in cats %}
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon  mdi mdi-star"></i>
+                            <i class="nav-icon  {{ cat.getIconClass }}"></i>
                             <p>{{ cat.name }}</p>
                         </a>
                     </li>

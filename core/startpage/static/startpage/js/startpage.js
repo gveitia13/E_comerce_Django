@@ -29,7 +29,7 @@ $(function () {
 
     ajaxFunction(location.pathname, parameters, (data) => {
       $('#prodDetails h5.name').html(`<b>${data['full_name']}</b>`)
-      $('#prodDetails span.stock').html(`<b> Stock:</b> ${data['stock']}`)
+      $('#prodDetails span.stock').html(` Stock: ${data['stock']}`)
       $('#prodDetails p.desc').text(`${data['desc']}`)
       $('#prodDetails span.price').html(`<b>${data['s_price']}</b> CUP`)
       // $('#prodDetails div.imgProdDetails').css(`background: url('${data['image']}')`)

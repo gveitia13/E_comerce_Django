@@ -6,8 +6,13 @@
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
-                <div class="login100-form-title" style="background-image: url({% static 'login/images/bg-01.jpg' %});">
-                    <a class="login100-form-title-1" href="{% url 'dashboard' %}"><b>Techno</b>$TAR™</a>
+                <div class="login100-form-title"
+                     style="background-image: url({% static 'login/images/bg-01.jpg' %});padding-bottom: 50px;padding-top: 50px">
+                    {#                    <a class="login100-form-title-1" href="{% url 'dashboard' %}"><b>Techno</b>$TAR™</a>#}
+                    <a href="{% url 'dashboard' %}"><img src="{% static 'img/logo-lg-yellow-white.png' %}"
+                                                         alt="TechnoSTAR Logo"
+                                                         style="margin-left: 0;width: 240px;height: 100px"
+                                                         class=""></a>
                 </div>
 
                 <form class="login100-form validate-form" action="." method="post">

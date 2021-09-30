@@ -31,15 +31,15 @@
 
                                     <div class="col-6 col-sm-12 row-card px-0">
                                         <div class="card-body row-card pr-0 py-sm-3 px-sm-4">
-                                            <h5 class="card-title"><b>{{ prod.name }}</b></h5>
+                                            <h5 class="card-title">{{ prod.name }}</h5>
                                             <p class="card-text m-0">
                                                 Price: <b>{{ prod.s_price }}</b> CUP
                                             </p>
                                             <p class="card-text p-stock m-0">
-                                                Stock: <b>{{ prod.stock }}</b>
+                                                Stock: {{ prod.stock }}
                                             </p>
-                                            <p class="card-text prod-desc">{{ prod.desc }}</p>
-                                            <button class="btn bg-gradient-cyan circular btn-sm float-right d-md-inline-block d-none">
+                                            <p class="card-text prod-desc text-muted">{{ prod.desc }}</p>
+                                            <button class="btn bg-gradient-orange text-white circular btn-sm float-right d-sm-inline-block d-none">
                                                 <i class="mdi mdi-cart-plus"></i>
                                                 <div class="d-inline-block">Add to cart</div>
                                             </button>

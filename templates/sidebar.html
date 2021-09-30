@@ -2,13 +2,18 @@
 <aside class="main-sidebar elevation-4 sidebar-light-indigo" id="sidebar">
     <!-- Brand Logo -->
     <div class="user-panel d-flex elevation-2">
-        <a href="{% url 'startpage' %}" class="brand-link border-bottom-0">
-            <img src="{% static 'img/logo-red-black.png' %}" alt="TechnoSTAR Logo"
-                 class="brand-image img-circle" style="margin-left: .3rem;">
-            <span class="brand-text font-weight-light"><b>Techno</b><strong>STAR™</strong></span>
+        <a href="{% url 'startpage' %}" class="brand-link border-bottom-0 py-1">
+            <img src="{% static 'img/logo-red-black.png' %}"
+                 alt="TechnoSTAR Logo"
+                 class="d-none" style="margin-left: 0rem;height: 48px;width: 62px">
+
+            <img src="{% static 'img/logo-sin-sombra.png' %}"
+                 alt="TechnoSTAR Logo"
+                 style="margin-left: 0;width: 119px;height: 48px"
+                 class="">
         </a>
         <a class="nav-link" href="#">
-            <i class="mdi mdi-weather-night mdi-24px w3-text-black" aria-hidden="true" id="theme"></i>
+            <i class="mdi mdi-weather-night mdi-24px text-black-50" aria-hidden="true" id="theme"></i>
         </a>
     </div>
     <div class="sidebar pl-0">

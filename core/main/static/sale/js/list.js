@@ -3,6 +3,7 @@ let tableSale,
     tableSale = $('#listTable').DataTable({
       scrollX: false,
       autoWidth: false,
+      responsive: true,
       destroy: true,
       deferRender: true,
       searching: true,
@@ -55,6 +56,8 @@ let tableSale,
         $('input[type=search]').focus()
         // $('#searchInput').focus()
         setHeightTable()
+        tableSale.responsive.recalc()
+        tableSale.columns.adjust()
       },
     })
   }
@@ -66,7 +69,11 @@ $(function () {
 
   listar()
 
-  $('#myModalDet').on('shown.bs.modal', () => $('#tblDet_filter label input[type=search]').focus())
+  $('#myModalDet').on('shown.bs.modal', () => {
+    $('#tblDet_filter label input[type=search]').focus()
+    detTable.responsive.recalc()
+    detTable.columns.adjust()
+  })
 
   $('#listTable tbody').on('click', 'a[rel="delete"]', function () {
     let tr = tableSale.cell($(this).closest('td, li')).index(),
@@ -89,7 +96,7 @@ $(function () {
       data = tableSale.row(tr.row).data()
     // console.log(data)
 
-    $('#tblDet').DataTable({
+    detTable = $('#tblDet').DataTable({
       responsive: true,
       // scrollX: true,
       autoWidth: false,

@@ -12,8 +12,7 @@ class Category(BaseModel):
     # Category Model
     name = models.CharField(max_length=50, verbose_name='Name', unique=True)
     desc = models.CharField(max_length=500, null=True, blank=True, verbose_name='Description')
-
-    # icon_class = models.CharField(verbose_name='icon', blank=True, null=True, default='mdi mdi-star')
+    icon_class = models.CharField(max_length=50, null=True, blank=True, verbose_name='Icon </>')
 
     def __str__(self):
         return self.name
@@ -29,7 +28,13 @@ class Category(BaseModel):
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['icon_class'] = self.getIconClass()
         return item
+
+    def getIconClass(self):
+        if self.icon_class is not None:
+            return self.icon_class
+        return 'mdi mdi-star'
 
     class Meta:
         verbose_name = 'Category'
