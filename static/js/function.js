@@ -1,5 +1,5 @@
-idToEdit = {id: -1}
-idToDelete = {id: -1}
+idToEdit = { id: -1 }
+idToDelete = { id: -1 }
 
 $(function () {
   let theme = document.getElementById('theme'),
@@ -20,8 +20,26 @@ $(function () {
 
   $('[data-toggle="popover"]').popover()
 
-  document.querySelectorAll('a').forEach(e =>
-    e.classList.remove('active', 'w3-blue-grey'))
+  document
+    .querySelectorAll('a')
+    .forEach(e => e.classList.remove('active', 'w3-blue-grey'))
+
+  document
+    .querySelector('a[data-widget="pushmenu"]')
+    .addEventListener('click', () => {
+      let icon_sm = document.querySelector('.icon-sm'),
+        icon_lg = document.querySelector('.icon-lg')
+      if (icon_sm.classList.contains('d-none')) {
+        icon_sm.classList.remove('d-none')
+        icon_lg.classList.add('d-none')
+      } else {
+        icon_sm.classList.add('d-none')
+        icon_lg.classList.remove('d-none')
+      }
+    })
+  document.querySelector('.main-sidebar').addEventListener('mouseover', e => {
+    // console.log(e.relatedTarget)
+  })
 
   //Event submit Modal Form
   $('#myModalForm').on('submit', function (e) {
@@ -53,26 +71,30 @@ let changeSidebar = function (nav_treeview, nav_item) {
     son.classList.add('w3-blue-grey')
     son.parentElement.parentElement.style.display = 'block'
   },
-
   message_error = function (obj) {
     let html = ``
-    if (typeof (obj) === 'object') {
+    if (typeof obj === 'object') {
       html = `<ul style="text-align: left;">`
       $.each(obj, function (key, value) {
         html += `<li>${key}: ${value}</li>`
       })
       html += `</ul>`
-    } else
-      html = `<p>${obj}</p>`
+    } else html = `<p>${obj}</p>`
     Swal.fire({
       title: `Error`,
       html: html,
       icon: `error`
     })
   },
-
-//For Delete using jQuery confirm plugin and Jquery with ajax
-  submit_with_ajax_alert = function (url, title, content, parameters, callback, icon) {
+  //For Delete using jQuery confirm plugin and Jquery with ajax
+  submit_with_ajax_alert = function (
+    url,
+    title,
+    content,
+    parameters,
+    callback,
+    icon
+  ) {
     $.confirm({
       theme: 'material',
       title: title,
@@ -85,28 +107,24 @@ let changeSidebar = function (nav_treeview, nav_item) {
       dragWindowBorder: false,
       buttons: {
         info: {
-          text: "Yes",
+          text: 'Yes',
           btnClass: 'bg-gradient-primary circular',
           action: function () {
             ajaxFunction(url, parameters, callback)
           }
         },
         danger: {
-          text: "No",
+          text: 'No',
           btnClass: 'bg-gradient-danger circular',
-          action: () => {
-
-          }
-        },
+          action: () => {}
+        }
       }
     })
   },
-
-//For add | update using jQuery with ajax
+  //For add | update using jQuery with ajax
   submit_with_ajax = (url, parameters, callback) =>
     ajaxFunction(url, parameters, callback),
-
-//Auxiliary method: submit with ajax and jQuery
+  //Auxiliary method: submit with ajax and jQuery
   ajaxFunction = function (url, parameters, callback) {
     $.ajax({
       url: url,
@@ -115,25 +133,23 @@ let changeSidebar = function (nav_treeview, nav_item) {
       dataType: 'json',
       processData: false,
       contentType: false
-    }).done(function (data) {
-      console.log(data);
-      if (!data.hasOwnProperty('error')) {
-        callback(data)
-        return false
-      }
-      if (data['error'].toString().includes('UNIQUE'))
-        message_error(`There is already a ${ent} with this name`)
-      else
-        message_error(data.error);
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-      alert(textStatus + ': ' + errorThrown)
-    }).always(function (data) {
-
     })
+      .done(function (data) {
+        console.log(data)
+        if (!data.hasOwnProperty('error')) {
+          callback(data)
+          return false
+        }
+        if (data['error'].toString().includes('UNIQUE'))
+          message_error(`There is already a ${ent} with this name`)
+        else message_error(data.error)
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert(textStatus + ': ' + errorThrown)
+      })
+      .always(function (data) {})
   },
-
   testFetch = () => console.log('fetch'),
-
   //Jquery confirm alert
   alert_action = function (title, content, callback, cancel, icon) {
     $.confirm({
@@ -148,19 +164,18 @@ let changeSidebar = function (nav_treeview, nav_item) {
       dragWindowBorder: false,
       buttons: {
         info: {
-          text: "Yes",
+          text: 'Yes',
           btnClass: 'bg-gradient-primary circular',
           action: () => callback()
         },
         danger: {
-          text: "No",
+          text: 'No',
           btnClass: 'bg-gradient-red circular',
           action: () => cancel()
-        },
+        }
       }
     })
   },
-
   Toast = (text, icon = 'success') => {
     const Toast = Swal.mixin({
       toast: true,
@@ -173,19 +188,22 @@ let changeSidebar = function (nav_treeview, nav_item) {
       title: text
     })
   },
-
   setHeightTable = () =>
-    $('#listTable_wrapper').height($(window).height() - (
-      $('footer').height() + $('div.card-footer').height() + $('div.card-header').height() +
-      $('div.content-header').height() + $('nav.main-header').height() + 151))
-  ,
-
+    $('#listTable_wrapper').height(
+      $(window).height() -
+        ($('footer').height() +
+          $('div.card-footer').height() +
+          $('div.card-header').height() +
+          $('div.content-header').height() +
+          $('nav.main-header').height() +
+          151)
+    ),
   buttonsDataTable = () => [
     {
       extend: 'copy',
       text: 'Copy <i class="mdi mdi-content-copy"></i>',
       className: 'btn-sm bg-gradient-secondary circular-left',
-      titleAttr: 'Copy',
+      titleAttr: 'Copy'
     },
     {
       extend: 'excelHtml5',
@@ -205,6 +223,6 @@ let changeSidebar = function (nav_treeview, nav_item) {
       titleAttr: 'Print',
       className: 'btn bg-gradient-info btn-sm circular-right'
     }
-  ]
-  ,
-  truncate = (str, len, end = '..') => str.replace(new RegExp('(.{' + len + '}).*'), '$1' + end + '')
+  ],
+  truncate = (str, len, end = '..') =>
+    str.replace(new RegExp('(.{' + len + '}).*'), '$1' + end + '')

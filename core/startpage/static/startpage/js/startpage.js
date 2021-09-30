@@ -41,33 +41,11 @@ $(function () {
   d.querySelector('a[rel="contact"]').addEventListener('click', () =>
     $('#contact').modal('show'))
 
+
+
 })
 let
   removeAcents = str => {
     const acents = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ñ': 'n'}
     return str.split('').map(e => acents[e] || e).join('').toString()
   }
-//   get_ajaxFunction = function (url, parameters, callback) {
-//   $.ajax({
-//     url: url,
-//     type: 'GET',
-//     data: parameters,
-//     dataType: 'json',
-//     processData: false,
-//     contentType: false,
-//   }).done(function (data) {
-//     console.log(data);
-//     if (!data.hasOwnProperty('error')) {
-//       callback(data)
-//       return false
-//     }
-//     if (data['error'].toString().includes('UNIQUE'))
-//       message_error(`There is already a ${ent} with this name`)
-//     else
-//       message_error(data.error);
-//   }).fail(function (jqXHR, textStatus, errorThrown) {
-//     alert(textStatus + ': ' + errorThrown)
-//   }).always(function (data) {
-//
-//   })
-// }
