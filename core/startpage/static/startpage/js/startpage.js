@@ -9,20 +9,17 @@ $(function () {
       let productos = Array.from(d.querySelectorAll('span.prodName')).map(
         e => e.innerText
       )
-
       d.querySelectorAll('div.div-card span').forEach(f => {
         let str = removeAcents(f.innerText.toLowerCase())
         if (!str.includes(this.value.toLowerCase())) {
           f.parentElement.classList.remove(
             'd-md-inline-block',
-            'd-sm-inline-block'
-          )
+            'd-sm-inline-block')
           f.parentElement.classList.add('d-none')
         } else {
           f.parentElement.classList.add(
             'd-md-inline-block',
-            'd-sm-inline-block'
-          )
+            'd-sm-inline-block')
           f.parentElement.classList.remove('d-none')
         }
       })
@@ -188,14 +185,14 @@ let removeAcents = str => {
         columnDefs: [
           {
             targets: [-1],
-            class: 'text-right w-10 td-cart',
+            class: 'text-right w-10 td-cart py-1',
             render: () => `
             <a rel="delete" class="btn bg-gradient-danger text-white btn-xs" style="width: 28px">
             <i class="mdi mdi-trash-can-outline mdi-15px"></i></a>`
           },
           {
             targets: [-2],
-            class: 'text-center w-35 td-cart px-0',
+            class: 'text-center w-35 td-cart px-0 py-1',
             render: (data, type, row) => `
                 <input type="text" name="cantidad" 
                 class="form-control text-center form-control-sm input-sm"
@@ -203,16 +200,16 @@ let removeAcents = str => {
           },
           {
             targets: [-3],
-            class: 'text-right w-15 td-cart',
+            class: 'text-right w-15 td-cart py-1',
             render: data => `$${parseFloat(data).toFixed(2)}`
           },
           {
             targets: [0],
-            class: 'w-40 td-cart',
-            render: data =>
+            class: 'w-40 td-cart py-1',
+            render: (data, type, row) =>
               $(window).width() <= 576
-                ? truncate(data, 9, '...')
-                : truncate(data, 17, '...')
+                ? truncate(data, 9, '...') + `<br> <div class="text-xs">$${row.s_price}</div>`
+                : truncate(data, 17, '...') + `\n ${row.s_price}`
           }
         ],
         rowCallback(row, data, displayNum, displayIndex, dataIndex) {
