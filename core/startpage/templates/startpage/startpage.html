@@ -39,7 +39,7 @@
                                                 Stock: {{ prod.stock }}
                                             </p>
                                             <p class="card-text prod-desc text-muted">{{ prod.desc }}</p>
-                                            <button class="btn bg-gradient-orange text-white circular btn-sm float-right d-sm-inline-block d-none">
+                                            <button name="{{ prod.id }}" class="btn prod-id bg-gradient-orange text-white circular btn-sm float-right d-sm-inline-block d-none">
                                                 <i class="mdi mdi-cart-plus"></i>
                                                 <div class="d-inline-block">Add to cart</div>
                                             </button>
@@ -47,7 +47,7 @@
                                     </div>
 
                                     <div class="col-2 d-sm-none d-flex align-items-center row-card pl-0">
-                                        <button class="btn bg-gradient-cyan circular-circle">
+                                        <button name="{{ prod.id }}" class="btn prod-id bg-gradient-orange text-white circular-circle">
                                             <i class="mdi mdi-cart-plus"></i>
                                         </button>
                                     </div>

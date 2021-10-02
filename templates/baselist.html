@@ -23,11 +23,6 @@
     <script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/vfs_fonts.js' %}"></script>
     <script src="{% static 'lib/datatables-1.10.20/plugins/jszip-2.5.0/jszip.min.js' %}"></script>
 
-    <link href="{% static 'lib/datatables-1.10.20/plugins/FixedHeader-3.1.9/css/fixedHeader.bootstrap4.css' %}"
-          rel="stylesheet">
-    <script src="{% static 'lib/datatables-1.10.20/plugins/FixedHeader-3.1.9/js/dataTables.fixedHeader.min.js' %}"></script>
-    <script src="{% static 'lib/datatables-1.10.20/plugins/FixedHeader-3.1.9/js/fixedHeader.bootstrap4.min.js' %}"></script>
-
     {% block head_list %}
 
     {% endblock %}
@@ -35,7 +30,7 @@
 
 {% block content %}
 
-    <div class="card card-indigo circular">
+    <div class="card card-indigo circular m-0">
         <div class="card-header circular-top">
             <h3 class="card-title">
                 <i class="mdi mdi-format-list-bulleted-square mdi-18px"></i>

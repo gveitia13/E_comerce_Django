@@ -38,6 +38,7 @@
     border-top: 5px solid transparent;
     cursor: pointer;
 }
+
 .img-contact {
     width: 10rem;
     height: 10rem;
@@ -87,6 +88,14 @@ h5.card-title {
 p.prod-desc {
     -webkit-line-clamp: 2;
 }
+
+@media only screen and (min-width: 575px) {
+    .bootstrap-touchspin {
+        width: 75% !important;
+        float: right;
+    }
+}
+
 
 @media only screen and (max-width: 575px) {
     .div-img, .row-card {
@@ -174,11 +183,15 @@ h4.my-4:first-child {
     /*border-color: rgb(0, 153, 154);*/
 }
 
-.bg-green-nice,.bg-green-nice:hover {
+.bg-green-nice, .bg-green-nice:hover {
     background-color: rgb(0, 153, 154);
     color: #fff;
 }
 
-p.desc{
+p.desc {
     word-wrap: break-word;
+}
+
+.td-cart {
+    border: none !important;;
 }

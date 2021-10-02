@@ -1,0 +1,120 @@
+{% load static %}
+<div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top" role="document">
+        <div class="modal-content circular">
+            <div class="modal-header pb-0 pt-2 border-bottom-0">
+                <img src="{% static 'img/logo-sm-red-black.png' %}"
+                     alt="TechnoSTAR Logo"
+                     style="margin-left: 0;height: 49px;width: 46px"
+                     class="">
+                <h5 class="modal-title pt-2 user-select-none text-center">
+                    <i class="mdi mdi-cart"></i>SHOPPING CART
+                    {#                                        <i class="mdi mdi-cart-plus"></i>#}
+                </h5>
+
+                <button type="button" class="btn-close mt-2" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body px-1">
+                <div class="cart">
+                    <div class="table m-0">
+                        <table id="prods-cart" class="float-right table table-hover">
+                            <thead style="display: none;">
+                            <tr>
+                                <th scope="col" style="width: 40%;" class="">Products</th>
+                                <th scope="col" style="width: 15%;">Subtotal</th>
+                                <th scope="col" style="width: 25%;">Cant</th>
+                                <th scope="col" style="width: 20%;">Options</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    {#                    <div class="rayita-light"></div>#}
+                    <div class="pt-1" style="padding-left: 12px;padding-right: 12px;">
+                        <label class="user-select-none">Total: </label>
+                        <span class="float-right cart-total text-success text-bold"></span>
+                    </div>
+                    <div class="rayita-light"></div>
+                    <div class="pt-2" style="padding-left: 12px;padding-right: 12px;">
+                        <p class="card-text text-center mb-2">
+                            Place to make the purchase:
+                        </p>
+                        <div class="text-center">
+                            <button class="btn btn-outline-success btn-sm circular home active">
+                                <i class="mdi mdi-check home"></i>Home
+                            </button>
+                            <button class="btn btn-outline-success btn-sm circular local">
+                                <i class="mdi local"></i>Our local
+                            </button>
+                        </div>
+                    </div>
+                    <div class="py-2" style="padding-left: 12px;padding-right: 12px;">
+                        <p class="form-text">Enter your data:</p>
+                        {% comment %}
+                         <div class="form-group row">
+                            <label for="asd" class="col-2 col-form-label">Name:</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control circular" autocomplete="off">
+                            </div>
+                        </div>
+                        {% endcomment %}
+                        <form action="." id="form-cart">
+                            <div class="d-sm-none d-block">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control circular" placeholder="hola">
+                                    <label for="lolo">Enter your name:</label>
+                                </div>
+                                <div class="form-floating mb-3 div-direccion">
+                                    <input type="text" class="form-control circular" placeholder="hola">
+                                    <label for="lolo">Enter your address:</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                <textarea class="form-control circular" maxlength="100" rows="3" cols="3"
+                                          placeholder="hola"></textarea>
+                                    <label for="lolo">Leave a note:</label>
+                                </div>
+                            </div>
+                            <div class="d-none d-sm-block">
+                                <div class="form-group row">
+                                    <label for="asd" class="col-2 col-form-label">Name:</label>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control circular" placeholder="Enter your name"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group row div-direccion">
+                                    <label for="asd" class="col-2 col-form-label">Address:</label>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control circular"
+                                               placeholder="Enter your address"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="asd" class="col-2 col-form-label">Note:</label>
+                                    <div class="col-10">
+                                    <textarea rows="1" cols="3" class="form-control circular" placeholder="Leave a note"
+                                              autocomplete="off"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="px-2 text-justify horario">Deliveries are made within town, between 8
+                                AM and 9PM Esse</p>
+                            <p class="px-2 text-justify direccion">We are in Wall Street... Lorem ipsum dolor sit
+                                amet, consectetur adipisicing elit. Esse</p>
+
+                            <button class="btn btn-success d-block circular float-right">
+                                <i class="mdi mdi-whatsapp"></i>
+                                Send WhatsApp
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

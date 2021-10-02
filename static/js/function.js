@@ -29,6 +29,8 @@ $(function () {
     .addEventListener('click', () => {
       let icon_sm = document.querySelector('.icon-sm'),
         icon_lg = document.querySelector('.icon-lg')
+      if ($(window).width() <= 974) return
+
       if (icon_sm.classList.contains('d-none')) {
         icon_sm.classList.remove('d-none')
         icon_lg.classList.add('d-none')
@@ -37,9 +39,20 @@ $(function () {
         icon_lg.classList.remove('d-none')
       }
     })
-  document.querySelector('.main-sidebar').addEventListener('mouseover', e => {
-    // console.log(e.relatedTarget)
+/*  document.querySelector('.main-sidebar').addEventListener('mouseover', e => {
+    let icon_sm = document.querySelector('.icon-sm'),
+      icon_lg = document.querySelector('.icon-lg')
+    if (icon_lg.classList.contains('d-none')) {
+      icon_sm.classList.add('d-none')
+      icon_lg.classList.remove('d-none')
+    }
   })
+  document.querySelector('.main-sidebar').addEventListener('mouseout', () => {
+    let icon_sm = document.querySelector('.icon-sm'),
+      icon_lg = document.querySelector('.icon-lg')
+    icon_lg.classList.add('d-none')
+    icon_sm.classList.remove('d-none')
+  })*/
 
   //Event submit Modal Form
   $('#myModalForm').on('submit', function (e) {

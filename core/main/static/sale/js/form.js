@@ -87,13 +87,13 @@ let
           },
           {
             targets: [-3, -1],
-            class: 'text-center',
+            class: 'text-center px-0',
             orderable: false,
             render: data => `$${parseFloat(data).toFixed(2)}`
           },
           {
             targets: [-2],
-            class: 'text-center',
+            class: 'text-center px-1',
             orderable: false,
             render: (data, type, row) =>
               `<input type="text" name="cant" class="form-control form-control-sm input-sm" 
