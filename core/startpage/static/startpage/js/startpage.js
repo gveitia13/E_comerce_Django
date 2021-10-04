@@ -91,17 +91,19 @@ $(function () {
       })
     })
   )
-  //Eventos btn home y local
-  d.querySelector('button.home')
-    .addEventListener('click', () => btnHome())
-  d.querySelector('button.local')
-    .addEventListener('click', () => btnLocal())
+
   window.addEventListener('load', () => {
+    d.querySelector('p.direccion').classList.add('d-none')
     if (d.querySelector('button.home').classList.contains('active'))
       btnHome()
     if (d.querySelector('button.local').classList.contains('active'))
       btnLocal()
   })
+  //Eventos btn home y local
+  d.querySelector('button.home')
+    .addEventListener('click', () => btnHome())
+  d.querySelector('button.local')
+    .addEventListener('click', () => btnLocal())
 
   $('#cart').on('hidden.bs.modal', () => {
     if (!Cart.items.prods.length) resetForm()
@@ -274,13 +276,13 @@ let
       dataClient += `Note: ${d.querySelector('.form-cart-note').value}%0A`
 
     if (d.querySelector('button.home').classList.contains('active')) {
-      let str = 'Hola, me gustaría comprar los siguientes productos y que me los traigan a la dirección: %0A'
+      let str = 'https://gveitia13.github.io/catalgo/ %0A Hola, me gustaría comprar los siguientes productos y que me los traigan a la dirección: %0A'
         + d.querySelector('.form-cart-addr').value + '%0A%0A'
       str += table
       str += dataClient
       return str
     } else {
-      let str = 'Hola me gustaría comprar los siguientes productos: %0A%0A'
+      let str = 'https://gveitia13.github.io/catalgo/ %0A Hola me gustaría comprar los siguientes productos: %0A%0A'
       str += table
       str += dataClient
       return str
@@ -351,9 +353,11 @@ let
             targets: [0],
             class: 'w-40 td-cart py-1',
             render: (data, type, row) =>
-              $(window).width() <= 576
-                ? truncate(data, 9, '...') + `<br> <div class="text-xs">$${row.s_price}</div>`
-                : truncate(data, 17, '...') + `<br> <div class="text-xs">$${row.s_price}</div>`
+              $(window).width() <= 400
+                ? truncate(data, 8, '..') + `<br> <div class="text-xs">$${row.s_price}</div>`
+                : $(window).width() <= 576
+                  ? truncate(data, 10, '..') + `<br> <div class="text-xs">$${row.s_price}</div>`
+                  : truncate(data, 17, '...') + `<br> <div class="text-xs">$${row.s_price}</div>`
           }
         ],
         rowCallback(row, data, displayNum, displayIndex, dataIndex) {

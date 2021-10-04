@@ -67,6 +67,8 @@
 {% endblock %}
 {% block javascript %}
     <script>
-      console.log('{{ request }}')
+      $(function () {
+        setTimeout(() => $('a.inicio').click())
+      })
     </script>
 {% endblock %}
