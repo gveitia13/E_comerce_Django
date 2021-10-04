@@ -10,7 +10,8 @@
                     {% if prod.cat_id == cat.id %}
                         <div class="div-card col-12 col-sm-6 col-md-4 col-lg-3 py-lg-3 px-lg-2 px-0 py-2">
                             <span class="d-none prodName">{{ prod.name }}</span>
-                            <div class="card m-1 prod-card ml-2 mr-2 bg-light card-zoom w3-hover-shadow circular">
+                            <div class="card m-1 prod-card ml-2 mr-2 bg-light card-zoom w3-hover-shadow circular"
+                                 id="{{ prod.id }}">
 
                                 <div class="row row-card">
                                     {% if prod.s_price > 100 %}
@@ -25,21 +26,22 @@
                                         </div>
                                     {% endif %}
                                     <div class="col-4 col-sm-12">
-                                        <div class="card-img-top div-img circular-top" id="{{ prod.id }}"
+                                        <div class="card-img-top div-img circular-top"
                                              style="background: url('{{ prod.get_image }}')"></div>
                                     </div>
 
                                     <div class="col-6 col-sm-12 row-card px-0">
                                         <div class="card-body row-card pr-0 py-sm-3 px-sm-4">
                                             <h5 class="card-title">{{ prod.name }}</h5>
-                                            <p class="card-text m-0">
+                                            <p class="card-text m-0 prod-price">
                                                 Price: <b>{{ prod.s_price }}</b> CUP
                                             </p>
                                             <p class="card-text p-stock m-0">
                                                 Stock: {{ prod.stock }}
                                             </p>
                                             <p class="card-text prod-desc text-muted">{{ prod.desc }}</p>
-                                            <button name="{{ prod.id }}" class="btn prod-id bg-gradient-orange text-white circular btn-sm float-right d-sm-inline-block d-none">
+                                            <button name="{{ prod.id }}"
+                                                    class="btn prod-id bg-gradient-orange text-white circular btn-sm float-right d-sm-inline-block d-none">
                                                 <i class="mdi mdi-cart-plus"></i>
                                                 <div class="d-inline-block">Add to cart</div>
                                             </button>
@@ -47,7 +49,8 @@
                                     </div>
 
                                     <div class="col-2 d-sm-none d-flex align-items-center row-card pl-0">
-                                        <button name="{{ prod.id }}" class="btn prod-id bg-gradient-orange text-white circular-circle">
+                                        <button name="{{ prod.id }}"
+                                                class="btn prod-id bg-gradient-orange text-white circular-circle">
                                             <i class="mdi mdi-cart-plus"></i>
                                         </button>
                                     </div>
