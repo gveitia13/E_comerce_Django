@@ -1,0 +1,38 @@
+{% load static %}
+<!-- Modal List Products -->
+<div class="modal fade" id="lista" tabindex="-1" aria-labelledby="modelTitleId" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-top" role="document">
+        <div class="modal-content circular">
+            <div class="modal-header border-bottom-0 py-2">
+                <img src="{% static 'img/logo-lg-red-black.png' %}"
+                     alt="TechnoSTAR Logo"
+                     style="margin-left: .4rem;" width="120" height="50">
+                <h5 class="modal-title user-select-none align-middle mt-2 d-none d-sm-inline-block">
+                    <i class="mdi mdi-view-list"></i>Products list
+                </h5>
+                <button type="button" class="btn-close mt-2" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body px-0 px-sm-2 px-lg-3 pt-0">
+                <div class="cart">
+                    <div class="table-responsive m-0">
+                        <table id="listProds" class="float-right table table-hover">
+                            <thead style="display: none">
+                            <tr>
+                                <th scope="col" style="width: 35%;cursor: pointer">Name</th>
+                                <th scope="col" style="width: 55%;">Desc</th>
+                                <th scope="col" style="width: 10%;">Options</th>
+                            </tr>
+                            </thead>
+                            <tbody id="listProdsBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

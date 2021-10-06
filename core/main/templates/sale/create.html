@@ -22,21 +22,16 @@
     <script src="{% static 'sale/js/form.js' %}"></script>
 {% endblock %}
 {% block content_header %}
-<div class="py-2"></div>
+{#<div class="py-2"></div>#}
 {% endblock %}
 {% block content %}
     <form method="post" id="formSale">
         {% csrf_token %}
-        <div class="card circular user-select-none">
+{#        <div class="card circular user-select-none">#}
             <div class="card-header circular-top border-bottom-0">
-                <h3 class="card-title">
-                    {% if action == 'add' %}
-                        <i class="mdi mdi-plus-circle-outline mdi-15px"></i>
-                    {% else %}
-                        <i class="mdi mdi-square-edit-outline mdi-15px"></i>
-                    {% endif %}
+                <h5 class="card-title font-weight-bold">
                     {{ title }}
-                </h3>
+                </h5>
             </div>
             <div class="card-body pt-1 px-0 p-sm-2">
                 <div class="row">
@@ -140,7 +135,7 @@
                     <i class="mdi mdi-cancel"></i> Cancelar
                 </a>
             </div>
-        </div>
+{#        </div>#}
     </form>
     <!-- Modal Client-->
     <div class="modal fade" id="myModalClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

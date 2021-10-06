@@ -3,6 +3,9 @@ $(function () {
   document.querySelector('.startpage').className += ' active'
 
   Cart.list()
+  // console.log(getAllProducts())
+  Cart.items.prodsList = getAllProducts()
+
   //Buscando en tiempo real
   d.querySelector('.formHeader input').addEventListener('input', function () {
     setTimeout(() => {
@@ -35,16 +38,17 @@ $(function () {
       let parameters = new FormData()
       parameters.append('action', 'getProd')
       parameters.append('id', this.id)
+      // let data = Cart.items.prods.concat(Cart.items.prodsList).find(e => e.id === this.id)
 
       ajaxFunction(location.pathname, parameters, data => {
-        $('#prodDetails h5.name').html(`<b>${data['full_name']}</b>`)
-        $('#prodDetails span.stock').html(` Stock: ${data['stock']}`)
-        $('#prodDetails p.desc').text(`${data['desc']}`)
-        $('#prodDetails span.price').html(`<b>${data['s_price']}</b> CUP`)
-        d.querySelector(
-          '#prodDetails div.imgProdDetails'
-        ).style = `background: url('${data['image']}');background-color:#333;`
-        d.querySelector('#prodDetails button.prod-id').name = this.id
+      $('#prodDetails h5.name').html(`<b>${data['full_name']}</b>`)
+      $('#prodDetails span.stock').html(` Stock: ${data['stock']}`)
+      $('#prodDetails p.desc').text(`${data['desc']}`)
+      $('#prodDetails span.price').html(`<b>${data['s_price']}</b> CUP`)
+      d.querySelector(
+        '#prodDetails div.imgProdDetails'
+      ).style = `background: url('${data['image']}');background-color:#333;`
+      d.querySelector('#prodDetails button.prod-id').name = this.id
       })
       $('#prodDetails').modal('show')
     })
@@ -58,6 +62,7 @@ $(function () {
   $('#prods-cart tbody')
     .on('click', 'a[rel="delete"]', function () {
       let tr = listTableCart.cell($(this).closest('td, li')).index()
+      Cart.items.prodsList.push(listTableCart.row(tr.row).data())
       Cart.items.prods.splice(tr.row, 1)
       Cart.list()
       if (!Cart.items.prods.length) resetForm()
@@ -85,6 +90,8 @@ $(function () {
           product.cant = 1
           product.subtotal = 0.0
           Cart.add(product)
+          Cart.items.prodsList.splice(Cart.items.prodsList
+            .findIndex(e => e.id === product.id), 1)
         }
         Alerta(`${data.name} added to the cart`, 'success')
         // console.log(Cart.items.prods)
@@ -142,6 +149,90 @@ $(function () {
         lastSubmitValidate('.form-cart-name')
     }
   })
+
+  $('#lista').on('shown.bs.modal', () => {
+    listProds.responsive.recalc()
+    listProds.columns.adjust()
+  })
+
+  $('a[rel="ver-lista"]').on('click', function () {
+    listProds = $('#listProds').DataTable({
+      responsive: true,
+      autoWidth: false,
+      destroy: true,
+      paginate: false,
+      info: false,
+      searching: true,
+      // lengthMenu:[6,20,60,100],
+      tabIndex: -10,
+      data: Cart.items.prodsList,
+      // ajax: {
+      //   url: window.location.pathname,
+      //   type: 'POST',
+      //   data: {
+      //     'action': 'list_products',
+      //     'ids': JSON.stringify(Cart.get_ids()),
+      //   },
+      //   dataSrc: ""
+      // },
+      columns: [
+        {"data": "name"},
+        {"data": "desc"},
+        {"data": "id"},
+      ],
+      columnDefs: [
+        {
+          targets: [0],
+          class: 'w-35',
+          render: (data, type, row) =>
+            $(window).width() <= 576
+              ? truncate(data, 10, '..') + `<br> <div class="text-xs">$${row.s_price}</div>`
+              : $(window).width() <= 768
+                ? truncate(data, 16, '..') + `<br> <div class="text-xs">$${row.s_price}</div>`
+                : truncate(data, 30, '...') + `<br> <div class="text-xs">$${row.s_price}</div>`
+        },
+        {
+          targets: [-2],
+          class: 'list-desc w-55',
+          render: data => $(window).width() <= 576
+            ? truncate(data, 35, '..')
+            : $(window).width() <= 768
+              ? truncate(data, 52, '..')
+              : truncate(data, 125, '...')
+        },
+        {
+          targets: [-1],
+          class: 'text-center w-10 align-middle',
+          // orderable: false,
+          render: () =>
+            '<a rel="add" class="btn bg-gradient-orange text-white btn-sm circular">' +
+            '<i class="mdi mdi-cart-plus mdi-15px"></i></a>'
+        },
+      ],
+      initComplete: function (settings, json) {
+      },
+      drawCallback: function (settings) {
+        $('ul.pagination').addClass('pagination-sm')
+          .find('li.previous a').addClass('circular-left').parent().parent()
+          .find('li.next a').addClass('circular-right')
+        // console.log(settings)
+      }
+    })
+    $('#lista').modal('show')
+  })
+
+  $('#listProds tbody')
+    .on('click', 'a[rel="add"]', function () {
+      let tr = listProds.cell($(this).closest('td, li')).index(),
+        product = listProds.row(tr.row).data()
+      product.cant = 1
+      product.subtotal = 0.00
+      Cart.add(product)
+      Cart.items.prodsList.splice(tr.row, 1)
+      console.log(tr.row)
+      listProds.row($(this).parents('tr')).remove().draw() //elimina la fila
+      Alerta(`${product.name} added to the cart`, 'success')
+    })
 })
 const d = document
 let
@@ -245,7 +336,7 @@ let
       window.open(`https://api.whatsapp.com/send/?phone=+5358496023&text=${generateMSG()}&app_absent=1`)
       console.log(generateMSG())
       $('#cart').modal('hide')
-      //link de whatsapp
+      Cart.items.prodsList = Cart.items.prodsList.concat(Cart.items.prods)
       Cart.items.prods = []
       Cart.list()
       resetForm()
@@ -259,7 +350,7 @@ let
       window.open(`https://api.whatsapp.com/send/?phone=+5358496023&text=${generateMSG()}&app_absent=1`)
       console.log(generateMSG())
       $('#cart').modal('hide')
-      //link de whatsapp
+      Cart.items.prodsList = Cart.items.prodsList.concat(Cart.items.prods)
       Cart.items.prods = []
       Cart.list()
       resetForm()
@@ -289,10 +380,19 @@ let
     }
   }
   ,
+  getAllProducts = () => {
+    let parameters = new FormData(),
+      list = []
+    parameters.append('action', 'list_products')
+    parameters.append('ids', JSON.stringify(Cart.get_ids()))
+    ajaxFunction(location.pathname, parameters, (data) => data.forEach(e => list.push(e)))
+    return list
+  },
   Cart = {
     items: {
       prods: [],
-      total: 0.0
+      total: 0.0,
+      prodsList: [],
     },
     get_ids: () => Cart.items.prods.map(value => value.id),
     calculate_invoice: function () {
@@ -331,22 +431,22 @@ let
         columnDefs: [
           {
             targets: [-1],
-            class: 'text-right w-10 td-cart py-1',
+            class: 'text-right w-10 td-cart py-1 align-middle',
             render: () => `
-            <a rel="delete" class="btn bg-gradient-danger text-white btn-xs" style="width: 28px">
+            <a rel="delete" class="btn bg-gradient-danger  text-white btn-xs" style="width: 28px">
             <i class="mdi mdi-trash-can-outline mdi-15px"></i></a>`
           },
           {
             targets: [-2],
-            class: 'text-center w-35 td-cart px-0 py-1',
+            class: 'text-center w-35 td-cart px-0 py-1 align-middle',
             render: (data, type, row) => `
                 <input type="text" name="cantidad" 
-                class="form-control text-center form-control-sm input-sm"
+                class="form-control text-center  form-control-sm input-sm"
                 autocomplete="off" value="${row.cant}">`
           },
           {
             targets: [-3],
-            class: 'text-right w-15 td-cart py-1',
+            class: 'text-right w-15 td-cart py-1 align-middle',
             render: data => `$${parseFloat(data).toFixed(2)}`
           },
           {
