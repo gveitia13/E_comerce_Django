@@ -1,0 +1,37 @@
+{% load widget_tweaks %}
+<div class="modal fade" id="modalCat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" style="min-width: 350px">
+    {% block form %}
+        <form id="formCat" enctype="multipart/form-data" method="post" name="" action=".">
+            {% csrf_token %}
+            <div class="modal-dialog modal-sm modal-dialog-slideleft" role="document">
+                <div class="modal-content circular">
+                    <div class="modal-header bg-gradient-primary circular-top py-1">
+                        <h5 class="modal-title">
+                            <i class="mdi mdi-plus-circle-outline"></i> New Category
+                        </h5>
+                        <button type="button" class="btn-close mt-1" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-light">
+                        {% for field in form_cat.visible_fields %}
+                            <div class="form-group-sm">
+                                <label for="email" class="text-sm">{{ field.label }}:</label>
+                                {{ field|add_class:'form-control-sm form-control'|attr:'autocomplete:off' }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer bg-light circular-bottom py-1">
+                        <button type="submit" class="btn btn-sm bg-gradient-primary circular">
+                            <i class="mdi mdi-content-save"></i> Save Category
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% endblock %}
+</div>
+
+

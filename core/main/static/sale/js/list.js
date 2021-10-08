@@ -7,7 +7,8 @@ let tableSale,
       destroy: true,
       deferRender: true,
       searching: true,
-      buttons: buttonsDataTable(),
+      paginate: false,
+      buttons: buttonsDataTable([0, 1, 2, 3, 4]),
       dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
       ajax: {
         url: location.pathname,
@@ -26,6 +27,9 @@ let tableSale,
         {'data': 'id'},
       ],
       columnDefs: [
+        {responsivePriority: 1, targets: 0},
+        {responsivePriority: 2, targets: -1},
+        {responsivePriority: 3, targets: -2},
         {
           targets: [-3, -2, -4],
           class: 'text-center',
@@ -38,7 +42,7 @@ let tableSale,
         },
         {
           targets: [-1],
-          class: 'text-center',
+          class: 'text-center pr-0',
           orderable: false,
           render: (data, type, row) => `
             <a rel="details" class="btn bg-gradient-teal btn-xs">

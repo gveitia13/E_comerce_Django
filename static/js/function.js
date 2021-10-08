@@ -1,5 +1,5 @@
-idToEdit = { id: -1 }
-idToDelete = { id: -1 }
+idToEdit = {id: -1}
+idToDelete = {id: -1}
 
 $(function () {
   let theme = document.getElementById('theme'),
@@ -39,20 +39,20 @@ $(function () {
         icon_lg.classList.remove('d-none')
       }
     })
-/*  document.querySelector('.main-sidebar').addEventListener('mouseover', e => {
-    let icon_sm = document.querySelector('.icon-sm'),
-      icon_lg = document.querySelector('.icon-lg')
-    if (icon_lg.classList.contains('d-none')) {
-      icon_sm.classList.add('d-none')
-      icon_lg.classList.remove('d-none')
-    }
-  })
-  document.querySelector('.main-sidebar').addEventListener('mouseout', () => {
-    let icon_sm = document.querySelector('.icon-sm'),
-      icon_lg = document.querySelector('.icon-lg')
-    icon_lg.classList.add('d-none')
-    icon_sm.classList.remove('d-none')
-  })*/
+  /*  document.querySelector('.main-sidebar').addEventListener('mouseover', e => {
+      let icon_sm = document.querySelector('.icon-sm'),
+        icon_lg = document.querySelector('.icon-lg')
+      if (icon_lg.classList.contains('d-none')) {
+        icon_sm.classList.add('d-none')
+        icon_lg.classList.remove('d-none')
+      }
+    })
+    document.querySelector('.main-sidebar').addEventListener('mouseout', () => {
+      let icon_sm = document.querySelector('.icon-sm'),
+        icon_lg = document.querySelector('.icon-lg')
+      icon_lg.classList.add('d-none')
+      icon_sm.classList.remove('d-none')
+    })*/
 
   //Event submit Modal Form
   $('#myModalForm').on('submit', function (e) {
@@ -81,7 +81,7 @@ let changeSidebar = function (nav_treeview, nav_item) {
       son = document.querySelector(nav_item)
     father.classList.add('active')
     father.parentElement.classList.add('menu-open')
-    son.classList.add('w3-blue-grey')
+    son.classList.add('bg-primary')
     son.parentElement.parentElement.style.display = 'block'
   },
   message_error = function (obj) {
@@ -100,14 +100,7 @@ let changeSidebar = function (nav_treeview, nav_item) {
     })
   },
   //For Delete using jQuery confirm plugin and Jquery with ajax
-  submit_with_ajax_alert = function (
-    url,
-    title,
-    content,
-    parameters,
-    callback,
-    icon
-  ) {
+  submit_with_ajax_alert = function (url, title, content, parameters, callback, icon) {
     $.confirm({
       theme: 'material',
       title: title,
@@ -129,7 +122,8 @@ let changeSidebar = function (nav_treeview, nav_item) {
         danger: {
           text: 'No',
           btnClass: 'bg-gradient-danger circular',
-          action: () => {}
+          action: () => {
+          }
         }
       }
     })
@@ -160,7 +154,8 @@ let changeSidebar = function (nav_treeview, nav_item) {
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert(textStatus + ': ' + errorThrown)
       })
-      .always(function (data) {})
+      .always(function (data) {
+      })
   },
   testFetch = () => console.log('fetch'),
   //Jquery confirm alert
@@ -204,38 +199,51 @@ let changeSidebar = function (nav_treeview, nav_item) {
   setHeightTable = () =>
     $('#listTable_wrapper').height(
       $(window).height() -
-        ($('footer').height() +
-          $('div.card-footer').height() +
-          $('div.card-header').height() +
-          $('div.content-header').height() +
-          $('nav.main-header').height() +
-          151)
+      ($('footer').height() +
+        $('div.card-footer').height() +
+        $('div.card-header').height() +
+        $('div.content-header').height() +
+        $('nav.main-header').height() +
+        120)
     ),
-  buttonsDataTable = () => [
-    {
-      extend: 'copy',
-      text: 'Copy <i class="mdi mdi-content-copy"></i>',
-      className: 'btn-sm bg-gradient-secondary circular-left',
-      titleAttr: 'Copy'
-    },
-    {
-      extend: 'excelHtml5',
-      text: 'Excel <i class="mdi mdi-file-excel"></i>',
-      titleAttr: 'Excel',
-      className: 'btn bg-gradient-success btn-sm'
-    },
-    {
-      extend: 'pdfHtml5',
-      text: 'PDF <i class="mdi mdi-file-pdf"></i>',
-      titleAttr: 'PDF',
-      className: 'btn bg-gradient-danger btn-sm'
-    },
-    {
-      extend: 'print',
-      text: 'Print <i class="mdi mdi-printer"></i>',
-      titleAttr: 'Print',
-      className: 'btn bg-gradient-info btn-sm circular-right'
-    }
-  ],
+  buttonsDataTable = (colmuns) =>
+    ({
+      dom: {
+        button: {
+          tag: 'button',
+          className: ''
+        }
+      },
+      buttons: [
+        {
+          extend: 'copy',
+          text: 'Copy <i class="mdi mdi-content-copy"></i>',
+          className: 'btn-sm btn btn-outline-secondary circular-left',
+          titleAttr: 'Copy'
+        },
+        {
+          extend: 'excelHtml5',
+          text: 'Excel <i class="mdi mdi-file-excel"></i>',
+          titleAttr: 'Excel',
+          className: 'btn btn-outline-success btn-sm',
+          exportOptions: {columns: colmuns},
+        },
+        {
+          extend: 'pdfHtml5',
+          text: 'PDF <i class="mdi mdi-file-pdf"></i>',
+          titleAttr: 'PDF',
+          className: 'btn btn-outline-danger btn-sm',
+          exportOptions: {columns: colmuns},
+        },
+        {
+          extend: 'print',
+          text: 'Print <i class="mdi mdi-printer"></i>',
+          titleAttr: 'Print',
+          className: 'btn btn-outline-info btn-sm circular-right',
+          exportOptions: {columns: colmuns},
+        }
+      ]
+    })
+  ,
   truncate = (str, len, end = '..') =>
     str.replace(new RegExp('(.{' + len + '}).*'), '$1' + end + '')

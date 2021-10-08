@@ -45,8 +45,9 @@ let
       responsive: true,
       destroy: true,
       deferRender: true,
-      buttons: buttonsDataTable(),
-      dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+      paginate: false,
+      buttons: buttonsDataTable([0,1,2,4]),
+      dom: '<"row"<"col-sm-7"B><"col-sm-5"fr>>t<"row"<"col-sm-7"i><"col-sm-5"p>>',
       ajax: {
         url: location.pathname,
         type: 'POST',
@@ -64,6 +65,12 @@ let
         {'data': 'id'},
       ],
       columnDefs: [
+        {responsivePriority: 1, targets: -1},
+        {responsivePriority: 2, targets: 1},
+        {responsivePriority: 3, targets: -3},
+        {responsivePriority: 4, targets: 2},
+        {responsivePriority: 5, targets: -2},
+        {responsivePriority: 8, targets: 0},
         {
           targets: [-1],
           class: 'text-center',

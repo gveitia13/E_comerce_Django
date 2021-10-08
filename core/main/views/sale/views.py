@@ -1,15 +1,18 @@
 import json
+import os
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, ListView, UpdateView, TemplateView
 
+from conf import settings
 from core.main.forms import SaleForm, ClientForm, ReportForm
 from core.main.mixins import ValidatePermissionRequiredMixin
 from core.main.models import Sale, Product, DetSale, Client
@@ -312,23 +315,40 @@ class ReportSaleView(TemplateView):
 
 
 class SaleInvoicePdfView(View):
-    pass
-    # def get(self, request, *args, **kwargs):
-    #     try:
-    #         template = get_template('sale/invoice.html')
-    #         context = {
-    #             'sale': Sale.objects.get(pk=self.kwargs['pk']),
-    #             'comp': {
-    #                 'name': 'Techno$TAR™',
-    #                 'ruc': '+53 58496023',
-    #                 'address': 'Caibarien/VC/Cuba'
-    #             },
-    #             'icon': '{}{}'.format(settings.STATIC_URL, 'img/logo.png')
-    #         }
-    #         html = template.render(context)
-    #         css_url = os.path.join(settings.BASE_DIR, 'static/lib/bootstrap4/css/bootstrap.min.css')
-    #         pdf = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(stylesheets=[CSS(css_url)])
-    #         return HttpResponse(pdf, content_type='application/pdf')
-    #     except:
-    #         pass
-    #     return HttpResponseRedirect(reverse_lazy('erp:sale_list'))
+    def get(self, request, *args, **kwargs):
+        # try:
+        #     template = get_template('sale/invoice.html')
+        #     context = {
+        #         'sale': Sale.objects.get(pk=self.kwargs['pk']),
+        #         'comp': {
+        #             'name': 'Techno$TAR™',
+        #             'ruc': '+53 58496023',
+        #             'address': 'Caibarien/VC/Cuba'
+        #         },
+        #         'icon': '{}{}'.format(settings.STATIC_URL, 'img/logo-sm.png')
+        #     }
+        #     html = template.render(context)
+        #     css_url = os.path.join(settings.BASE_DIR, 'static/lib/bootstrap-4.6.0-dist/css/bootstrap.min.css')
+        #     pdf = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(stylesheets=[CSS(css_url)])
+        #     return HttpResponse(pdf, content_type='application/pdf')
+        # except:
+        pass
+
+    # return HttpResponseRedirect(reverse_lazy('main:sale_invoice_pdf'))
+
+
+class SaleTest(TemplateView):
+    template_name = 'sale/invoice.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        print(kwargs['pk'])
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Invoice details'
+        context['sale'] = Sale.objects.get(pk=self.kwargs['pk'])
+        context['company'] = {'name': 'TechnoSTAR'}
+        context['list_url'] = reverse_lazy('main:sale_list')
+        return context

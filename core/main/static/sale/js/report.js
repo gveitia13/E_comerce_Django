@@ -128,11 +128,14 @@ let
         },
       ],
       columnDefs: [
+        {responsivePriority: 1, targets: -1},
+        {responsivePriority: 2, targets: 0},
+        {responsivePriority: 3, targets: 1},
         {
           targets: [-1, -2, -3],
           class: 'text-center',
           orderable: false,
-          render: data => `$ ${parseFloat(data).toFixed(2)}`
+          render: data => `$${parseFloat(data).toFixed(2)}`
         },
       ],
       initComplete: (settings, json) => {

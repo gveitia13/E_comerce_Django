@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    {#    <link rel="stylesheet" href="{% static 'lib/admin-lte3/css/adminlte.min.css' %}">#}
+    <link rel="stylesheet" href="{% static 'sale/css/invoice.css' %}">
+    <style>
+
+
+        body {
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+            color: black;
+            width: 85%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .container-fluid {
+            width: 100%;
+            padding-right: 7.5px;
+            padding-left: 7.5px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+    </style>
+</head>
+<body class="mx-auto">
+<div class="container-fluid">
+    <img src="{% static 'img/logo-lg-red-black.png' %}" class="img-logo">
+    <p class="text-center">
+        Cdla. Dager, Calle Rio Zamora entre Av.Tumbes y Av. Tarqui<br>
+        Celular: +593 0979014551<br>
+        Teléfono: 297541221<br>
+        Web: algorisoft.com<br>
+    </p>
+    <p style="padding-left: .5rem">
+        <b>Cliente:</b> {{ sale.cli.name }} {{ sale.cli.surnames }}<br>
+        <b>Número de cedula:</b> {{ sale.cli.dni }}<br>
+        <b>Fecha de venta:</b> {{ sale.date_joined|date:'c' }}<br>
+    </p>
+    <table class="table" style="width: 100%;">
+        <thead>
+        <tr style="border: 1px solid black;">
+            <th style="width: 20%;">Cantidad</th>
+            <th style="width: 40%;">Producto</th>
+            <th style="width: 20%;">P.Unitario</th>
+            <th style="width: 20%;" class="text-right">Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for det in sale.detsale_set.all %}
+            <tr>
+                <td class="text-center">{{ det.cant }}</td>
+                <td>{{ det.prod.name }}</td>
+                <td class="text-center">{{ det.price|floatformat:2 }}</td>
+                <td class="text-right">{{ det.subtotal|floatformat:2 }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3" class="text-right"><b>Subtotal</b></td>
+            <td class="text-right">{{ sale.subtotal|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-right"><b>Iva %</b></td>
+            <td class="text-right">{{ sale.iva|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-right"><b>Total a pagar</b></td>
+            <td class="text-right">{{ sale.total|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <p class="font-weight-bold text-center">
+                    <span class="text-decoration-underline">Total de productos: {{ sale.detsale_set.all.count }}</span><br>
+                    !Gracias por su preferencia!<br>
+                    Una vez que usted a recibido el pedido<br>
+                    No hay derecho a reclamo ni devolución del producto<br>
+                    Que tenga un excelente día
+                </p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

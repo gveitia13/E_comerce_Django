@@ -52,7 +52,9 @@ let
       autoWidth: false,
       destroy: true,
       deferRender: true,
-      buttons: buttonsDataTable(),
+      paginate: false,
+      responsive: true,
+      buttons: buttonsDataTable([0,1]),
       dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
       ajax: {
         url: location.pathname,
@@ -69,6 +71,8 @@ let
         {'data': 'id'},
       ],
       columnDefs: [
+        {responsivePriority: 2, targets: -2},
+        {responsivePriority: 3, targets: -1},
         {
           targets: [-1],
           class: 'text-center',

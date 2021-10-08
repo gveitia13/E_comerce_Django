@@ -8,7 +8,7 @@ $(() => {
 
   //Event btn Add
   $('.btnAdd').on('click', function () {
-    document.querySelector('#image_span').innerHTML = 'Nothing selected yet'
+    document.querySelector('#image_span').innerHTML = 'Empty'
     document.querySelector('button[data-id="id_cat"] div div div').innerHTML = '---------'
     document.querySelector('#id_cat').attributes[6].ownerElement.value = ''
     document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
@@ -27,7 +27,7 @@ $(() => {
     maxboostedstep: 10,
     buttondown_class: 'btn bg-gradient-indigo circular-left',
     buttonup_class: 'btn bg-gradient-indigo circular-right',
-    postfix: '#',
+    // postfix: '#',
   }).on('change', function () {
     if (this.value === '0') {
       document.querySelector('.bootstrap-touchspin-down').classList.remove('bg-gradient-indigo')
@@ -39,14 +39,14 @@ $(() => {
       document.querySelector('.bootstrap-touchspin-down').classList.add('bg-gradient-indigo')
       this.classList.remove('w3-text-red')
     }
-  })
+  }).addClass('text-center')
 
   $("input[name='s_price']").TouchSpin({
     min: 0,
     max: 999999999999,
     boostat: 5,
     maxboostedstep: 10,
-    prefix: `$`,
+    // prefix: `$`,
     step: 0.01,
     decimals: 2,
     buttondown_class: 'btn bg-gradient-indigo circular-left',
@@ -62,7 +62,7 @@ $(() => {
       document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.add('bg-gradient-primary')
       this.classList.remove('w3-text-red')
     }
-  })
+  }).addClass('text-center')
 
   $('#myModalDetail div.modal-footer button:last').on('click', function () {
     $('#myModalDetail').modal('hide')
@@ -93,7 +93,8 @@ $(() => {
       let tr = tableSale.cell($(this).closest('td, li')).index(),
         data = tableSale.row(tr.row).data()
       console.log(data)
-      document.querySelector('#id_name').value = data['name']
+      // document.querySelector('#id_name').value = data['name']
+      document.querySelector('.form-floating input[name="name"]').value = data['name']
       document.querySelector('#id_stock').value = data['stock']
       document.querySelector('#id_s_price').value = data['s_price']
       document.querySelector('#id_cat').attributes[6].ownerElement.value =
@@ -115,9 +116,9 @@ $(() => {
       let tr = tableSale.cell($(this).closest('td, li')).index(),
         data = tableSale.row(tr.row).data()
       $('#myModalDetail .modal-body').html(`
-          <div class="card circular bg-light" id="card-info">
-              <img class="card-img-top img-fluid circular" src="${data['image']}" alt="Card image cap">
-              <div class="card-body circular">
+          <div class="card circular-top shadow-none mb-0 bg-light" id="card-info">
+              <img class="card-img-top img-fluid circular-top" src="${data['image']}" alt="Card image cap">
+              <div class="card-body ">
                   <h5 class="card-title"><b>${data['full_name']}</b></h5>
                   <br>
                   <span class="card-text"><b>Selling price: </b>$ ${data['s_price']}</span>
@@ -129,6 +130,33 @@ $(() => {
           </div>`)
       $('#myModalDetail').modal('show')
     })
+
+  $('button.btnCat').on('click', function () {
+    $('#modalCat').modal('show')
+  })
+
+  $('#modalCat').on('show.bs.modal', function () {
+    $('#myModal').css('opacity', 0.8)
+  })
+    .on('hidden.bs.modal', function () {
+      $('#myModal').css('opacity', 1)
+    })
+
+  $('#formCat').on('submit', function (e) {
+    e.preventDefault()
+    let parameters = new FormData(this)
+    parameters.append('action', 'createCat')
+    submit_with_ajax(location.pathname, parameters, (data) => {
+      let formSelect = $('select[name="cat"]')
+      formSelect.append(`<option value="${data['object']['id']}">${data['object']['name']}</option>`)
+      formSelect.val(parseInt(data['object']['id']))
+      formSelect.selectpicker('refresh')
+      $('#modalCat').modal('hide')
+      Toast(`Category: ${data['object']['name']} ${data['success']} successfully`)
+      document.querySelectorAll('#formCat input').forEach(e => e.value = '')
+      document.querySelectorAll('#formCat textarea').forEach(e => e.value = '')
+    })
+  })
 })
 
 let
@@ -159,13 +187,15 @@ let
       autoWidth: false,
       responsive: true,
       destroy: true,
-      buttons: buttonsDataTable(),
-      dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+      paginate: false,
+      buttons: buttonsDataTable([0, 1, 2, 4]),
+      // dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+      dom: '<"row"<"col-sm-7"B><"col-sm-5"fr>>t<"row"<"col-sm-7"i><"col-sm-5"p>>',
       colReorder: true,
-      // fixedHeader: {
-      //   header: true,
-      //   headerOffset: 1
-      // },
+      /*      fixedHeader: {
+              header: true,
+              headerOffset: 1
+            },*/
       searching: true,
       // pagingType: "full_numbers",
       // pageLength: 8,
@@ -193,9 +223,12 @@ let
         {'data': 'id'},
       ],
       columnDefs: [
+        {responsivePriority: 1, targets: 1},
+        {responsivePriority: 2, targets: -2},
+        {responsivePriority: 3, targets: -1},
         {
           targets: [-1],
-          class: 'text-center',
+          class: 'text-center px-0',
           orderable: false,
           render: () => `
               <a rel="detail" class="btn bg-gradient-teal btn-xs circular-circle">
@@ -209,7 +242,7 @@ let
           targets: [-2],
           orderable: true,
           class: 'text-center',
-          render: (data, type, row) => `$ ${parseFloat(data).toFixed(2)}`
+          render: (data, type, row) => `$${parseFloat(data).toFixed(2)}`
         },
         {
           targets: [-3],
@@ -249,7 +282,7 @@ let
           <label for="id_image" id="image_label" class="btn bg-gradient-indigo text-nowrap circular-left">
               <i class="mdi mdi-image-plus"></i> Upload a image
           </label>
-          <span id="image_span">Nothing selected yet</span>
+          <span id="image_span">Empty</span>
       </div>`
 
     document.querySelector('#id_image').addEventListener('change', () => {

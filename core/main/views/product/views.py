@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, CreateView, FormView
 
-from core.main.forms import ProductForm
+from core.main.forms import ProductForm, CategoryForm
 from core.main.models import Category, Product
 from core.main.views.dashboard.views import countEntity
 
@@ -53,6 +53,18 @@ class ProductView(TemplateView, FormView):
                     prod.delete()
                     data['success'] = 'deleted'
                     data['object'] = prod.toJSON()
+            elif action == 'createCat':
+                with transaction.atomic():
+                    cat = Category()
+                    cat.name = request.POST['name']
+                    cat.desc = request.POST['desc']
+                    if request.POST['icon_class'].find('mdi mdi-') > -1:
+                        cat.icon_class = request.POST['icon_class']
+                    else:
+                        cat.icon_class = 'mdi mdi-star'
+                    cat.save()
+                    data['success'] = 'added'
+                    data['object'] = cat.toJSON()
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -63,7 +75,7 @@ class ProductView(TemplateView, FormView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Product\'s list'
         context['list_url'] = reverse_lazy('main:product_list')
-        # context['form'] = ProductForm()
+        context['form_cat'] = CategoryForm()
         context['entity_count'] = countEntity()
         context['entity'] = 'Product'
         return context

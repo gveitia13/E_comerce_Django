@@ -1,0 +1,80 @@
+{% load widget_tweaks %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" style="min-width: 350px">
+    {% block form %}
+        <form id="myModalForm" enctype="multipart/form-data" method="post" name="" action=".">
+            {% csrf_token %}
+            <div class="modal-dialog modal-dialog-fromright" role="document">
+                <div class="modal-content circular">
+                    <div class="modal-header bg-light circular-top">
+                        <h5 class="modal-title" id="myModalFormTitle">
+
+                        </h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body pb-0">
+                        {% comment %}          {% for field in form.visible_fields %}
+
+                            <div class="form-group">
+                                <label for="email">{{ field.label }}:</label>
+                                {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                            </div>
+
+                        {% endfor %}{% endcomment %}
+
+                        {% comment %}<div class="form-floating mb-3">
+                            <input type="text" class="form-control  form-cart-name-1 circular"
+                                   placeholder="hola">
+                            <label for="lolo">Name*</label>
+                        </div>{% endcomment %}
+
+                        <div class="form-floating mb-3">
+                            {{ form.name|add_class:'form-control'|attr:'autocomplete:off' }}
+                            <label for="lolo">{{ form.name.label }}:</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="pl-2">{{ form.cat.label }}:</label>
+                            <div class="input-group">
+                                {{ form.cat|add_class:'form-control'|attr:'autocomplete:off' }}
+                                <div class="input-group-append">
+                                    <button class="btn bg-gradient-primary btnCat input-group-btn circular-right"
+                                            type="button">
+                                        <i class="mdi mdi-plus-circle-outline"></i>New</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="pl-2">{{ form.image.label }}:</label>
+                            {{ form.image|add_class:'form-control'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="email" class="pl-2">{{ form.stock.label }}:</label>
+                                {{ form.stock|add_class:'form-control'|attr:'autocomplete:off'|attr:'type:text' }}
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="email" class="pl-2">{{ form.s_price.label }}:</label>
+                                {{ form.s_price|add_class:'form-control'|attr:'autocomplete:off'|attr:'type:text' }}
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{ form.desc|add_class:'form-control'|attr:'autocomplete:off'|attr:'style:height:90px' }}
+                            <label for="lolo">{{ form.desc.label }}:</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light circular-bottom">
+                        <button type="submit" class="btn bg-gradient-indigo circular">
+                            <i class="mdi mdi-content-save"></i> Save {{ entity }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% endblock %}
+</div>
+
+

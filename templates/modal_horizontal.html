@@ -6,7 +6,7 @@
             {% csrf_token %}
             <div class="modal-dialog modal-dialog-fromright" role="document">
                 <div class="modal-content circular">
-                    <div class="modal-header">
+                    <div class="modal-header bg-light circular-top">
                         <h5 class="modal-title" id="myModalFormTitle">
 
                         </h5>
@@ -26,7 +26,7 @@
                         {% endfor %}
 
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer bg-light circular-bottom">
                         <button type="submit" class="btn bg-gradient-indigo circular">
                             <i class="mdi mdi-content-save"></i> Save {{ entity }}
                         </button>

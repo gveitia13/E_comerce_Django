@@ -39,8 +39,10 @@
 {% endblock %}
 
 {% block modal_form %}
-    {% include 'modal.html' %}
+{#    {% include 'modal.html' %}#}
+    {% include 'product/modal_form.html' %}
     {% include 'product/modal_detail.html' %}
+    {% include 'product/modal_cat.html' %}
 {% endblock %}
 
 {% block javascript %}

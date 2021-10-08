@@ -487,6 +487,13 @@ input.input100 {
         width: 100%;
         padding: 0 5px;
     }
+    .container-login100{
+        padding: 0;
+    }
+    .wrap-login100{
+        height: 100vh;
+        border-radius: 0;
+    }
 }
 
 

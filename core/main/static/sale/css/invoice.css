@@ -1,0 +1,106 @@
+.img-invoice {
+    width: 50px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.head {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#invoice thead tr th {
+    text-align: left;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    padding-top: 4px;
+}
+
+#invoice thead tr {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+#invoice tbody tr {
+    padding: 0;
+}
+
+* {
+    color: black;
+}
+
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+table thead tr th {
+    border: 1px solid black !important;
+    padding: 3px;
+}
+
+table tbody tr td {
+    border: 1px solid black;
+    padding: 3px;
+}
+
+.img-logo {
+    width: 180px;
+    height: 75px;
+    margin: 10px auto;
+    display: block !important;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    background-color: transparent;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+@media print {
+    .table {
+        border-collapse: collapse !important;
+    }
+
+    .table td,
+    .table th {
+        background-color: #ffffff !important;
+    }
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.text-decoration-underline {
+    text-decoration: underline !important;
+}
+
+.font-weight-bold {
+    font-weight: 700 !important;
+}

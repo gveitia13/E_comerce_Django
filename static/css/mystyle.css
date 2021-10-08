@@ -27,6 +27,11 @@
     color: #777;
 }
 
+ul.nav-treeview li.nav-item > a, ul.nav-treeview li.nav-item > a i.nav-icon {
+    font-size: 95%;
+    line-height: 1.5;
+}
+
 *::-webkit-scrollbar {
     width: 9px;
 }
@@ -357,4 +362,12 @@ a.dropdown-item.active:hover {
 
 .cursor-pointer {
     cursor: pointer !important;
+}
+
+.border-light {
+    border-color: #ced4da !important;
+}
+
+.border-light:focus {
+    border-color: #80bdff !important;
 }

@@ -82,7 +82,7 @@ class ProductForm(ModelForm):
                 attrs={
                     'class': 'selectpicker',
                     'style': 'width: 100%',
-                    'data-style': 'btn bg-gradient-indigo circular',
+                    'data-style': 'btn border-light circular-left',
                     'data-live-search': 'true'
                 }
             ),
@@ -90,8 +90,8 @@ class ProductForm(ModelForm):
                 attrs={
                     'placeholder': 'Enter a description (optional)',
                     'class': 'circular',
-                    'rows': 2,
-                    'cols': 3,
+                    'rows': 3,
+                    'cols': '3',
                 }
             )
         }
