@@ -53,9 +53,9 @@ table tbody tr td {
 }
 
 .img-logo {
-    width: 180px;
-    height: 75px;
-    margin: 10px auto;
+    width: 310px;
+    height: 130px;
+    margin: -10px auto 10px auto;
     display: block !important;
 }
 
@@ -103,4 +103,20 @@ table tbody tr td {
 
 .font-weight-bold {
     font-weight: 700 !important;
+}
+
+.d-inline-block {
+    display: inline-block !important;
+}
+
+.float-left {
+    float: left !important;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.float-none {
+    float: none !important;
 }

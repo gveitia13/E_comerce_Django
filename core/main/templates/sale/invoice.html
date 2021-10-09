@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
-    {#    <link rel="stylesheet" href="{% static 'lib/admin-lte3/css/adminlte.min.css' %}">#}
     <link rel="stylesheet" href="{% static 'sale/css/invoice.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/material-icons/css/icons.min.css' %}">
     <style>
 
 
         body {
             font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
             color: black;
-            width: 85%;
+            width: 100%;
             margin-right: auto;
             margin-left: auto;
         }
@@ -25,28 +25,31 @@
             margin-left: auto;
         }
 
+        a {
+            text-decoration: none;
+        }
+
     </style>
 </head>
 <body class="mx-auto">
 <div class="container-fluid">
-    <img src="{% static 'img/logo-lg-red-black.png' %}" class="img-logo">
+    <img src="{% static 'img/logo-lg-red-black.png' %}" class="img-logo" alt="">
     <p class="text-center">
-        Cdla. Dager, Calle Rio Zamora entre Av.Tumbes y Av. Tarqui<br>
-        Celular: +593 0979014551<br>
-        Teléfono: 297541221<br>
-        Web: algorisoft.com<br>
+        Villa CLara | Caibarién | Avenida 37 entre 20 y 21 No: 2001<br>
+        Celular: +53 58496023<br>
+        Web: technostar.com<br>
     </p>
     <p style="padding-left: .5rem">
-        <b>Cliente:</b> {{ sale.cli.name }} {{ sale.cli.surnames }}<br>
-        <b>Número de cedula:</b> {{ sale.cli.dni }}<br>
-        <b>Fecha de venta:</b> {{ sale.date_joined|date:'c' }}<br>
+        <b>Client:</b> {{ sale.cli.name }} {{ sale.cli.surnames }}<br>
+        <b>DNI:</b> {{ sale.cli.dni }}<br>
+        <b>Date of sale:</b> {{ sale.date_joined|date:'c' }}<br>
     </p>
     <table class="table" style="width: 100%;">
         <thead>
         <tr style="border: 1px solid black;">
-            <th style="width: 20%;">Cantidad</th>
-            <th style="width: 40%;">Producto</th>
-            <th style="width: 20%;">P.Unitario</th>
+            <th style="width: 20%;">Quantify</th>
+            <th style="width: 40%;">Product</th>
+            <th style="width: 20%;">Unit Price</th>
             <th style="width: 20%;" class="text-right">Subtotal</th>
         </tr>
         </thead>
@@ -68,22 +71,43 @@
             <td class="text-right">{{ sale.iva|floatformat:2 }}</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-right"><b>Total a pagar</b></td>
+            <td colspan="3" class="text-right"><b>Total to pay</b></td>
             <td class="text-right">{{ sale.total|floatformat:2 }}</td>
         </tr>
         <tr>
             <td colspan="4">
                 <p class="font-weight-bold text-center">
-                    <span class="text-decoration-underline">Total de productos: {{ sale.detsale_set.all.count }}</span><br>
-                    !Gracias por su preferencia!<br>
-                    Una vez que usted a recibido el pedido<br>
-                    No hay derecho a reclamo ni devolución del producto<br>
-                    Que tenga un excelente día
+                    <span class="text-decoration-underline">Total products: {{ sale.detsale_set.all.count }}</span><br>
+                    Thanks you for choosing us!<br>
+                    Once you have received the product, if it does not have guarantee<br>
+                    there is no right to claim or return it.<br>
+                    Have a great day
                 </p>
             </td>
         </tr>
         </tbody>
     </table>
+    <div class="text-right" style="padding-left: 5px;padding-right: 5px;">
+        <span class="d-inline-block float-left">Follow us:</span>
+        <a href="https://t.me/LilGil"><i class="mdi mdi-telegram"
+                                         style="color: #2da5e1"></i></a>
+        <a href="https://api.whatsapp.com/send/?phone=+5358496023&text=Hola&app_absent=1"><i
+                class="mdi mdi-whatsapp" style="color: #2bc54e"></i></a>
+        <a href="https://www.linkedin.com/in/gilberto-veitia-urbay-45941116b"><i
+                class="mdi mdi-linkedin" style="color: #1178b3"></i></a>
+        <a href="https://github.com/gveitia13"><i class="mdi mdi-github-face"
+                                                  style="color: dimgray"></i></a>
+        <a href="https://facebook.com/GilbeStar"><i class="mdi mdi-facebook"
+                                                    style="color:#1976d2;"></i></a>
+        <a href="https://instagram.com/gilbertveitiaurbay"><i
+                class="mdi mdi-instagram" style="color:#c93470"></i></a>
+        <a href="https://twitter.com/GilbeStar?s=08"><i
+                class="mdi mdi-twitter" style="color:#1976d2;"></i></a>
+
+        <a href="https://gveitia13.github.io/cv/" target="_blank">
+            <i class="mdi mdi-account-plus" style="color: darkslategrey"></i>
+        </a>
+    </div>
 </div>
 </body>
 </html>

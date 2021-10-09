@@ -84,7 +84,7 @@ class Product(models.Model):
 gender_choices = (
     ('male', 'Male'),
     ('female', 'Female'),
-    ('todo', 'Todo lol'),
+    ('todo', 'Todo'),
 )
 
 
@@ -166,6 +166,6 @@ class DetSale(models.Model):
         return item
 
     class Meta:
-        verbose_name = 'Sale\'s detail'
-        verbose_name_plural = 'Sales\'s detail'
+        verbose_name = 'Sale detail'
+        verbose_name_plural = 'Sales details'
         ordering = ['id']
