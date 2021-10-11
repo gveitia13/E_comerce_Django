@@ -41,14 +41,14 @@ $(function () {
       // let data = Cart.items.prods.concat(Cart.items.prodsList).find(e => e.id === this.id)
 
       ajaxFunction(location.pathname, parameters, data => {
-      $('#prodDetails h5.name').html(`<b>${data['full_name']}</b>`)
-      $('#prodDetails span.stock').html(` Stock: ${data['stock']}`)
-      $('#prodDetails p.desc').text(`${data['desc']}`)
-      $('#prodDetails span.price').html(`<b>${data['s_price']}</b> CUP`)
-      d.querySelector(
-        '#prodDetails div.imgProdDetails'
-      ).style = `background: url('${data['image']}');background-color:#333;`
-      d.querySelector('#prodDetails button.prod-id').name = this.id
+        $('#prodDetails h5.name').html(`<b>${data['full_name']}</b>`)
+        $('#prodDetails span.stock').html(` Stock: ${data['stock']}`)
+        $('#prodDetails p.desc').text(`${data['desc']}`)
+        $('#prodDetails span.price').html(`<b>${data['s_price']}</b> CUP`)
+        d.querySelector(
+          '#prodDetails div.imgProdDetails'
+        ).style = `background: url('${data['image']}');background-color:#333;`
+        d.querySelector('#prodDetails button.prod-id').name = this.id
       })
       $('#prodDetails').modal('show')
     })
@@ -333,6 +333,7 @@ let
       checkIsValidClass(`${selector1}`)) {
       Alerta('Complete the form, please', 'error')
     } else {
+      submit()
       window.open(`https://api.whatsapp.com/send/?phone=+5358496023&text=${generateMSG()}&app_absent=1`)
       console.log(generateMSG())
       $('#cart').modal('hide')
@@ -347,6 +348,7 @@ let
     if (checkIsValidClass(`${selector}`)) {
       Alerta('Complete the form, please', 'error')
     } else {
+      submit()
       window.open(`https://api.whatsapp.com/send/?phone=+5358496023&text=${generateMSG()}&app_absent=1`)
       console.log(generateMSG())
       $('#cart').modal('hide')
@@ -387,6 +389,29 @@ let
     parameters.append('ids', JSON.stringify(Cart.get_ids()))
     ajaxFunction(location.pathname, parameters, (data) => data.forEach(e => list.push(e)))
     return list
+  },
+  submit = () => {
+    let parameters = new FormData()
+    parameters.append('action', 'create')
+    /*
+        Cart.items.cli_name = d.querySelector('.form-cart-name').value
+        Cart.items.cli_addr = d.querySelector('button.home').classList.contains('active')
+          ? d.querySelector('.form-cart-addr').value : ''
+        Cart.items.cli_note = d.querySelector('.form-cart-note').value ?
+          d.querySelector('.form-cart-note').value : ''
+    */
+    let vent = {
+      'cli_name': d.querySelector('.form-cart-name').value,
+      'cli_addr': d.querySelector('button.home').classList.contains('active')
+        ? d.querySelector('.form-cart-addr').value : '',
+      'cli_note': d.querySelector('.form-cart-note').value ?
+        d.querySelector('.form-cart-note').value : '',
+      'total': d.querySelector('span.cart-total').innerText.substr(1),
+      'prods': Cart.items.prods
+    }
+    parameters.append('cart', JSON.stringify(vent))
+    ajaxFunction(location.pathname, parameters, (response) => {
+    })
   },
   Cart = {
     items: {

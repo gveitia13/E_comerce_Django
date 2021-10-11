@@ -70,7 +70,7 @@ class Product(models.Model):
         return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
     def get_desc(self):
-        if self.desc is not None: return self.desc
+        if self.desc is not None or self.desc: return self.desc
         return 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci consequatur corporis doloremque ' \
                'dolorum, eaque illo, illum, inventore iure maiores molestias pariatur porro qui quia quos ratione ' \
                'repudiandae suscipit tenetur totam. '

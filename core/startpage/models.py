@@ -14,12 +14,19 @@ class Cart(models.Model):
     cli_note = models.CharField(max_length=300, verbose_name='Nota', null=True, blank=True, )
 
     def __str__(self):
-        return self.cli_name
+        return f'No: {self.id} {self.cli_name}'
 
     class Meta:
         verbose_name = 'Cart'
         verbose_name_plural = 'Carts'
         ordering = ['id']
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['total'] = format(float(self.total), '.2f')
+        item['date_joined'] = self.date_joined.strftime('%Y-%m-%d')
+        item['det'] = [i.toJSON() for i in self.detcart_set.all()]
+        return item
 
 
 class DetCart(models.Model):

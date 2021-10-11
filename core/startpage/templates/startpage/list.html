@@ -1,19 +1,19 @@
 {% extends 'baselist.html' %}
 {% load static %}
 {% block head_list %}
-    <script src="{% static 'sale/js/list.js' %}"></script>
+    <script src="{% static 'startpage/js/list.js' %}"></script>
 {% endblock %}
 {% block search %}
 
 {% endblock %}
 {% block columns %}
     <tr>
-        <th scope="col">Client</th>
-        <th scope="col">Date</th>
-        <th scope="col">Subtotal</th>
-        <th scope="col">IVA</th>
-        <th scope="col">Total</th>
-        <th scope="col">Options</th>
+        <th scope="col" style="width: 15%">Client</th>
+        <th scope="col" style="width: 15%">Date</th>
+        <th scope="col" style="width: 25%">Address</th>
+        <th scope="col" style="width: 20%">Note</th>
+        <th scope="col" style="width: 10%">Total</th>
+        <th scope="col" style="width: 15%">Options</th>
     </tr>
 {% endblock %}
 
@@ -22,9 +22,9 @@
 {% endblock %}
 {% block buttons_list %}
     <div class="card-footer">
-            <a href="{{ create_url }}" class="btn bg-gradient-indigo btnAdd circular">
-                <i class="mdi mdi-plus"></i> New {{ entity }}
-            </a>
+        <a href="{% url 'startpage' %}" class="btn bg-gradient-indigo circular">
+            <i class="mdi mdi-plus"></i> StartPage
+        </a>
     </div>
 {% endblock %}
 
@@ -35,7 +35,7 @@
             <div class="modal-content circular">
                 <div class="modal-header circular-top">
                     <h5 class="modal-title" id="myModalDetLabel"><i class="mdi mdi-cart"></i>
-                         Details of the sale </h5>
+                        Details of the sale </h5>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"></span>
                     </button>

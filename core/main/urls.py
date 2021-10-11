@@ -2,7 +2,6 @@ from django.urls import path
 
 from core.main.views.category.views import *
 from core.main.views.client.views import ClientView
-from core.main.views.dashboard.views import DashboardView
 from core.main.views.product.views import ProductView
 from core.main.views.sale import views
 from core.main.views.sale.views import SaleCreateView, SaleListView, \

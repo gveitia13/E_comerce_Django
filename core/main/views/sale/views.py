@@ -84,7 +84,10 @@ def save_DetSale(vents, sale):
         det.price = float(i['s_price'])
         det.subtotal = float(i['subtotal'])
         det.save()
-        det.prod.stock -= det.cant
+        if (det.prod.stock - det.cant) < 0:
+            det.prod.stock = 0
+        else:
+            det.prod.stock -= det.cant
         det.prod.save()
     return {'id': sale.id}
 

@@ -121,6 +121,31 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link my-sales-cart">
+                        <i class="nav-icon mdi mdi-cart-outline"></i>
+                        <p>
+                            Sales online record
+                            <i class="right mdi mdi-menu-left-outline"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="{% url 'startpage:cart_list' %}" class="nav-link my-sales-cart-list">
+                                <i class="mdi mdi-finance nav-icon"></i>
+                                <p>Sales online list</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'startpage' %}" class="nav-link my-sales-cart-startpage">
+                                <i class="mdi mdi-settings nav-icon"></i>
+                                <p>Config S. Cart </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

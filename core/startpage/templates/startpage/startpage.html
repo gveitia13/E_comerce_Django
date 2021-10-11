@@ -2,11 +2,11 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-    {% for cat in cats %}
+    {% for cat in all_category %}
         <h4 class="my-h4 px-4">{{ cat.name }}</h4>
         <div class="card-deck-wrapper">
             <div class="card-deck text-black-50">
-                {% for prod in prods %}
+                {% for prod in all_product %}
                     {% if prod.cat_id == cat.id %}
                         <div class="div-card col-12 col-sm-6 col-md-4 col-lg-3 py-lg-3 px-lg-2 px-0 py-2">
                             <span class="d-none prodName">{{ prod.name }}</span>
@@ -39,7 +39,7 @@
                                             <p class="card-text p-stock m-0">
                                                 Stock: {{ prod.stock }}
                                             </p>
-                                            <p class="card-text prod-desc text-muted">{{ prod.desc }}</p>
+                                            <p class="card-text prod-desc text-muted">{{ prod.get_desc }}</p>
                                             <button name="{{ prod.id }}"
                                                     class="btn prod-id bg-gradient-orange text-white circular btn-sm float-right d-sm-inline-block d-none">
                                                 <i class="mdi mdi-cart-plus"></i>

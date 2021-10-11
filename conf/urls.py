@@ -26,6 +26,7 @@ urlpatterns = [
     path('main/', include('core.main.urls')),
     path('user/', include('core.user.urls')),
     path('login/', include('core.login.urls')),
+    path('startpage/', include('core.startpage.urls')),
     # Dashboard
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('', StartPageView.as_view(), name='startpage'),

@@ -1,16 +1,19 @@
 import json
+from datetime import datetime
 
 from django.db import transaction
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
-from core.main.models import Category, Product
+from core.Mixins import GetObjects
+from core.main.models import Product
+from core.main.views.dashboard.views import countEntity
+from core.startpage.models import Cart, DetCart
 
 
-class StartPageView(TemplateView):
+class StartPageView(GetObjects, TemplateView):
     template_name = 'startpage/startpage.html'
 
     @method_decorator(csrf_exempt)
@@ -20,10 +23,9 @@ class StartPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Catalog'
-        context['cats'] = Category.objects.all()
-        context['prods'] = Product.objects.all()
         return context
 
+    @method_decorator(csrf_exempt)
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -34,8 +36,71 @@ class StartPageView(TemplateView):
             elif action == 'getAll':
                 data = [i.toJSON() for i in Product.objects.all()]
             elif action == 'list_products':
-                data = [p.toJSON () for p in Product.objects.all().order_by('name').filter(stock__gt=0).exclude(
+                data = [p.toJSON() for p in Product.objects.all().order_by('name').filter(stock__gt=0).exclude(
                     id__in=json.loads(request.POST['ids'])).order_by('cat_id')]
+            elif action == 'create':
+                print(request.POST)
+                with transaction.atomic():
+                    vents = json.loads(request.POST['cart'])
+                    print(vents)
+                    cart = Cart()
+                    cart.date_joined = datetime.now()
+                    cart.cli_name = vents['cli_name']
+                    if vents['cli_addr'] != '':
+                        cart.cli_addr = vents['cli_addr']
+                    else:
+                        cart.cli_addr = 'Our local'
+                    if vents['cli_note'] != '':
+                        cart.cli_note = vents['cli_note']
+                    cart.total = float(vents['total'])
+                    cart.save()
+                    print('save cart')
+                    for i in vents['prods']:
+                        det = DetCart()
+                        det.cart_id = cart.id
+                        det.product_id = i['id']
+                        det.cant = int(i['cant'])
+                        det.price = float(i['s_price'])
+                        det.subtotal = float(i['subtotal'])
+                        det.save()
+                        # det.product.stock -= det.cant
+                        # det.product.save()
+                    data = {'id': cart.id}
+                    print('det save')
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+
+class CartListView(TemplateView):
+    template_name = 'startpage/list.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Sales online list'
+        context['entity_count'] = countEntity()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = [i.toJSON() for i in Cart.objects.all()]
+            elif action == 'search_details-prod':
+                data = [i.toJSON() for i in DetCart.objects.filter(cart_id=request.POST['id'])]
+            elif action == 'delete':
+                with transaction.atomic():
+                    cart = Cart.objects.get(pk=request.POST['id'])
+                    cart.delete()
+                    data['success'] = 'deleted'
+                    data['object'] = cart.toJSON()
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
