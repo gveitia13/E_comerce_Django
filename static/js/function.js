@@ -1,5 +1,6 @@
 idToEdit = {id: -1}
 idToDelete = {id: -1}
+idInvoice = {id: -1}
 
 $(function () {
   let theme = document.getElementById('theme'),
@@ -132,14 +133,15 @@ let changeSidebar = function (nav_treeview, nav_item) {
   submit_with_ajax = (url, parameters, callback) =>
     ajaxFunction(url, parameters, callback),
   //Auxiliary method: submit with ajax and jQuery
-  ajaxFunction = function (url, parameters, callback) {
+  ajaxFunction = function (url, parameters, callback,async=true) {
     $.ajax({
       url: url,
       type: 'POST',
       data: parameters,
       dataType: 'json',
       processData: false,
-      contentType: false
+      contentType: false,
+      async: async
     })
       .done(function (data) {
         console.log(data)

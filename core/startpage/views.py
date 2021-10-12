@@ -2,10 +2,14 @@ import json
 from datetime import datetime
 
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+from weasyprint import HTML
+from weasyprint.text.fonts import FontConfiguration
 
 from core.Mixins import GetObjects
 from core.main.models import Product
@@ -63,10 +67,7 @@ class StartPageView(GetObjects, TemplateView):
                         det.price = float(i['s_price'])
                         det.subtotal = float(i['subtotal'])
                         det.save()
-                        # det.product.stock -= det.cant
-                        # det.product.save()
                     data = {'id': cart.id}
-                    print('det save')
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -106,3 +107,21 @@ class CartListView(TemplateView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
+
+
+def export_pdf(request, **kwargs):
+    print(request)
+    context = {}
+    context['title'] = 'Invoice details'
+    context['cart'] = Cart.objects.get(pk=kwargs['pk'])
+    context['company'] = {'name': 'TechnoSTAR'}
+    context['list_url'] = reverse_lazy('startpage:cart_list')
+
+    html = render_to_string('startpage/invoice.html', context)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; report.pdf'
+
+    font_config = FontConfiguration()
+    HTML(string=html, base_url=request.build_absolute_uri()) \
+        .write_pdf(response, font_config=font_config)
+    return response

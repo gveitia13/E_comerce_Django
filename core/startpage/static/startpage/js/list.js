@@ -37,6 +37,11 @@ let tableCart,
           render: data => `$${parseFloat(data).toFixed(2)}`
         },
         {
+          targets: [0],
+          orderable: true,
+          render: (data,type,row) => `${row.id} ${data}`
+        },
+        {
           targets: [-1],
           class: 'text-center pr-0',
           orderable: false,

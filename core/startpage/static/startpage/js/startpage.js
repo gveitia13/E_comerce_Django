@@ -2,6 +2,7 @@ $(function () {
   document.querySelectorAll('a').forEach(e => e.classList.remove('active'))
   document.querySelector('.startpage').className += ' active'
 
+  console.log(location.href)
   Cart.list()
   // console.log(getAllProducts())
   Cart.items.prodsList = getAllProducts()
@@ -335,7 +336,8 @@ let
     } else {
       submit()
       window.open(`https://api.whatsapp.com/send/?phone=+5358496023&text=${generateMSG()}&app_absent=1`)
-      console.log(generateMSG())
+
+      // window.open(`https://api.whatsapp.com/send/?phone=+5358496023&text=${generateMSG()}&app_absent=1`)
       $('#cart').modal('hide')
       Cart.items.prodsList = Cart.items.prodsList.concat(Cart.items.prods)
       Cart.items.prods = []
@@ -350,7 +352,6 @@ let
     } else {
       submit()
       window.open(`https://api.whatsapp.com/send/?phone=+5358496023&text=${generateMSG()}&app_absent=1`)
-      console.log(generateMSG())
       $('#cart').modal('hide')
       Cart.items.prodsList = Cart.items.prodsList.concat(Cart.items.prods)
       Cart.items.prods = []
@@ -369,13 +370,13 @@ let
       dataClient += `Note: ${d.querySelector('.form-cart-note').value}%0A`
 
     if (d.querySelector('button.home').classList.contains('active')) {
-      let str = 'https://gveitia13.github.io/catalgo/ %0A Hola, me gustaría comprar los siguientes productos y que me los traigan a la dirección: %0A'
+      let str = `${location.href}startpage/cart/invoice/pdf/${Cart.id}/` + '%0A Hola, me gustaría comprar los siguientes productos y que me los traigan a la dirección: %0A'
         + d.querySelector('.form-cart-addr').value + '%0A%0A'
       str += table
       str += dataClient
       return str
     } else {
-      let str = 'https://gveitia13.github.io/catalgo/ %0A Hola me gustaría comprar los siguientes productos: %0A%0A'
+      let str = `${location.href}startpage/cart/invoice/pdf/${Cart.id}/` + '%0A Hola me gustaría comprar los siguientes productos: %0A%0A'
       str += table
       str += dataClient
       return str
@@ -389,17 +390,11 @@ let
     parameters.append('ids', JSON.stringify(Cart.get_ids()))
     ajaxFunction(location.pathname, parameters, (data) => data.forEach(e => list.push(e)))
     return list
-  },
+  }
+  ,
   submit = () => {
     let parameters = new FormData()
     parameters.append('action', 'create')
-    /*
-        Cart.items.cli_name = d.querySelector('.form-cart-name').value
-        Cart.items.cli_addr = d.querySelector('button.home').classList.contains('active')
-          ? d.querySelector('.form-cart-addr').value : ''
-        Cart.items.cli_note = d.querySelector('.form-cart-note').value ?
-          d.querySelector('.form-cart-note').value : ''
-    */
     let vent = {
       'cli_name': d.querySelector('.form-cart-name').value,
       'cli_addr': d.querySelector('button.home').classList.contains('active')
@@ -410,15 +405,20 @@ let
       'prods': Cart.items.prods
     }
     parameters.append('cart', JSON.stringify(vent))
-    ajaxFunction(location.pathname, parameters, (response) => {
-    })
-  },
+    ajaxFunction(location.pathname, parameters, response => {
+      Cart.id = response.id
+      console.log(idInvoice)
+      console.log(idInvoice.id)
+    }, false)
+  }
+  ,
   Cart = {
     items: {
       prods: [],
       total: 0.0,
       prodsList: [],
     },
+    id: -1,
     get_ids: () => Cart.items.prods.map(value => value.id),
     calculate_invoice: function () {
       let subtotal = 0.0
