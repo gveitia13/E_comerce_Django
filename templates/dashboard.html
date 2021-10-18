@@ -1,16 +1,228 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block head %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap.min.css' %}">
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
     <script src="{% static 'lib/highcharts-8.1.2/highcharts.js' %}"></script>
     <script src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
     <script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
     <script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
-
+    <script src="{% static 'lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'dashboard/js/chars.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card circular" style="position: relative; left: 0px; top: 0px;">
+                    <div class="card-header ui-sortable-handle">
+                        <h3 class="card-title">
+                            <i class="ion ion-clipboard mr-1"></i>
+                            To Do List (no funciona aun obvio)
+                        </h3>
+
+                        <div class="card-tools">
+                            <ul class="pagination pagination-sm">
+                                <li class="page-item"><a href="#" class="circular-left page-link">«</a></li>
+                                <li class="page-item"><a href="#" class="page-link">1</a></li>
+                                <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                <li class="page-item"><a href="#" class="page-link">3</a></li>
+                                <li class="page-item"><a href="#" class="circular-right page-link">»</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <ul class="todo-list ui-sortable" data-widget="todo-list">
+                            <li>
+                                <!-- drag handle -->
+                                <span class="handle ui-sortable-handle">
+                                    <i class=" mdi mdi-swap-vertical"></i>
+                                 </span>
+                                <!-- checkbox -->
+                                <div class="icheck-primary d-inline ml-2">
+                                    <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                    <label for="todoCheck1"></label>
+                                </div>
+                                <!-- todo text -->
+                                <span class="text">Design a nice theme</span>
+                                <!-- Emphasis label -->
+                                <small class="badge badge-danger"><i class="mdi mdi-clock-outline"></i> 2 mins</small>
+                                <!-- General tools such as edit or delete-->
+                                <div class="tools">
+                                    <i class="mdi mdi-square-edit-outline"></i>
+                                    <i class="mdi mdi-trash-can-outline"></i>
+                                </div>
+                            </li>
+                            <li class="done">
+                                <span class="handle ui-sortable-handle">
+                                  <i class="mdi mdi-swap-vertical"></i>
+                                </span>
+                                <div class="icheck-primary d-inline ml-2">
+                                    <input type="checkbox" value="" name="todo2" id="todoCheck2" checked="">
+                                    <label for="todoCheck2"></label>
+                                </div>
+                                <span class="text">Make the theme responsive</span>
+                                <small class="badge badge-info"><i class="mdi mdi-clock-outline"></i> 4 hours</small>
+                                <div class="tools">
+                                    <i class="mdi mdi-square-edit-outline"></i>
+                                    <i class="mdi mdi-trash-can-outline"></i>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="handle ui-sortable-handle">
+                                  <i class="mdi mdi-swap-vertical"></i>
+                                </span>
+                                <div class="icheck-primary d-inline ml-2">
+                                    <input type="checkbox" value="" name="todo3" id="todoCheck3">
+                                    <label for="todoCheck3"></label>
+                                </div>
+                                <span class="text">Let theme shine like a star</span>
+                                <small class="badge badge-warning"><i class="mdi mdi-clock-outline"></i> 1 day</small>
+                                <div class="tools">
+                                    <i class="mdi mdi-square-edit-outline"></i>
+                                    <i class="mdi mdi-trash-can-outline"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix circular-bottom">
+                        <button type="button" class="btn btn-primary circular float-right"><i class="mdi mdi-plus"></i>
+                            Add item
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% if users_count > 0 %}
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card circular ">
+                    <div class="card-header">
+                        <h3 class="card-title">Last Added Products</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="mdi mdi-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="mdi mdi-close"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                            {% for product in last_products %}
+                                <li class="item detail cursor-pointer" id="{{ product.id }}">
+                                    <div class="product-img">
+                                        <img src="{{ product.get_image }}" alt="Product Image" class="img-size-50">
+                                    </div>
+                                    <div class="product-info">
+                                        <span class="product-title cursor-pointer">{{ product.name }}</span>
+                                        <span class="badge badge-warning circular float-right">${{ product.s_price }}</span></span>
+                                        <span class="product-description">{{ product.get_desc }}</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer text-center circular-bottom">
+                        <a href="{% url 'main:product_list' %}" target="_blank"
+                           class="uppercase btn btn-outline-primary circular btn-sm">View
+                            All Products</a>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card circular ">
+                    <div class="card-header">
+                        <h3 class="card-title">Latest Users</h3>
+
+                        <div class="card-tools">
+                            <span class="badge badge-danger circular">{{ users_count }} New Users</span>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="mdi mdi-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="mdi mdi-close"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0 circular">
+                        <ul class="users-list clearfix">
+                            {% for user in get_users %}
+                                <li>
+                                    <img src="{{ user.get_image }}" alt="User image"
+                                         style="width: 60px;height: 60px">
+                                    <a class="users-list-name" href="#">{{ user.get_full_name }}</a>
+                                    <span class="users-list-date">{{ user.get_short_login_date }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <!-- /.users-list -->
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer text-center circular-bottom">
+                        <a href="{% url 'user:user_list' %}" class="btn btn-outline-primary circular btn-sm"
+                           target="_blank">View All Users</a>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card circular ">
+                    <div class="card-header">
+                        <h3 class="card-title">Last orders at home</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="mdi mdi-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="mdi mdi-close"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                            {% for sale in sales_at_home %}
+                                <li class="item detail-cart cursor-pointer" id="{{ sale.id }}">
+                                    <div class="product-info ml-2">
+                                        <span class="product-title cursor-pointer">{{ sale.id }} {{ sale.cli_name }} | ${{ sale.total }}</span>
+                                        <span class="badge badge-{% if sale.status == 'Pending' %}warning {% else %}info{% endif %}
+                                         circular float-right">{{ sale.status }}</span>
+                                        <span class="product-description">{{ sale.cli_addr }} ({{ sale.date_joined }})</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer text-center circular-bottom">
+                        <a href="{% url 'startpage:cart_list' %}" target="_blank"
+                           class="uppercase btn btn-outline-primary circular btn-sm">View
+                            All Sales Online</a>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <div id="container"></div>
@@ -24,6 +236,39 @@
         </div>
         <br>
     </div>
+    {% include 'startpage/modal_prod_details.html' %}
+    <div class="modal fade" id="myModalDet" tabindex="-1" role="dialog" aria-labelledby="myModalDetLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content circular">
+                <div class="modal-header circular-top">
+                    <h5 class="modal-title" id="myModalDetLabel"><i class="mdi mdi-cart"></i>
+                        Details of the sale </h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-head-fixed w3-hoverable-light" id="tblDet">
+                            <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantify</th>
+                                <th scope="col">Subtotal</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="application/javascript">
       graphcolumn = Highcharts.chart('container', {
         chart: {
@@ -102,5 +347,8 @@
           }
         },
       })
+    </script>
+    <script>
+      $.widget.bridge('uibutton', $.ui.button)
     </script>
 {% endblock %}

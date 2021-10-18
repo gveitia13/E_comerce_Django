@@ -4,14 +4,16 @@
     <script src="{% static 'startpage/js/list.js' %}"></script>
 {% endblock %}
 {% block search %}
+    <style>
 
+    </style>
 {% endblock %}
 {% block columns %}
     <tr>
         <th scope="col" style="width: 15%">Client</th>
         <th scope="col" style="width: 15%">Date</th>
-        <th scope="col" style="width: 25%">Address</th>
-        <th scope="col" style="width: 20%">Note</th>
+        <th scope="col" style="width: 30%">Address</th>
+        <th scope="col" style="width: 15%">Status</th>
         <th scope="col" style="width: 10%">Total</th>
         <th scope="col" style="width: 15%">Options</th>
     </tr>
@@ -23,7 +25,7 @@
 {% block buttons_list %}
     <div class="card-footer">
         <a href="{% url 'startpage' %}" class="btn bg-gradient-indigo circular">
-            <i class="mdi mdi-plus"></i> StartPage
+            <i class="mdi mdi-plus"></i> New sale online
         </a>
     </div>
 {% endblock %}

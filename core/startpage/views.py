@@ -102,6 +102,12 @@ class CartListView(TemplateView):
                     cart.delete()
                     data['success'] = 'deleted'
                     data['object'] = cart.toJSON()
+            elif action == 'edit':
+                with transaction.atomic():
+                    cart = Cart.objects.get(pk=request.POST['id'])
+                    cart.status = request.POST['status']
+                    cart.save()
+                    data['success'] = 'todo ok'
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:

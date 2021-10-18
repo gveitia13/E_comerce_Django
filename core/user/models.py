@@ -1,3 +1,5 @@
+import datetime
+
 from crum import get_current_request
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -13,6 +15,12 @@ class User(AbstractUser):
         if self.image:
             return '{}{}'.format(MEDIA_URL, self.image)
         return '{}{}'.format(STATIC_URL, 'img/user2.png')
+
+    def get_short_login_date(self):
+        if self.last_login:
+            return  self.last_login.strftime('%d/%m/%y')
+        else:
+            return 'Not logged yet'
 
     def toJSON(self):
         item = model_to_dict(self, exclude=['password', 'user_permissions', 'last_login'])

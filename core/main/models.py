@@ -71,9 +71,7 @@ class Product(models.Model):
 
     def get_desc(self):
         if self.desc is not None or self.desc: return self.desc
-        return 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci consequatur corporis doloremque ' \
-               'dolorum, eaque illo, illum, inventore iure maiores molestias pariatur porro qui quia quos ratione ' \
-               'repudiandae suscipit tenetur totam. '
+        return ''
 
     class Meta:
         verbose_name = 'Product'

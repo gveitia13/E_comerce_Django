@@ -1,6 +1,9 @@
 {% extends 'startpage/body.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block head %}
+    <script src="{% static 'lib/masonry.pkgd.min.js' %}"></script>
+{% endblock %}
 {% block content %}
     {% for cat in all_category %}
         <h4 class="my-h4 px-4">{{ cat.name }}</h4>

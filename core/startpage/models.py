@@ -5,6 +5,12 @@ from django.forms import model_to_dict
 
 from core.main.models import Product
 
+status_choices = (
+    ('Pending', 'Pending'),
+    ('Shipped', 'Shipped'),
+    ('Sold', 'Sold'),
+)
+
 
 class Cart(models.Model):
     date_joined = models.DateField(default=datetime.now)
@@ -12,6 +18,7 @@ class Cart(models.Model):
     cli_name = models.CharField(max_length=50, verbose_name='Name', unique=False)
     cli_addr = models.CharField(max_length=150, verbose_name='Address', null=True, blank=True, )
     cli_note = models.CharField(max_length=300, verbose_name='Nota', null=True, blank=True, )
+    status = models.CharField(max_length=50, choices=status_choices, default='Pending', verbose_name='Status')
 
     def __str__(self):
         return f'No: {self.id} {self.cli_name}'

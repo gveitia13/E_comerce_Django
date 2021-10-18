@@ -26,9 +26,11 @@ class UserForm(ModelForm):
             'username': forms.TextInput(attrs={
                 'placeholder': 'Enter your username',
             }),
-            'password': forms.PasswordInput(attrs={
-                'placeholder': 'Enter you password',
-            }, render_value=True),
+            'password': forms.PasswordInput(
+                render_value=True,
+                attrs={
+                    'placeholder': 'Enter you password',
+                }),
             'groups': forms.SelectMultiple(attrs={
                 'class': 'form-control select2',
                 'style': 'width: 100%',

@@ -407,8 +407,6 @@ let
     parameters.append('cart', JSON.stringify(vent))
     ajaxFunction(location.pathname, parameters, response => {
       Cart.id = response.id
-      console.log(idInvoice)
-      console.log(idInvoice.id)
     }, false)
   }
   ,

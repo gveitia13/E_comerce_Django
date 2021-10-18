@@ -1,0 +1,26 @@
+.tools > i.mdi {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.tools > i[class*='edit'] {
+    color: var(--orange)
+}
+
+ul.todo-list > li > small.badge,
+label[for*="todoCheck"]::before {
+    border-radius: 1.5rem !important;
+}
+
+.imgProdDetails {
+    width: 100%;
+    height: 250px;
+    background-size: contain !important;
+    background-position: center !important;
+    position: relative;
+    background-repeat: no-repeat !important;
+}
+
+.overflow-scroll {
+    overflow: scroll !important;
+}

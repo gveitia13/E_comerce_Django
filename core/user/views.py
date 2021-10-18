@@ -1,5 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -8,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.views.generic import TemplateView
 
+from core.main.mixins import ValidatePermissionRequiredMixin
 from core.main.views.dashboard.views import countEntity
 from core.user.forms import UserForm
 from core.user.models import User
@@ -89,12 +92,12 @@ class UserListView(generic.ListView):
         return JsonResponse(data, safe=False)
 
 
-class UserCreateView(generic.CreateView):
+class UserCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, generic.CreateView):
     model = User
     form_class = UserForm
     template_name = 'user/create.html'
     success_url = reverse_lazy('user:user_list')
-    # permission_required = 'user.add_user'
+    permission_required = 'user.add_user'
     url_redirect = success_url
 
     @method_decorator(csrf_exempt)
@@ -106,25 +109,24 @@ class UserCreateView(generic.CreateView):
         try:
             action = request.POST['action']
             if action == 'add':
-                # form = self.get_form()
-                # data = form.save()
+                form = self.get_form()
+                data = form.save()
 
                 # UserForm(request.POST).save()
                 # data['success'] = 'added'
                 # data['object'] = User.objects.all().last().toJSON()
 
-                user = User()
-                # user.id = User.objects.last().id + 1
-                user.username = request.POST['username']
-                user.email = request.POST['email']
-                user.password = request.POST['password']
-                user.first_name = request.POST['first_name']
-                user.last_name = request.POST['last_name']
-                user.image = request.POST['image']
-                user.groups.set(request.POST['groups'])
-
-                print(user)
-                data = user.save()
+                # user = User()
+                # user.username = request.POST['username']
+                # user.email = request.POST['email']
+                # user.password = request.POST['password']
+                # user.first_name = request.POST['first_name']
+                # user.last_name = request.POST['last_name']
+                # user.image = request.POST['image']
+                # user.groups.set(request.POST['groups'])
+                #
+                # print(user)
+                # data = user.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opcion'
         except Exception as e:
@@ -137,8 +139,8 @@ class UserCreateView(generic.CreateView):
         context['entity'] = 'User'
         context['list_url'] = self.success_url
         context['action'] = 'add'
-        # context['form'] = UserForm()
         return context
+
 
 # class UserUpdateView(generic.UpdateView):
 #     model = User
@@ -200,3 +202,11 @@ class UserCreateView(generic.CreateView):
 #         except Exception as e:
 #             data['error'] = str(e)
 #         return JsonResponse(data)
+class UserChangeGroup(LoginRequiredMixin, generic.View):
+
+    def get(self, request, *args, **kwargs):
+        try:
+            request.session['group'] = Group.objects.get(pk=self.kwargs['pk'])
+        except:
+            pass
+        return HttpResponseRedirect(reverse_lazy('dashboard'))

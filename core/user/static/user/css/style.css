@@ -1,0 +1,5 @@
+li.select2-selection__choice {
+    border-radius: 1.5rem!important;
+    background-color: var(--primary);
+    color: #fff!important;
+}
