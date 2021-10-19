@@ -38,12 +38,12 @@ class ProductView(TemplateView, FormView):
                     data['object'] = Product.objects.get(name=request.POST['name']).toJSON()
             elif action == 'edit':
                 with transaction.atomic():
-                    # print(request.POST)
                     prod = Product.objects.get(pk=request.POST['id'])
                     prod.name = request.POST['name']
                     prod.cat = Category.objects.get(pk=request.POST['cat'])
                     prod.stock = request.POST['stock']
                     prod.s_price = request.POST['s_price']
+                    prod.desc = request.POST['desc']
                     prod.save()
                     data['success'] = 'updated'
                     data['object'] = prod.toJSON()

@@ -48,7 +48,7 @@ class StartPageView(GetObjects, TemplateView):
                     vents = json.loads(request.POST['cart'])
                     print(vents)
                     cart = Cart()
-                    cart.date_joined = datetime.now()
+                    # cart.date_joined = datetime.now()
                     cart.cli_name = vents['cli_name']
                     if vents['cli_addr'] != '':
                         cart.cli_addr = vents['cli_addr']
@@ -106,6 +106,7 @@ class CartListView(TemplateView):
                 with transaction.atomic():
                     cart = Cart.objects.get(pk=request.POST['id'])
                     cart.status = request.POST['status']
+                    cart.user_updated_id = request.user.id
                     cart.save()
                     data['success'] = 'todo ok'
             else:

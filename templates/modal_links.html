@@ -13,8 +13,10 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <a class="btn btn-app pt-0 text-body circular" href="{% url 'dashboard' %}" target="_blank">
-                        <i class="mdi mdi-monitor-dashboard mdi-24px d-block"></i> Dashboard
+                    <a class="btn btn-app pt-0 text-body circular" href="{% url 'startpage:cart_list' %}"
+                       target="_blank">
+                        <span class="badge bg-info circular">{{ entity_count.cart }}</span>
+                        <i class="mdi mdi-cart mdi-24px d-block"></i> Sales online
                     </a>
                     <a class="btn btn-app pt-0 text-body circular" href="{% url 'main:sale_create' %}" target="_blank">
                         <span class="badge bg-info circular">{{ entity_count.sale }}</span>
@@ -26,7 +28,8 @@
                     </a>
                 </div>
                 <div class="row">
-                    <a class="btn btn-app pt-0 text-body circular" href="{% url 'main:category_list' %}" target="_blank">
+                    <a class="btn btn-app pt-0 text-body circular" href="{% url 'main:category_list' %}"
+                       target="_blank">
                         <span class="badge bg-teal circular">{{ entity_count.cat }}</span>
                         <i class="mdi mdi-widgets mdi-24px d-block"></i> Categories
                     </a>

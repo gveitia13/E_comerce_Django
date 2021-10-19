@@ -81,10 +81,9 @@ $(function () {
       $('#prodDetails span.stock').html(` Stock: ${data['stock']}`)
       $('#prodDetails p.desc').text(`${data['desc']}`)
       $('#prodDetails span.price').html(`<b>${data['s_price']}</b> CUP`)
-      d.querySelector(
-        '#prodDetails div.imgProdDetails'
-      ).style = `background: url('${data['image']}');background-color:#333;`
-      d.querySelector('#prodDetails button.prod-id').name = this.id
+      document.querySelector('#prodDetails div.imgProdDetails')
+        .style = `background: url('${data['image']}');background-color:#333;`
+      document.querySelector('#prodDetails button.prod-id').name = this.id
     })
     $('#prodDetails').modal('show')
   })
@@ -136,13 +135,14 @@ $(function () {
     $('#myModalDet').modal('show')
   })
 
-  $('button[data-card-widget="collapse"] > i').on('click', function () {
-    if (this.classList.contains('mdi-minus')) {
-      this.classList.remove('mdi-minus')
-      this.classList.add('mdi-plus')
-    } else {
-      this.classList.remove('mdi-plus')
-      this.classList.add('mdi-minus')
+  $('button[data-card-widget="collapse"]').on('click', function () {
+    let icon = this.children[0]
+    if (icon.classList.contains('mdi-minus')) {
+      icon.classList.remove('mdi-minus')
+      icon.classList.add('mdi-plus')
+    } else if (icon.classList.contains('mdi-plus')) {
+      icon.classList.remove('mdi-plus')
+      icon.classList.add('mdi-minus')
     }
   })
 })

@@ -46,9 +46,9 @@ let tableCart,
               : data === 'Shipped' ? 'info'
                 : 'success'
             return `<div class="row">
-                    <div class="col-10">
+                    <div class="col-8">
                     <span class="badge badge-${color} circular"> ${data}</span></div>
-                    <div class="dropdown d-inline-block col-2">
+                    <div class="dropdown d-inline-block col-4">
                         <i class="mdi mdi-square-edit-outline text-danger sale-status d-none cursor-pointer"
                            data-toggle="dropdown"></i>
                         <div class="dropdown-menu dropdown-menu-sm-right" style="min-width: auto">

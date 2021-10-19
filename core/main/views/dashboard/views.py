@@ -96,16 +96,17 @@ class DashboardView(TemplateView):
         context['title'] = 'Dashboard'
         context['graph_sale_years'] = get_graph_sales_years_month()
         context['entity_count'] = countEntity()
-        context['last_products'] = Product.objects.all().order_by('-id')[:4]
         context['sales_at_home'] = [c for c in Cart.objects.order_by('-date_joined')
             .order_by('-id').exclude(status='Sold').exclude(cli_addr='Our local')][:4]
-        # context['Users'] = User.objects.all()
+        context['prods_sold'] = DetSale.objects.filter(prod__in=Product.objects.all()).count()
         return context
 
     def get(self, request, *args, **kwargs):
         kwargs['get_users'] = [user for user in User.objects
             .filter(date_joined__lt=request.user.last_login)][:8]
         kwargs['users_count'] = len(kwargs['get_users'])
+        kwargs['last_products'] = Product.objects.filter(
+            date_creation__gt=request.user.last_login).order_by('-date_creation')[:4]
         return super().get(request, *args, **kwargs)
 
 
@@ -116,4 +117,5 @@ def countEntity():
         'cli': Client.objects.count(),
         'sale': Sale.objects.count(),
         'user': User.objects.count(),
+        'cart': Cart.objects.count()
     }

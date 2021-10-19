@@ -4,6 +4,8 @@ from crum import get_current_user
 from django.db import models
 from django.forms import model_to_dict
 from datetime import datetime
+
+from conf import settings
 from conf.settings import MEDIA_URL, STATIC_URL
 from core.models import BaseModel
 
@@ -17,14 +19,14 @@ class Category(BaseModel):
     def __str__(self):
         return self.name
 
-    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-    #     user = get_current_user()
-    #     if user is not None:
-    #         if not self.pk:
-    #             self.user_creation = user
-    #         else:
-    #             self.user_updated = user
-    #     super(Category, self).save()
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        super(Category, self).save()
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -42,17 +44,30 @@ class Category(BaseModel):
         ordering = ['name']
 
 
-class Product(models.Model):
+class Product(BaseModel):
     """ Product Model"""
+    user_creation = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                      related_name='prod_user_creation', null=True, blank=True)
+    user_updated = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                     related_name='prod_user_updated', null=True, blank=True)
     name = models.CharField(max_length=50, verbose_name='Name', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category')
     image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True)
     stock = models.PositiveIntegerField(default=1, verbose_name='Stock')
     s_price = models.DecimalField(default=0.01, max_digits=9, decimal_places=2, verbose_name='Selling price')
-    desc = models.CharField(max_length=150, verbose_name='Description', null=True, blank=True, )
+    desc = models.CharField(max_length=500, null=True, blank=True, verbose_name='Description')
 
     def __str__(self):
         return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        super(Product, self).save()
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -115,6 +130,10 @@ class Client(models.Model):
 
 class Sale(models.Model):
     """ Sale Model """
+    user_creation = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                                      related_name='sale_user_creation', null=True, blank=True)
+    user_updated = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                                     related_name='sale_user_updated', null=True, blank=True)
     cli = models.ForeignKey(Client, on_delete=models.CASCADE)
     date_joined = models.DateField(default=datetime.now)
     subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
@@ -123,6 +142,15 @@ class Sale(models.Model):
 
     def __str__(self):
         return self.cli.name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        super(Sale, self).save()
 
     def toJSON(self):
         item = model_to_dict(self)

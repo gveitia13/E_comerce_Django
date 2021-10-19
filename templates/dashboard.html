@@ -21,7 +21,7 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 col-sm-7">
                 <div class="card circular" style="position: relative; left: 0px; top: 0px;">
                     <div class="card-header ui-sortable-handle">
                         <h3 class="card-title">
@@ -102,8 +102,9 @@
                     </div>
                 </div>
             </div>
-            {% if users_count > 0 %}
-            {% endif %}
+            <div class="col-12 col-sm-5">
+
+            </div>
         </div>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4">
@@ -237,6 +238,7 @@
         <br>
     </div>
     {% include 'startpage/modal_prod_details.html' %}
+
     <div class="modal fade" id="myModalDet" tabindex="-1" role="dialog" aria-labelledby="myModalDetLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

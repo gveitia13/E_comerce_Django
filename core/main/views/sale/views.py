@@ -1,23 +1,18 @@
 import json
-import os
-from pathlib import Path
 
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.db.models import Q
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from django.template.loader import get_template, render_to_string
+from django.http import JsonResponse, HttpResponse
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, ListView, UpdateView, TemplateView
-from weasyprint import HTML, CSS
+from django.views.generic import CreateView, UpdateView, TemplateView
+from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
 
-from conf import settings
 from core.main.forms import SaleForm, ClientForm, ReportForm
-from core.main.mixins import ValidatePermissionRequiredMixin
 from core.main.models import Sale, Product, DetSale, Client
 from core.main.views.dashboard.views import countEntity
 
@@ -320,37 +315,45 @@ class ReportSaleView(TemplateView):
         return context
 
 
-def export_pdf(request, **kwargs):
-    print(request)
-    context = {}
-    context['title'] = 'Invoice details'
-    context['sale'] = Sale.objects.get(pk=kwargs['pk'])
-    context['company'] = {'name': 'TechnoSTAR'}
-    context['list_url'] = reverse_lazy('main:sale_list')
-
-    html = render_to_string('sale/invoice.html', context)
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; report.pdf'
-
-    font_config = FontConfiguration()
-    # css_url = os.path.join(settings.BASE_DIR, Path(__file__).resolve().parent.parent.parent,
-    #                        'static/sale/css/invoice.css')
-    HTML(string=html, base_url=request.build_absolute_uri()) \
-        .write_pdf(response, font_config=font_config)
-    return response
-
-# class SaleTest(TemplateView):
-#     template_name = 'sale/invoice.html'
+# def export_pdf(request, **kwargs):
+#     print(request)
+#     context = {}
+#     context['title'] = 'Invoice details'
+#     context['sale'] = Sale.objects.get(pk=kwargs['pk'])
+#     context['company'] = {'name': 'TechnoSTAR'}
+#     context['list_url'] = reverse_lazy('main:sale_list')
 #
-#     @method_decorator(csrf_exempt)
-#     def dispatch(self, request, *args, **kwargs):
-#         return super().dispatch(request, *args, **kwargs)
+#     html = render_to_string('sale/invoice.html', context)
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'inline; report.pdf'
 #
-#     def get_context_data(self, **kwargs):
-#         print(kwargs['pk'])
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = 'Invoice details'
-#         context['sale'] = Sale.objects.get(pk=self.kwargs['pk'])
-#         context['company'] = {'name': 'TechnoSTAR'}
-#         context['list_url'] = reverse_lazy('main:sale_list')
-#         return context
+#     font_config = FontConfiguration()
+#     # css_url = os.path.join(settings.BASE_DIR, Path(__file__).resolve().parent.parent.parent,
+#     #                        'static/sale/css/invoice.css')
+#     HTML(string=html, base_url=request.build_absolute_uri()) \
+#         .write_pdf(response, font_config=font_config)
+#     return response
+
+
+class SalePDF(View):
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        print(kwargs['pk'])
+        context = {
+            'title': 'Invoice details',
+            'sale': Sale.objects.get(pk=self.kwargs['pk']),
+            'company': {'name': 'TechnoSTAR'},
+            'list_url': reverse_lazy('main:sale_list')
+        }
+        html = render_to_string('sale/invoice.html', context)
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; report.pdf'
+
+        font_config = FontConfiguration()
+        HTML(string=html, base_url=request.build_absolute_uri()) \
+            .write_pdf(response, font_config=font_config)
+        return response

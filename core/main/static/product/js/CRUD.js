@@ -11,6 +11,7 @@ $(() => {
     document.querySelector('#image_span').innerHTML = 'Empty'
     document.querySelector('button[data-id="id_cat"] div div div').innerHTML = '---------'
     document.querySelector('#id_cat').attributes[6].ownerElement.value = ''
+    document.querySelector('#id_desc').innerHTML = ''
     document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
     document.querySelector('#myModalFormTitle').name = 'action-add'
     $('#myModalForm').trigger('reset')
@@ -105,6 +106,7 @@ $(() => {
         nombre = data['image'].substring(26, data['image'].lastIndexOf('.'))
       document.querySelector('#image_span').innerHTML =
         nombre.length < 30 ? nombre + ext : truncate(nombre, 30) + ext
+      document.querySelector('#id_desc').innerHTML = data['desc']
 
       document.querySelector('#myModalFormTitle').innerHTML =
         `<b><i class="mdi mdi-square-edit-outline"></i> Edit ${ent}</b>`

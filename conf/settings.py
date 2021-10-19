@@ -32,16 +32,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # General use templates & template tags (should appear first)
-    # 'adminlte3',
-    # Optional: Django admin theme (must be before django.contrib.admin)
-    # 'adminlte3_theme',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core.user.apps.UserConfig',
     'widget_tweaks',
     'core.user',
     'core.main',
@@ -116,6 +113,10 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# PASSWORD_HASHERS=[
+#
+# ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
