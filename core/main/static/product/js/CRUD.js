@@ -33,12 +33,35 @@ $(() => {
     if (this.value === '0') {
       document.querySelector('.bootstrap-touchspin-down').classList.remove('bg-gradient-indigo')
       document.querySelector('.bootstrap-touchspin-down').classList.add('bg-gradient-danger')
-      this.classList.add('w3-text-red')
+      this.classList.add('text-danger')
     }
     if (this.value !== '0') {
       document.querySelector('.bootstrap-touchspin-down').classList.remove('bg-gradient-danger')
       document.querySelector('.bootstrap-touchspin-down').classList.add('bg-gradient-indigo')
-      this.classList.remove('w3-text-red')
+      this.classList.remove('text-danger')
+    }
+  }).addClass('text-center')
+
+   $("input[name='p_price']").TouchSpin({
+    min: 0,
+    max: 999999999999,
+    boostat: 5,
+    maxboostedstep: 10,
+    // prefix: `$`,
+    step: 0.1,
+    decimals: 2,
+    buttondown_class: 'btn bg-gradient-indigo circular-left',
+    buttonup_class: 'btn bg-gradient-indigo circular-right'
+  }).on('change', function () {
+    if (parseFloat(this.value) === 0) {
+      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.remove('bg-gradient-indigo')
+      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.add('bg-gradient-danger')
+      this.classList.add('text-danger')
+    }
+    if (parseFloat(this.value) !== 0) {
+      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.remove('bg-gradient-danger')
+      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.add('bg-gradient-indigo')
+      this.classList.remove('text-danger')
     }
   }).addClass('text-center')
 
@@ -48,20 +71,20 @@ $(() => {
     boostat: 5,
     maxboostedstep: 10,
     // prefix: `$`,
-    step: 0.01,
+    step: 0.1,
     decimals: 2,
     buttondown_class: 'btn bg-gradient-indigo circular-left',
     buttonup_class: 'btn bg-gradient-indigo circular-right'
   }).on('change', function () {
     if (parseFloat(this.value) === 0) {
-      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.remove('bg-gradient-indigo')
-      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.add('bg-gradient-danger')
-      this.classList.add('w3-text-red')
+      document.querySelectorAll('.bootstrap-touchspin-down')[2].classList.remove('bg-gradient-indigo')
+      document.querySelectorAll('.bootstrap-touchspin-down')[2].classList.add('bg-gradient-danger')
+      this.classList.add('text-danger')
     }
     if (parseFloat(this.value) !== 0) {
-      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.remove('bg-gradient-danger')
-      document.querySelectorAll('.bootstrap-touchspin-down')[1].classList.add('bg-gradient-primary')
-      this.classList.remove('w3-text-red')
+      document.querySelectorAll('.bootstrap-touchspin-down')[2].classList.remove('bg-gradient-danger')
+      document.querySelectorAll('.bootstrap-touchspin-down')[2].classList.add('bg-gradient-indigo')
+      this.classList.remove('text-danger')
     }
   }).addClass('text-center')
 
@@ -98,6 +121,7 @@ $(() => {
       document.querySelector('.form-floating input[name="name"]').value = data['name']
       document.querySelector('#id_stock').value = data['stock']
       document.querySelector('#id_s_price').value = data['s_price']
+      document.querySelector('#id_p_price').value = data['p_price']
       document.querySelector('#id_cat').attributes[6].ownerElement.value =
         data['cat']['id']
       document.querySelector('button[data-id="id_cat"] div div div').innerHTML =
@@ -123,9 +147,12 @@ $(() => {
               <div class="card-body ">
                   <h5 class="card-title"><b>${data['full_name']}</b></h5>
                   <br>
+                  <span class="card-text"><b>Purchase price: </b>$ ${data['p_price']}</span>
+                  <br>
                   <span class="card-text"><b>Selling price: </b>$ ${data['s_price']}</span>
                   <br>
                   <span class="card-text"><b>Stock: </b>${data['stock']}</span>
+                  <span class="card-text">|<b> ${data['priority']} </b>Priority</span>
                   <br>
                   <span class="card-text desc">${data['desc']}</span>
               </div>

@@ -4,7 +4,7 @@ from urllib import request
 from django import forms
 from django.forms import ModelForm, Select
 
-from core.main.models import Category, Product, Client, Sale
+from core.main.models import Category, Product, Client, Sale, Task
 
 
 class CategoryForm(ModelForm):
@@ -93,7 +93,14 @@ class ProductForm(ModelForm):
                     'rows': 3,
                     'cols': '3',
                 }
-            )
+            ),
+            'priority': forms.Select(
+                attrs={
+                    'class': 'selectpicker',
+                    'style': 'width: 100%',
+                    'data-style': 'btn btn-default form-control circular',
+                }
+            ),
         }
         exclude = ['user_updated', 'user_creation']
 
@@ -225,3 +232,43 @@ class ReportForm(forms.Form):
         'class': 'form-control circular',
         'autocomplete': 'off',
     }))
+
+
+class TaskForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['text'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Task
+        fields = 'status', 'text', 'owner', 'priority'
+        widgets = {
+            'text': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter a text',
+                    'minlength': 3
+                }
+            ),
+            # 'owner': Select(
+            #     attrs={
+            #         'class': 'selectpicker',
+            #         'style': 'width: 100%',
+            #         'data-style': 'btn border-light circular-left',
+            #         'data-live-search': 'true'
+            #     }
+            # ),
+            'owner': Select(
+                attrs={
+                    'class': 'select2bs4 select2-danger form-control',
+                    'data-dropdown-css-class': "select2-danger",
+                }
+            ),
+            'priority': forms.Select(
+                attrs={
+                    'class': 'selectpicker',
+                    'style': 'width: 100%',
+                    'data-style': 'btn btn-default form-control circular',
+                }
+            ),
+        }
+        exclude = ['user_updated', 'user_creation']

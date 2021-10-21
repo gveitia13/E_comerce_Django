@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% load widget_tweaks %}
 {% load static %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}">
@@ -15,13 +16,17 @@
     <script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
     <script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
     <script src="{% static 'lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'dashboard/lib/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/lib/select2/css/select2-bootstrap4.min.css' %}">
+    <script src="{% static 'dashboard/lib/select2/js/select2.full.min.js' %}"></script>
     <script src="{% static 'dashboard/js/chars.js' %}"></script>
+    <script src="{% static 'dashboard/js/todo_list.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-sm-7">
+            <div class=" col-md-7 col-12">
                 <div class="card circular" style="position: relative; left: 0px; top: 0px;">
                     <div class="card-header ui-sortable-handle">
                         <h3 class="card-title">
@@ -42,68 +47,121 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <ul class="todo-list ui-sortable" data-widget="todo-list">
-                            <li>
-                                <!-- drag handle -->
-                                <span class="handle ui-sortable-handle">
-                                    <i class=" mdi mdi-swap-vertical"></i>
-                                 </span>
-                                <!-- checkbox -->
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                    <label for="todoCheck1"></label>
-                                </div>
-                                <!-- todo text -->
-                                <span class="text">Design a nice theme</span>
-                                <!-- Emphasis label -->
-                                <small class="badge badge-danger"><i class="mdi mdi-clock-outline"></i> 2 mins</small>
-                                <!-- General tools such as edit or delete-->
-                                <div class="tools">
-                                    <i class="mdi mdi-square-edit-outline"></i>
-                                    <i class="mdi mdi-trash-can-outline"></i>
-                                </div>
+                            {% for task in tasks %}
+                                <li class="circular" task="{{ task.id }}">
+                                    <span class="handle ui-sortable-handle">
+                                      <i class="mdi mdi-swap-vertical"></i>
+                                    </span>
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input type="checkbox" value="" {% if task.status %}checked{% endif %}
+                                               name="todo{{ task.id }}" id="todoChecks{{ task.id }}">
+                                        <label for="todoChecks{{ task.id }}"></label>
+                                    </div>
+                                    <span class="text">{{ task.text }} {% if user.is_staff %}
+                                        ({{ task.owner.first_name }})
+                                    {% endif %}</span>
+                                    <small id="time{{ task.id }}" class="badge badge-{{ task.get_Time.clase }}"><i
+                                            class="mdi mdi-clock-outline"></i>
+                                        <span>{{ task.get_Time.num }} {{ task.get_Time.text }}</span></small>
+                                    <div class="tools">
+                                        {% if user.is_staff %}
+                                            <i class="mdi mdi-square-edit-outline"></i>
+                                        {% endif %}
+                                        <i class="mdi mdi-trash-can-outline" task="{{ task.id }}"></i>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            <li class="circular d-none pt-3" task="task_add">
+                                <form action="." class="form-horizontal" method="post" id="form-task-add">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            {{ task_form.owner|add_class:'w-25 border-right-0' }}
+                                            <div class="input-group-append w-75">
+                                                {{ task_form.text|add_class:'form-control task-text circular-right border-left-0'|attr:'autocomplete:off' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button class="btn bg-gradient-success btn-sm circular">
+                                            <i class="mdi mdi-content-save"></i> Save
+                                        </button>
+                                    </div>
+                                </form>
                             </li>
-                            <li class="done">
-                                <span class="handle ui-sortable-handle">
-                                  <i class="mdi mdi-swap-vertical"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo2" id="todoCheck2" checked="">
-                                    <label for="todoCheck2"></label>
-                                </div>
-                                <span class="text">Make the theme responsive</span>
-                                <small class="badge badge-info"><i class="mdi mdi-clock-outline"></i> 4 hours</small>
-                                <div class="tools">
-                                    <i class="mdi mdi-square-edit-outline"></i>
-                                    <i class="mdi mdi-trash-can-outline"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle ui-sortable-handle">
-                                  <i class="mdi mdi-swap-vertical"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo3" id="todoCheck3">
-                                    <label for="todoCheck3"></label>
-                                </div>
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="badge badge-warning"><i class="mdi mdi-clock-outline"></i> 1 day</small>
-                                <div class="tools">
-                                    <i class="mdi mdi-square-edit-outline"></i>
-                                    <i class="mdi mdi-trash-can-outline"></i>
-                                </div>
-                            </li>
+
                         </ul>
+                        {% comment %}                         <div class="circular d-none pt-3" task="task_add">
+                                <form action="." class="form-horizontal" method="post" id="form-task-add">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            {{ task_form.owner|add_class:'w-25 border-right-0' }}
+                                            <div class="input-group-append w-75">
+                                                {{ task_form.text|add_class:'form-control task-text circular-right border-left-0'|attr:'autocomplete:off' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button class="btn bg-gradient-success btn-sm circular">
+                                            <i class="mdi mdi-content-save"></i> Save
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>{% endcomment %}
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer clearfix circular-bottom">
-                        <button type="button" class="btn btn-primary circular float-right"><i class="mdi mdi-plus"></i>
-                            Add item
+                        <span class="text-black-50 ml-2 align-middle"><span task="task_footer">{{ task_made }} tasks made of</span> {{ tasks.count }}</span>
+                        <button type="button" class="btn bg-gradient-indigo circular float-right" task="task_add"><i
+                                class="mdi mdi-plus"></i>
+                            Add task
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-5">
-
+            <div class="col-md-5 col-12">
+                <div class="card card-widget widget-user circular">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header text-white circular-top"
+                         style="background: url('{% static 'img/bg2.jpg' %}') center center;background-size: cover;">
+                        <h3 class="widget-user-username text-right">{{ request.user.get_full_name }}</h3>
+                        <h5 class="widget-user-desc text-right">{{ user.userprofile.skill }}</h5>
+                        <h5 class="widget-user-desc text-right">{{ user.userprofile.reputation }} <i
+                                class="mdi mdi-star"></i></h5>
+                    </div>
+                    <div class="widget-user-image">
+                        <img class="img-circle" src="{{ request.user.get_image }}" style="height: 85px"
+                             alt="User Avatar">
+                    </div>
+                    <div class="card-footer circular-bottom">
+                        <div class="row">
+                            <div class="col-sm-4 border-right">
+                                <div class="description-block">
+                                    <h5 class="description-header">{{ total_sales }}</h5>
+                                    <span class="description-text">SALES</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 border-right">
+                                <div class="description-block">
+                                    <h5 class="description-header" task="my_tasks">{{ my_tasks }}</h5>
+                                    <span class="description-text">TASKS</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4">
+                                <div class="description-block">
+                                    <h5 class="description-header">{{ prods_added }}</h5>
+                                    <span class="description-text">PRODUCTS</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -127,7 +185,8 @@
                             {% for product in last_products %}
                                 <li class="item detail cursor-pointer" id="{{ product.id }}">
                                     <div class="product-img">
-                                        <img src="{{ product.get_image }}" alt="Product Image" class="img-size-50">
+                                        <img src="{{ product.get_image }}" alt="Product Image" class="img-size-50"
+                                             style="border-radius: .7rem">
                                     </div>
                                     <div class="product-info">
                                         <span class="product-title cursor-pointer">{{ product.name }}</span>
@@ -243,7 +302,7 @@
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content circular">
-                <div class="modal-header circular-top">
+                <div class="modal-header circular-top mb-n4">
                     <h5 class="modal-title" id="myModalDetLabel"><i class="mdi mdi-cart"></i>
                         Details of the sale </h5>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
@@ -352,5 +411,7 @@
     </script>
     <script>
       $.widget.bridge('uibutton', $.ui.button)
+      staff = '{{ request.user.is_staff|safe }}'
+      console.log(staff)
     </script>
 {% endblock %}

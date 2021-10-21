@@ -371,3 +371,17 @@ a.dropdown-item.active:hover {
 .border-light:focus {
     border-color: #80bdff !important;
 }
+
+.custom-select.form-control-border, .form-control.form-control-border {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+    box-shadow: inherit;
+}
+
+input.task-add {
+    border-color: var(--gray);
+    /*background-color: transparent;*/
+    padding-left: 1rem !important;
+}

@@ -43,6 +43,7 @@ class ProductView(TemplateView, FormView):
                     prod.cat = Category.objects.get(pk=request.POST['cat'])
                     prod.stock = request.POST['stock']
                     prod.s_price = request.POST['s_price']
+                    prod.p_price = request.POST['p_price']
                     prod.desc = request.POST['desc']
                     prod.save()
                     data['success'] = 'updated'

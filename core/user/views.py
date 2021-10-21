@@ -97,7 +97,7 @@ class UserCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, generi
     form_class = UserForm
     template_name = 'user/create.html'
     success_url = reverse_lazy('user:user_list')
-    permission_required = 'user.add_user'
+    # permission_required = 'user.add_user'
     url_redirect = success_url
 
     @method_decorator(csrf_exempt)
@@ -111,22 +111,6 @@ class UserCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, generi
             if action == 'add':
                 form = self.get_form()
                 data = form.save()
-
-                # UserForm(request.POST).save()
-                # data['success'] = 'added'
-                # data['object'] = User.objects.all().last().toJSON()
-
-                # user = User()
-                # user.username = request.POST['username']
-                # user.email = request.POST['email']
-                # user.password = request.POST['password']
-                # user.first_name = request.POST['first_name']
-                # user.last_name = request.POST['last_name']
-                # user.image = request.POST['image']
-                # user.groups.set(request.POST['groups'])
-                #
-                # print(user)
-                # data = user.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opcion'
         except Exception as e:

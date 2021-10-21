@@ -27,6 +27,7 @@ class StartPageView(GetObjects, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Catalog'
+        context['all_product'] = Product.objects.filter(stock__gt=0)
         return context
 
     @method_decorator(csrf_exempt)

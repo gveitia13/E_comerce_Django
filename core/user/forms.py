@@ -12,7 +12,7 @@ class UserForm(ModelForm):
 
     class Meta:
         model = User
-        fields = 'first_name', 'last_name', 'email', 'username', 'password', 'image', 'groups'
+        fields = 'first_name', 'last_name', 'email', 'username', 'password', 'image', 'groups', 'phone_number'
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'placeholder': 'Enter your names',
@@ -22,6 +22,9 @@ class UserForm(ModelForm):
             }),
             'email': forms.EmailInput(attrs={
                 'placeholder': 'Enter you email',
+            }),
+            'phone_number': forms.TextInput(attrs={
+                'placeholder': 'Enter your number phone'
             }),
             'username': forms.TextInput(attrs={
                 'placeholder': 'Enter your username',

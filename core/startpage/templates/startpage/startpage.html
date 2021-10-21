@@ -14,7 +14,7 @@
                                  id="{{ prod.id }}">
 
                                 <div class="row row-card">
-                                    {% if prod.s_price > 100 %}
+                                    {% if prod.priority != 'Low' %}
                                         <div class="ribbon-wrapper">
                                             <div class="ribbon bg-gradient-warning" style="text-transform: none">
                                                 <small>

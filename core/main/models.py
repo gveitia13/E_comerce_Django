@@ -3,11 +3,17 @@ from time import strptime
 from crum import get_current_user
 from django.db import models
 from django.forms import model_to_dict
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from conf import settings
 from conf.settings import MEDIA_URL, STATIC_URL
 from core.models import BaseModel
+
+priority_choices = (
+    ('High', 'High'),
+    ('Normal', 'Normal'),
+    ('Low', 'Low'),
+)
 
 
 class Category(BaseModel):
@@ -54,8 +60,10 @@ class Product(BaseModel):
     cat = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category')
     image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True)
     stock = models.PositiveIntegerField(default=1, verbose_name='Stock')
-    s_price = models.DecimalField(default=0.01, max_digits=9, decimal_places=2, verbose_name='Selling price')
+    s_price = models.DecimalField(default=0.10, max_digits=9, decimal_places=2, verbose_name='Selling price')
+    p_price = models.DecimalField(default=0.10, max_digits=9, decimal_places=2, verbose_name='Purchase price')
     desc = models.CharField(max_length=500, null=True, blank=True, verbose_name='Description')
+    priority = models.CharField(max_length=22, choices=priority_choices, default='Low')
 
     def __str__(self):
         return self.name
@@ -75,6 +83,7 @@ class Product(BaseModel):
         item['cat'] = self.cat.toJSON()
         item['image'] = self.get_image()
         item['s_price'] = format(float(self.s_price), '.2f')
+        item['p_price'] = format(float(self.p_price), '.2f')
         item['subtotal'] = 0.00
         item['desc'] = self.get_desc()
         return item
@@ -195,3 +204,75 @@ class DetSale(models.Model):
         verbose_name = 'Sale detail'
         verbose_name_plural = 'Sales details'
         ordering = ['id']
+
+
+class Task(BaseModel):
+    user_creation = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                      related_name='task_user_creation', null=True, blank=True)
+    user_updated = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                     related_name='task_user_updated', null=True, blank=True)
+    status = models.BooleanField(default=False)
+    text = models.CharField(max_length=100)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    priority = models.CharField(max_length=22, choices=priority_choices, default='Low')
+
+    def __str__(self):
+        return self.text
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        super(Task, self).save()
+
+    def get_Time(self):
+        d1 = self.date_creation.replace(tzinfo=None)
+        d2 = datetime.utcnow()
+        text = ''
+        num = 0
+        clase = ''
+        if (d2 - d1).days == 0:
+            if (d2 - d1).seconds < 60:
+                num = 1
+                text = 'min'
+                clase = 'success'
+            if 60 < (d2 - d1).seconds < 3600:
+                num = (d2 - d1).seconds // 60
+                text = 'min' if num == 1 else 'mins'
+                clase = 'success'
+            elif (d2 - d1).seconds > 3600:
+                num = (d2 - d1).seconds // 60 // 60
+                text = 'hour' if num == 1 else 'hours'
+                clase = 'primary'
+        elif (d2 - d1).days > 0:
+            if (d2 - d1).days < 7:
+                num = (d2 - d1).days
+                text = 'day' if num == 1 else 'days'
+                clase = 'warning'
+            if 7 < (d2 - d1).days < 30:
+                num = (d2 - d1).days // 7
+                text = 'week' if num == 1 else 'weeks'
+                clase = 'danger'
+            elif (d2 - d1).days > 30:
+                num = (d2 - d1).days // 30
+                text = 'month' if num == 1 else 'months'
+                clase = 'dark'
+
+        return {
+            'id': self.id,
+            'num': num,
+            'text': text,
+            'clase': clase,
+        }
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['owner'] = self.owner.toJSON()
+        item['get_Time'] = self.get_Time()
+        return item
+
+    class Meta:
+        ordering = ['owner', 'date_creation']

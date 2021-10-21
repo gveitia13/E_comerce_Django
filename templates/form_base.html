@@ -75,15 +75,14 @@
       {% endif %}
 
       $('form').on('submit', function (e) {
-        e.preventDefault();
+        {#e.preventDefault();#}
         let parameters = new FormData(this)
-        {#parameters.append('action', 'add')#}
         parameters.forEach((e, i) => {
           console.log(i)
           console.log(e)
         })
-        submit_with_ajax_alert(window.location.pathname, 'Notification', 'Are you sure?', parameters, () =>
-          location.href = '{{ list_url }}', 'mdi mdi-cancel')
+        {#submit_with_ajax_alert(window.location.pathname, 'Notification', 'Are you sure?', parameters, () =>#}
+        {#  location.href = '{{ list_url }}', 'mdi mdi-cancel')#}
       })
     </script>
 {% endblock %}
