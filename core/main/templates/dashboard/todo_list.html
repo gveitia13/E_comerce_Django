@@ -1,0 +1,74 @@
+{% load widget_tweaks %}
+<div class="card circular" style="position: relative; left: 0px; top: 0px;">
+    <div class="card-header ui-sortable-handle">
+        <h3 class="card-title">
+            <i class="mdi mdi-check-box-multiple-outline mr-1"></i>
+            To Do List
+        </h3>
+{% comment %}        <div class="card-tools">
+            <ul class="pagination pagination-sm">
+                <li class="page-item"><a href="#" class="circular-left page-link">«</a></li>
+                <li class="page-item"><a href="#" class="page-link">1</a></li>
+                <li class="page-item"><a href="#" class="page-link">2</a></li>
+                <li class="page-item"><a href="#" class="page-link">3</a></li>
+                <li class="page-item"><a href="#" class="circular-right page-link">»</a></li>
+            </ul>
+        </div>{% endcomment %}
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <ul class="todo-list ui-sortable" data-widget="todo-list">
+            {% for task in tasks %}
+                <li class="circular" task="{{ task.id }}">
+                    <span class="handle ui-sortable-handle">
+                      <i class="mdi mdi-swap-vertical"></i>
+                    </span>
+                    <div class="icheck-primary d-inline ml-2">
+                        <input type="checkbox" value="" {% if task.status %}checked{% endif %}
+                               name="todo{{ task.id }}" id="todoChecks{{ task.id }}">
+                        <label for="todoChecks{{ task.id }}"></label>
+                    </div>
+                    <span class="text">{{ task.text }} {% if user.is_staff %}
+                        ({{ task.owner.first_name }})
+                    {% endif %}</span>
+                    <small id="time{{ task.id }}" class="badge badge-primary badge-{{ task.get_Time.clase }}"><i
+                            class="mdi mdi-clock-outline"></i>
+                        <span>{{ task.get_Time.num }} {{ task.get_Time.text }}</span></small>
+                    <div class="tools">
+                        {% if user.is_staff %}
+                            <i class="mdi mdi-square-edit-outline" rel="edit{{ task.id }}"></i>
+                        {% endif %}
+                        <i class="mdi mdi-trash-can-outline" task="{{ task.id }}"></i>
+                    </div>
+                </li>
+            {% endfor %}
+            <li class="circular d-none pt-3" task="task_add">
+                <form action="." class="form-horizontal" method="post" id="form-task-add">
+                    <div class="form-group">
+                        <div class="input-group">
+                            {{ task_form.owner|add_class:'w-25 border-right-0' }}
+                            <div class="input-group-append w-75">
+                                {{ task_form.text|add_class:'form-control task-text circular-right border-left-0'|attr:'autocomplete:off' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn bg-gradient-success btn-sm circular">
+                            <i class="mdi mdi-content-save"></i> Save
+                        </button>
+                    </div>
+                </form>
+            </li>
+
+        </ul>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer clearfix circular-bottom">
+        <span class="text-black-50 ml-2 align-middle"><span
+                task="task_footer">{{ task_made }} tasks made of</span> {{ tasks.count }}</span>
+        <button type="button" class="btn bg-gradient-indigo circular float-right" task="task_add"><i
+                class="mdi mdi-plus"></i>
+            Add task
+        </button>
+    </div>
+</div>

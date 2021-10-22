@@ -115,7 +115,12 @@ class DashboardView(TemplateView):
             elif action == 'task_add':
                 with transaction.atomic():
                     print(request.POST)
-                    task = Task()
+                    if request.POST['id'] == '-1':
+                        task = Task()
+                        data['edit'] = '0'
+                    else:
+                        task = Task.objects.get(pk=request.POST['id'])
+                        data['edit'] = '1'
                     task.owner_id = request.POST['owner']
                     task.text = request.POST['text']
                     task.save()
@@ -124,6 +129,8 @@ class DashboardView(TemplateView):
                     data['my_tasks'] = my_tasks(request)
             elif action == 'get_All_Task':
                 data = [t.get_Time() for t in Task.objects.all()]
+            elif action == 'get_task_by_id':
+                data = Task.objects.get(pk=request.POST['id']).toJSON()
             else:
                 data['error'] = 'Sigue tirando perlies'
         except Exception as e:

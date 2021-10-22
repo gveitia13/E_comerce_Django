@@ -251,7 +251,7 @@ class Task(BaseModel):
             if (d2 - d1).days < 7:
                 num = (d2 - d1).days
                 text = 'day' if num == 1 else 'days'
-                clase = 'warning'
+                clase = 'orange'
             if 7 < (d2 - d1).days < 30:
                 num = (d2 - d1).days // 7
                 text = 'week' if num == 1 else 'weeks'

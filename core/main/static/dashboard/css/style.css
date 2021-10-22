@@ -24,3 +24,8 @@ label[for*="todoCheck"]::before {
 .overflow-scroll {
     overflow: scroll !important;
 }
+
+.badge-orange {
+    color: #ffffff;
+    background-color: var(--orange);
+}

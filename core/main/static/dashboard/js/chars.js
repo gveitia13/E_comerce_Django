@@ -9,7 +9,7 @@ let
       dataType: 'json',
     }).done(function (data) {
       if (!data.hasOwnProperty('error')) {
-        console.log(data)
+        // console.log(data)
         graphcolumn.addSeries(data)
         return false
       }
@@ -31,7 +31,7 @@ let
       dataType: 'json',
     }).done(function (data) {
       if (!data.hasOwnProperty('error')) {
-        console.log(data)
+        // console.log(data)
         graphpie.addSeries(data)
         return false
       }
