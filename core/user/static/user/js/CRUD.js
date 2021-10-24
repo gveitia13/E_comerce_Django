@@ -25,7 +25,7 @@ $(function () {
         parameters,
         response => {
           tableSale.row($(this).parents('tr')).remove().draw()
-          Toast(`The ${ent} ${response['object']['name']} was ${response['success']}`)
+          Toast(`The ${ent} ${response['object']['full_name']} was ${response['success']}`)
         },
         'mdi mdi-alert-octagram text-danger')
     })
@@ -78,7 +78,7 @@ let
           render: (data, type, row) => `
               <a rel="detail" class="btn bg-gradient-teal btn-xs">
                   <i class="mdi mdi-account-details mdi-15px w3-text-black"></i></a>
-              <a rel="update" class="btn bg-gradient-warning btn-xs">
+              <a href="/user/update/${row.id}/" class="btn bg-gradient-warning btn-xs">
                   <i class="mdi mdi-square-edit-outline mdi-15px"></i></a>
               <a rel="delete" class="btn bg-gradient-danger btn-xs">
                   <i class="mdi mdi-trash-can-outline mdi-15px text-white"></i></a>`

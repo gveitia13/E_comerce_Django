@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 
 from core.main.mixins import ValidatePermissionRequiredMixin
 from core.main.views.dashboard.views import countEntity
@@ -16,7 +16,7 @@ from core.user.forms import UserForm
 from core.user.models import User
 
 
-# class UserView(TemplateView):
+# class UserView(TemplateView, FormView):
 #     template_name = 'user/list.html'
 #     form_class = UserForm
 #     model = User
@@ -39,10 +39,10 @@ from core.user.models import User
 #             action = request.POST['action']
 #             if action == 'searchdata':
 #                 data = [i.toJSON() for i in User.objects.all()]
-#                 # print(data)
 #             elif action == 'add':
 #                 with transaction.atomic():
-#                     UserForm(request.POST).save()
+#                     form = self.get_form()
+#                     data = form.save()
 #                     data['success'] = 'added'
 #                     data['object'] = User.objects.all().last().toJSON()
 #             elif action == 'edit':
@@ -59,6 +59,7 @@ from core.user.models import User
 #         except Exception as e:
 #             data['error'] = str(e)
 #         return JsonResponse(data, safe=False)
+
 
 class UserListView(generic.ListView):
     model = User
@@ -85,6 +86,12 @@ class UserListView(generic.ListView):
             action = request.POST['action']
             if action == 'searchdata':
                 data = [i.toJSON() for i in User.objects.all()]
+            elif action == 'dele':
+                with transaction.atomic():
+                    user = User.objects.get(pk=request.POST['id'])
+                    data['object'] = user.toJSON()
+                    user.delete()
+                    data['success'] = 'deleted'
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -109,6 +116,17 @@ class UserCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, generi
         try:
             action = request.POST['action']
             if action == 'add':
+                # user = User()
+                # user.username = request.POST['username']
+                # user.first_name = request.POST['first_name']
+                # user.last_name = request.POST['last_name']
+                # user.email = request.POST['email']
+                #
+                # user.phone_number = request.POST['phone_number']
+                # user.set_password(request.POST['password'])
+                # user.save()
+                # for g in request.POST['groups']:
+                #     user.groups.set(g)
                 form = self.get_form()
                 data = form.save()
             else:
@@ -126,40 +144,43 @@ class UserCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, generi
         return context
 
 
-# class UserUpdateView(generic.UpdateView):
-#     model = User
-#     form_class = UserForm
-#     template_name = 'user/create.html'
-#     success_url = reverse_lazy('user:user_list')
-#     permission_required = 'user.change_user'
-#     url_redirect = success_url
-#
-#     @method_decorator(csrf_exempt)
-#     def dispatch(self, request, *args, **kwargs):
-#         self.object = self.get_object()
-#         return super().dispatch(request, *args, **kwargs)
-#
-#     def post(self, request, *args, **kwargs):
-#         data = {}
-#         try:
-#             action = request.POST['action']
-#             if action == 'edit':
-#                 form = self.get_form()
-#                 data = form.save()
-#             else:
-#                 data['error'] = 'No ha ingresado a ninguna opcion'
-#         except Exception as e:
-#             data['error'] = str(e)
-#         return JsonResponse(data)
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = 'Edición de un usuario'
-#         context['entity'] = 'Usuarios'
-#         context['list_url'] = self.success_url
-#         context['action'] = 'edit'
-#         return context
-#
+class UserUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, generic.UpdateView):
+    model = User
+    form_class = UserForm
+    template_name = 'user/create.html'
+    success_url = reverse_lazy('user:user_list')
+    # permission_required = 'user.change_user'
+    url_redirect = success_url
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'edit':
+                print(request.POST)
+                print(request.POST['groups'])
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No ha ingresado a ninguna opcion'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edición de un usuario'
+        context['entity'] = 'Usuarios'
+        context['list_url'] = self.success_url
+        context['action'] = 'edit'
+        return context
+
+
 #
 # class UserDeleteView(generic.DeleteView):
 #     model = User

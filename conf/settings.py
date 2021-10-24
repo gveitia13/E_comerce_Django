@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'core.user.apps.UserConfig',
+    # 'corsheders',
     'widget_tweaks',
     'core.user',
     'core.main',
@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # "corsheaders.middleware.CorsMiddleware",
+    # django middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # crum para obtener current request
     'crum.CurrentRequestUserMiddleware'
 ]
 
@@ -131,7 +134,7 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = '/dashboard'
 
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'
 
 LOGIN_URL = '/login/'
 
@@ -154,3 +157,13 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'gveitia13@gmail.com'
 EMAIL_HOST_PASSWORD = 'sadasd'
 DOMAIN = ''
+
+# CORS_ALLOWED_ORIGINS = [
+#     "https://example.com",
+#     "https://sub.example.com",
+#     "http: // localhost: 8080",
+#     "http://127.0.0.1:9000",
+# ]
+
+# CORS_ALLOW_ALL_ORIGINS: True
+# CORS_ALLOW_CREDENTIALS = True

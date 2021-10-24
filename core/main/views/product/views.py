@@ -31,6 +31,7 @@ class ProductView(TemplateView, FormView):
             elif action == 'add':
                 with transaction.atomic():
                     print(request.POST)
+                    print(request)
                     # ProductForm(request.POST).save()
                     form = self.get_form()
                     data = form.save()

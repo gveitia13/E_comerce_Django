@@ -2,9 +2,7 @@ $(function () {
   document.querySelectorAll('a').forEach(e => e.classList.remove('active'))
   document.querySelector('.startpage').className += ' active'
 
-  console.log(location.href)
   Cart.list()
-  // console.log(getAllProducts())
   Cart.items.prodsList = getAllProducts()
 
   //Buscando en tiempo real

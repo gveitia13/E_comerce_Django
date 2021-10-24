@@ -1,7 +1,9 @@
+from crum import get_current_request
 from django import forms
+from django.contrib.auth.models import Group
 from django.forms import ModelForm
 
-from core.user.models import User
+from core.user.models import User, UserProfile
 
 
 class UserForm(ModelForm):
@@ -42,16 +44,41 @@ class UserForm(ModelForm):
         }
         exclude = ['user_permissions', 'last_login', 'date_joined', 'is_superuser', 'is_staff', 'is_active']
 
+    # def save(self, commit=True):
+    #     """Sobreescribir el method save del Form para que
+    #            utilice el encriptado de contraseña de Django
+    #            """
+    #     data = {}
+    #     form = super()
+    #     try:
+    #         if form.is_valid():
+    #             passw = self.changed_data['password']
+    #             u = form.save(commit=False)  # hacer una pausa temporal y guardarlo en una variable
+    #             if u.pk is None:
+    #                 u.set_password(passw)
+    #             else:
+    #                 user = User.objects.get(pk=u.pk)
+    #                 if user.password != passw:
+    #                     u.set_password(passw)
+    #             u.save()
+    #             u.groups.clear()
+    #             for g in self.cleaned_data['groups']:
+    #                 u.groups.add(g)
+    #         else:
+    #             data['error'] = form.errors
+    #     except Exception as e:
+    #         data['error'] = str(e)
+    #     return data
+
     def save(self, commit=True):
-        """Sobreescribir el method save del Form para que
-               utilice el encriptado de contraseña de Django
-               """
         data = {}
         form = super()
+        request = get_current_request()
         try:
             if form.is_valid():
-                passw = self.changed_data['password']
-                u = form.save(commit=False)  # hacer una pausa temporal y guardarlo en una variable
+                # passw = self.changed_data['password']
+                passw = request.POST['password']
+                u = form.save(commit=False)
                 if u.pk is None:
                     u.set_password(passw)
                 else:
@@ -60,8 +87,9 @@ class UserForm(ModelForm):
                         u.set_password(passw)
                 u.save()
                 u.groups.clear()
-                for g in self.cleaned_data['groups']:
-                    u.groups.add(g)
+                if request.POST['groups']:
+                    for g in self.cleaned_data['groups']:
+                        u.groups.add(g)
             else:
                 data['error'] = form.errors
         except Exception as e:

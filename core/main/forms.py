@@ -1,6 +1,7 @@
 from datetime import datetime
 from urllib import request
 
+from crum import get_current_request
 from django import forms
 from django.forms import ModelForm, Select
 
@@ -109,7 +110,8 @@ class ProductForm(ModelForm):
         form = super()
         try:
             if form.is_valid():
-                form.save()
+                u = form.save(commit=False)
+                # form.save()
             else:
                 data['error'] = form.errors
         except Exception as e:

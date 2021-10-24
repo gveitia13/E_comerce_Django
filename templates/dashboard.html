@@ -21,9 +21,26 @@
     <script src="{% static 'dashboard/lib/select2/js/select2.full.min.js' %}"></script>
     <script src="{% static 'dashboard/js/chars.js' %}"></script>
     <script src="{% static 'dashboard/js/todo_list.js' %}"></script>
+   {% comment %} <script type="text/javascript">
+      $(document).on('ready', function () {
+        $(window).on('scroll', function () {
+          if ($(this).scrollTop() > 100) {
+            $('#scroll').fadeIn();
+          } else {
+            $('#scroll').fadeOut();
+          }
+        });
+        $('#scroll').on('click', function () {
+          $("html, body").animate({scrollTop: 0}, 600);
+          return false;
+        });
+      })
+    </script>{% endcomment %}
+
 {% endblock %}
 
 {% block content %}
+{#    <a href="javascript:void(0);" id="scroll" title="Scroll to Top" style="display: none;">Top<span></span></a>#}
     <div class="container-fluid">
         <div class="row">
             <div class=" col-md-7 col-12">
@@ -324,4 +341,5 @@
       $.widget.bridge('uibutton', $.ui.button)
       staff = '{{ request.user.is_staff|safe }}'
     </script>
+
 {% endblock %}
