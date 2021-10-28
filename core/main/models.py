@@ -239,7 +239,7 @@ class Task(BaseModel):
                 num = 1
                 text = 'min'
                 clase = 'success'
-            if 60 < (d2 - d1).seconds < 3600:
+            if 60 <= (d2 - d1).seconds < 3600:
                 num = (d2 - d1).seconds // 60
                 text = 'min' if num == 1 else 'mins'
                 clase = 'success'
@@ -252,7 +252,7 @@ class Task(BaseModel):
                 num = (d2 - d1).days
                 text = 'day' if num == 1 else 'days'
                 clase = 'orange'
-            if 7 < (d2 - d1).days < 30:
+            if 7 <= (d2 - d1).days < 30:
                 num = (d2 - d1).days // 7
                 text = 'week' if num == 1 else 'weeks'
                 clase = 'danger'

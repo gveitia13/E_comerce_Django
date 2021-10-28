@@ -42,7 +42,7 @@ $(() => {
     }
   }).addClass('text-center')
 
-   $("input[name='p_price']").TouchSpin({
+  $("input[name='p_price']").TouchSpin({
     min: 0,
     max: 999999999999,
     boostat: 5,

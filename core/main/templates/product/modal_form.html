@@ -4,7 +4,7 @@
     {% block form %}
         <form id="myModalForm" enctype="multipart/form-data" method="post" name="" action=".">
             {% csrf_token %}
-            <div class="modal-dialog modal-dialog-fromright" role="document">
+            <div class="modal-dialog modal-dialog-fromright modal-dialog-top" role="document">
                 <div class="modal-content circular">
                     <div class="modal-header bg-light circular-top">
                         <h5 class="modal-title" id="myModalFormTitle">
@@ -15,21 +15,6 @@
                         </button>
                     </div>
                     <div class="modal-body pb-0">
-                        {% comment %}          {% for field in form.visible_fields %}
-
-                            <div class="form-group">
-                                <label for="email">{{ field.label }}:</label>
-                                {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
-                            </div>
-
-                        {% endfor %}{% endcomment %}
-
-                        {% comment %}<div class="form-floating mb-3">
-                            <input type="text" class="form-control  form-cart-name-1 circular"
-                                   placeholder="hola">
-                            <label for="lolo">Name*</label>
-                        </div>{% endcomment %}
-
                         <div class="form-floating mb-3">
                             {{ form.name|add_class:'form-control'|attr:'autocomplete:off' }}
                             <label for="lolo">{{ form.name.label }}:</label>

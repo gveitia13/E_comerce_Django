@@ -11,7 +11,7 @@ from django.forms import model_to_dict
 
 
 class User(AbstractUser):
-    image = models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True)
+    image = models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True, verbose_name='Profile image')
     token = models.UUIDField(primary_key=False, editable=False, null=True, blank=True)
     phone_regex = RegexValidator(
         regex=r'\+?1?\d{9,15}$',
@@ -62,18 +62,24 @@ class User(AbstractUser):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(
-        'profile picture',
         upload_to='pictures/%Y/%m/%d',
         blank=True,
-        null=True
+        null=True,
+        verbose_name='Background image'
     )
-    skill = models.CharField(max_length=25, null=True, blank=True)
-    biography = models.TextField(max_length=500, blank=True)
-    # Stats
-    # sales_made = models.PositiveIntegerField(default=0, editable=False)
-    # products_added = models.PositiveIntegerField(default=0, editable=False)
-    # carts_sent = models.PositiveIntegerField(default=0, editable=False)
+    skill = models.CharField(max_length=25, null=True, blank=True, verbose_name='Skill')
+    biography = models.TextField(max_length=500, blank=True, verbose_name='About')
     reputation = models.FloatField(default=0.0, editable=False)
 
     def __str__(self):
         return str(self.user)
+
+    def get_image(self):
+        if self.picture:
+            return '{}{}'.format(MEDIA_URL, self.picture)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['user'] = self.user.toJSON()
+        item['picture'] = self.get_image()

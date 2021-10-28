@@ -30,9 +30,6 @@ class ProductView(TemplateView, FormView):
                 data = {'object': Product.objects.get(pk=request.POST['id']).toJSON(), }
             elif action == 'add':
                 with transaction.atomic():
-                    print(request.POST)
-                    print(request)
-                    # ProductForm(request.POST).save()
                     form = self.get_form()
                     data = form.save()
                     data['success'] = 'added'
@@ -41,11 +38,14 @@ class ProductView(TemplateView, FormView):
                 with transaction.atomic():
                     prod = Product.objects.get(pk=request.POST['id'])
                     prod.name = request.POST['name']
-                    prod.cat = Category.objects.get(pk=request.POST['cat'])
+                    prod.cat_id = request.POST['cat']
                     prod.stock = request.POST['stock']
                     prod.s_price = request.POST['s_price']
                     prod.p_price = request.POST['p_price']
                     prod.desc = request.POST['desc']
+                    if request.FILES:
+                        prod.image = request.FILES['image']
+                    prod.priority = request.POST['priority']
                     prod.save()
                     data['success'] = 'updated'
                     data['object'] = prod.toJSON()
@@ -75,7 +75,7 @@ class ProductView(TemplateView, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Product\'s list'
+        context['title'] = 'Products list'
         context['list_url'] = reverse_lazy('main:product_list')
         context['form_cat'] = CategoryForm()
         context['entity_count'] = countEntity()

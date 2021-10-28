@@ -16,7 +16,7 @@ status_choices = (
 class Cart(models.Model):
     user_updated = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
                                      related_name='cart_user_updated', null=True, blank=True)
-    date_joined = models.DateField(auto_now=True, null=True, blank=True)
+    date_joined = models.DateField(auto_now_add=True, null=True, blank=True)
     total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     cli_name = models.CharField(max_length=50, verbose_name='Name', unique=False)
     cli_addr = models.CharField(max_length=150, verbose_name='Address', null=True, blank=True, )

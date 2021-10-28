@@ -15,14 +15,15 @@
                 <div class="row">
                     <a class="btn btn-app pt-0 text-body circular" href="{% url 'startpage:cart_list' %}"
                        target="_blank">
-                        <span class="badge bg-info circular">{{ entity_count.cart }}</span>
+
+                            <span class="badge bg-info circular">{{ entity_count.cart }}</span>
                         <i class="mdi mdi-cart mdi-24px d-block"></i> Sales online
                     </a>
                     <a class="btn btn-app pt-0 text-body circular" href="{% url 'main:sale_create' %}" target="_blank">
                         <span class="badge bg-info circular">{{ entity_count.sale }}</span>
                         <i class="mdi mdi-cart-plus mdi-24px d-block"></i> Sales
                     </a>
-                    <a class="btn btn-app pt-0 text-body circular" target="_blank">
+                    <a class="btn btn-app pt-0 text-body circular" href="{% url 'user:user_list' %}" target="_blank">
                         <span class="badge bg-warning circular">{{ entity_count.user }}</span>
                         <i class="mdi mdi-account-multiple mdi-24px d-block"></i> Users
                     </a>

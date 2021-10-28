@@ -1,5 +1,21 @@
 li.select2-selection__choice {
-    border-radius: 1.5rem!important;
+    border-radius: 1.5rem !important;
     background-color: var(--primary);
-    color: #fff!important;
+    color: #fff !important;
+}
+
+span.select2-selection {
+    border-top-right-radius: 1.5rem !important;
+    border-bottom-right-radius: 1.5rem !important;
+}
+
+.custom-file-label {
+    border-radius: 1.5rem;
+    cursor:pointer;
+}
+
+.custom-file-label::after {
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
 }

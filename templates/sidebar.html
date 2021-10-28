@@ -21,13 +21,13 @@
         <div class="user-panel mt-3 d-flex border-bottom-0">
             <a href="#" class="image">
                 <img alt
-                     src="{% if user.get_image %}{{ user.get_image }}{% else %}{% static 'img/user2.png' %}{% endif %}"
+                     src="{% if request.user.get_image %}{{ request.user.get_image }}{% else %}{% static 'img/user2.png' %}{% endif %}"
                      class="img-circle elevation-1"
                      style="width: 37px;height: 37px">
             </a>
             <div class="info">
-                <a href="#" class="d-block">{% if user.get_full_name %}{{ user.get_full_name }} | {{ user.username }}
-                    {% elif user.username %}{{ user.username }}{% else %}Guest{% endif %}</a>
+                <a href="#" class="d-block">{% if request.user.get_full_name %}{{ request.user.first_name }} | {{ request.user.username }}
+                    {% elif request.user.username %}{{ request.user.username }}{% else %}Guest{% endif %}</a>
             </div>
         </div>
 
@@ -87,7 +87,7 @@
                         <li class="nav-item">
                             <a href="{% url 'user:user_list' %}" class="w3-light-gray nav-link my-accounts-worker">
                                 <i class="mdi mdi-worker nav-icon"></i>
-                                <p>Workers</p>
+                                <p>Users</p>
                             </a>
                         </li>
                     </ul>

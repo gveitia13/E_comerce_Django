@@ -2,10 +2,12 @@ import json
 from datetime import datetime
 from random import randint
 
+from crum import get_current_request
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.db.models.functions import Coalesce
 from django.http import JsonResponse
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -146,6 +148,8 @@ class DashboardView(TemplateView):
         context['sales_at_home'] = [c for c in Cart.objects.order_by('-date_joined')
             .order_by('-id').exclude(status='Sold').exclude(cli_addr='Our local')][:4]
         context['task_form'] = TaskForm()
+        context['list_url'] = reverse_lazy('dashboard')
+        context['entity'] = 'Dashboard'
         # context['prods_sold'] = DetSale.objects.filter(prod__in=Product.objects.all()).count()
         return context
 
@@ -165,11 +169,12 @@ class DashboardView(TemplateView):
 
 
 def countEntity():
+    request = get_current_request()
     return {
-        'cat': Category.objects.count(),
-        'prod': Product.objects.count(),
-        'cli': Client.objects.count(),
-        'sale': Sale.objects.count(),
-        'user': User.objects.count(),
-        'cart': Cart.objects.count()
+        'cat': Category.objects.filter(date_creation__gt=request.user.last_login).count(),
+        'prod': Product.objects.filter(date_creation__gt=request.user.last_login).count(),
+        'cli': Client.objects.filter(pk__in=Sale.objects.all()).count(),  # clientes q tengan ventas hechas
+        'sale': Sale.objects.filter(date_joined__gt=request.user.last_login).count(),
+        'user': User.objects.filter(date_joined__gt=request.user.last_login).count(),
+        'cart': Cart.objects.filter(date_joined__gt=request.user.last_login).count()
     }

@@ -50,7 +50,7 @@
                 <div class="card card-widget widget-user circular">
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header text-white circular-top"
-                         style="background: url('{% static 'img/bg2.jpg' %}') center center;background-size: cover;">
+                         style="background: url('{{ request.user.userprofile.get_image }}') center center;background-size: cover;">
                         <h3 class="widget-user-username text-right">{{ request.user.get_full_name }}</h3>
                         <h5 class="widget-user-desc text-right">{{ user.userprofile.skill }}</h5>
                         <h5 class="widget-user-desc text-right">{{ user.userprofile.reputation }} <i

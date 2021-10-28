@@ -177,13 +177,18 @@ label {
 }
 
 /*---------------------------------------------*/
-button {
+button, a.boton {
     outline: none !important;
     border: none;
     background: transparent;
 }
 
-button:hover {
+a.boton {
+    border: 1px solid #6c757d;
+    text-decoration: none;
+}
+
+button:hover, a.btn:hover {
     cursor: pointer;
 }
 
@@ -434,7 +439,7 @@ input.input100 {
     flex-wrap: wrap;
 }
 
-.login100-form-btn {
+.login100-form-btn, .login100-form-btn-outline {
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -445,7 +450,6 @@ input.input100 {
     padding: 0 20px;
     min-width: 160px;
     height: 50px;
-    background-color: #0d6efd;
     background: #007bff linear-gradient(180deg, #268fff, #007bff) repeat-x;
     border-radius: 25px;
 
@@ -460,8 +464,18 @@ input.input100 {
     transition: all 0.4s;
 }
 
+.login100-form-btn-outline {
+    background: transparent;
+    color: #6c757d;
+}
+
 .login100-form-btn:hover {
     background: #1d2124 linear-gradient(180deg, #3f4245, #1d2124) repeat-x;
+}
+
+.login100-form-btn-outline:hover {
+    background: #1d2124 linear-gradient(180deg, #3f4245, #1d2124) repeat-x;
+    color: white;
 }
 
 
@@ -487,10 +501,12 @@ input.input100 {
         width: 100%;
         padding: 0 5px;
     }
-    .container-login100{
+
+    .container-login100 {
         padding: 0;
     }
-    .wrap-login100{
+
+    .wrap-login100 {
         height: 100vh;
         border-radius: 0;
     }

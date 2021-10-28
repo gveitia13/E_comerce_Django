@@ -1,0 +1,145 @@
+{% extends 'body.html' %}
+{% load widget_tweaks %}
+{% block head %}
+    {% block head_form %}
+
+    {% endblock %}
+{% endblock %}
+{% block content %}
+    <form method="post" action="." enctype="multipart/form-data">
+        <div class="card card-primary circular m-auto" style="width: 95%">
+            <div class="card-header circular-top">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="mdi mdi-plus"></i>
+                    {% else %}
+                        <i class="mdi mdi-square-edit-outline"></i>
+                    {% endif %}
+
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body px-md-5">
+                {% csrf_token %}
+
+                <input type="hidden" name="action" value="{{ action }}">
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                        <h5><i class="icon fas fa-ban"></i>Ha ocurrido un error al querer guardar el registro</h5>
+                        <ul>
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-12 col-lg-6 pr-md-3">
+                        <h5>Required fields:</h5>
+                        {% comment %}                        {% for field in form.visible_fields %}
+                            <div class="form-group ">
+                                <label class="">{{ field.label }}:</label>
+                                {#                                <div class="col-sm-10">#}
+                                {{ field|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                                {#                                </div>#}
+                            </div>
+                        {% endfor %}{% endcomment %}
+                        <div class="form-group">
+                            <label for="">{{ form.first_name.label }}</label>
+                            {{ form.first_name|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="">{{ form.last_name.label }}</label>
+                            {{ form.last_name|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="">{{ form.email.label }}</label>
+                            {{ form.email|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="">{{ form.phone_number.label }}</label>
+                            {{ form.phone_number|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="">{{ form.username.label }}</label>
+                            {{ form.username|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="">{{ form.password.label }}</label>
+                            {{ form.password|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 pl-md-3">
+                        <h5>Optional fields:</h5>
+                        {% comment %}                        {% for field in form_profile.visible_fields %}
+                            <div class="form-group  ">
+                                {#                                <label class="col-sm-2 col-form-label">{{ field.label }}:</label>#}
+                                <label class="">{{ field.label }}:</label>
+                                {#                                <div class="col-sm-10">#}
+                                {{ field|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                                {#                                </div>#}
+                            </div>
+                        {% endfor %}{% endcomment %}
+                        <div class="form-group">
+                            <label for="">{{ form.image.label }}</label>
+                            {{ form.image|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="">{{ form_profile.picture.label }}</label>
+                            {{ form_profile.picture|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="">{{ form.groups.label }}</label>
+                            {{ form.groups|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="">{{ form_profile.skill.label }}</label>
+                            {{ form_profile.skill|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                        <div class="form-group">
+                            <label for="">{{ form_profile.biography.label }}</label>
+                            {{ form_profile.biography|add_class:'form-control circular'|attr:'autocomplete:off' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer circular-bottom text-right">
+                <a href="{{ list_url }}" class="btn btn-outline-secondary circular">
+                    <i class="mdi mdi-cancel"></i> Cancel
+                </a>
+                <button type="submit" class="btn bg-gradient-primary circular">
+                    <i class="mdi mdi-content-save"></i> Save {{ entity }}
+                </button>
+            </div>
+        </div>
+    </form>
+    <script>
+      {% if form.errors %}
+        let errors = '';
+        {% for field in form %}
+          {% for error in field.errors %}
+            errors += '{{ error }}\n';
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          errors += '{{ error }}\n';
+        {% endfor %}
+
+        Swal.fire({
+          title: 'Error',
+          text: errors,
+          icon: 'error'
+        });
+      {% endif %}
+
+      $('form').on('submit', function (e) {
+        e.preventDefault();
+        let parameters = new FormData(this)
+        submit_with_ajax_alert(window.location.pathname, 'Notification', 'Are you sure?', parameters, () =>
+          location.href = '{{ list_url }}', 'mdi mdi-cancel')
+      })
+    </script>
+{% endblock %}

@@ -111,7 +111,7 @@ class ProductForm(ModelForm):
         try:
             if form.is_valid():
                 u = form.save(commit=False)
-                # form.save()
+                form.save()
             else:
                 data['error'] = form.errors
         except Exception as e:

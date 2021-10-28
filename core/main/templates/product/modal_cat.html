@@ -19,7 +19,7 @@
                         {% for field in form_cat.visible_fields %}
                             <div class="form-group-sm">
                                 <label for="email" class="text-sm">{{ field.label }}:</label>
-                                {{ field|add_class:'form-control-sm form-control'|attr:'autocomplete:off' }}
+                                {{ field|add_class:'form-control-sm form-control cat'|attr:'autocomplete:off'|attr:'autofocus:false' }}
                             </div>
                         {% endfor %}
                     </div>
