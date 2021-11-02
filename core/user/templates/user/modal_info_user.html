@@ -1,0 +1,113 @@
+{% load static %}
+<!--    modal-->
+<div class="modal fade modal-card " id="user-info" tabindex="-1" role="dialog" aria-labelledby="user-info"
+     aria-hidden="true" style="min-width: 350px;height: auto;padding: 0" data-target="#user-info">
+    <div class="modal-dialog modal-dialog-popout modal-dialog-scrollable modal" role="document">
+        <div class="modal-content circular border-0 shadow-none">
+            <div class="modal-header border-bottom-0 circular-top py-2">
+                <h5 class="modal-title user-select-none">
+                    <img src="{% static 'img/logo-lg-red-black.png' %}"
+                         alt="TechnoSTAR Logo"
+                         style="margin-left: .4rem;" width="120" height="50">
+                </h5>
+                <button type="button" class="btn-close mt-2" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+
+            <div class="modal-body p-0 circular-bottom bg-light">
+                <div class="card card-widget widget-user mb-0">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header text-white rounded-0" id="picture"
+                         style="background: url('{{ request.user.userprofile.get_image }}') center center;background-size: cover;">
+                        <h3 class="widget-user-username text-right" id="full_name">{{ request.user.get_full_name }}</h3>
+                        <h5 class="widget-user-desc text-right" id="skill">{{ user.userprofile.skill }}</h5>
+                        <h5 class="widget-user-desc text-right">{{ user.userprofile.reputation }} <i
+                                class="mdi mdi-star"></i></h5>
+                    </div>
+                    <div class="widget-user-image">
+                        <img class="img-circle" src="{{ request.user.get_image }}" style="height: 100px;width: 100px"
+                             alt="User Avatar" id="user-image">
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-4 border-right">
+                                <div class="description-block">
+                                    <h5 class="description-header" id="total_sales">{{ total_sales }}</h5>
+                                    <span class="description-text">SALES</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-4 border-right">
+                                <div class="description-block">
+                                    <h5 class="description-header" id="my_tasks">{{ my_tasks }}</h5>
+                                    <span class="description-text">TASKS</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-4">
+                                <div class="description-block">
+                                    <h5 class="description-header" id="prods_added">{{ prods_added }}</h5>
+                                    <span class="description-text">PRODUCTS</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <div class="card-body circular-bottom">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="truncate-1">
+                                    <span class="d-inline-block truncate-1 text-nowrap"><i class="mdi mdi-email"></i>
+                                    <span class="d-sm-inline-block d-none">Mail:</span>
+                                    <a href="mailto:technostar.cuba@gmail.com?Subject=Hola%20Techno Star" id="email"
+                                       target="_top" class="text-muted">technostar.cuba@gmail.com</a></span>
+                                </div>
+                                <div class="truncate-1">
+                                    <span class="d-inline-block truncate-1 text-nowrap"><i class="mdi mdi-cellphone-android"></i>
+                                    <span class="d-sm-inline-block d-none">Phone #:</span>
+                                    <a href="tel:+53 58496023" class="text-muted" id="phone"> +53 58496023</a></span>
+                                </div>
+                                <div class="icheck-primary" style="opacity: 1">
+                                    <input type="checkbox" disabled id="is_staff"/>
+                                    <label for="is_staff" style="opacity: 1">Is staff</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="truncate-1">
+                                    <span class="d-inline-block truncate-1 text-nowrap"><i class="mdi mdi-calendar"></i>
+                                    <span class="d-sm-inline-block d-none">Date joined:</span>
+                                    <span class="text-muted" id="date_joined"> 2021-10-26</span></span>
+                                </div>
+                                <div class="truncate-1">
+                                    <span class="d-inline-block truncate-1 text-nowrap"><i class="mdi mdi-login"></i>
+                                    <span class="d-sm-inline-block d-none">Last login:</span>
+                                    <span class="text-muted" id="last_login"> -------</span></span>
+                                </div>
+                                <div class="icheck-primary" style="opacity: 1">
+                                    <input type="checkbox" disabled id="is_active"/>
+                                    <label for="is_active" style="opacity: 1">Is active</label>
+                                </div>
+                            </div>
+                            <div class="col-12 user-groups">
+                                <span class="d-inline-block"><i class="mdi mdi-account-group-outline"></i>
+                                <span class="d-sm-inline-block d-none">Groups:</span>
+                                <span id="groups"></span></span>
+                            </div>
+                            <div class="col-12 user-biography pt-1">
+                                <span class="d-inline-block"><i class="mdi mdi-account-card-details-outline"></i>
+                                <span class="d-sm-inline-block d-none">About me:</span>
+                                <span class="text-muted" id="about"> bla bla</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -77,9 +77,10 @@ class UserProfile(models.Model):
     def get_image(self):
         if self.picture:
             return '{}{}'.format(MEDIA_URL, self.picture)
-        return '{}{}'.format(STATIC_URL, 'img/empty.png')
+        return '{}{}'.format(STATIC_URL, 'img/bg-image-default.png')
 
     def toJSON(self):
         item = model_to_dict(self)
         item['user'] = self.user.toJSON()
         item['picture'] = self.get_image()
+        return item

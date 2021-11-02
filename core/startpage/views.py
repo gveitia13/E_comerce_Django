@@ -12,7 +12,7 @@ from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
 
 from core.Mixins import GetObjects
-from core.main.models import Product
+from core.main.models import Product, Category
 from core.main.views.dashboard.views import countEntity
 from core.startpage.models import Cart, DetCart
 
@@ -27,6 +27,9 @@ class StartPageView(GetObjects, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Catalog'
+        if kwargs.get('pk') is not None:
+            context['all_category'] = [Category.objects.get(pk=kwargs['pk']), ]
+        context['cat_sidebar'] = Category.objects.all()
         context['all_product'] = Product.objects.filter(stock__gt=0)
         return context
 
@@ -119,12 +122,12 @@ class CartListView(TemplateView):
 
 def export_pdf(request, **kwargs):
     print(request)
-    context = {}
-    context['title'] = 'Invoice details'
-    context['cart'] = Cart.objects.get(pk=kwargs['pk'])
-    context['company'] = {'name': 'TechnoSTAR'}
-    context['list_url'] = reverse_lazy('startpage:cart_list')
-
+    context = {
+        'title': 'Invoice details',
+        'cart': Cart.objects.get(pk=kwargs['pk']),
+        'company': {'name': 'TechnoSTAR'},
+        'list_url': reverse_lazy('startpage:cart_list')
+    }
     html = render_to_string('startpage/invoice.html', context)
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'inline; report.pdf'

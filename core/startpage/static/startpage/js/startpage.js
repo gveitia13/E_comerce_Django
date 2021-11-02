@@ -1,7 +1,12 @@
 $(function () {
   document.querySelectorAll('a').forEach(e => e.classList.remove('active'))
-  document.querySelector('.startpage').className += ' active'
+  if (location.pathname === '/')
+    document.querySelector('.startpage').className += ' active'
+  else
+    document.querySelectorAll('a.category').forEach(e =>
+      location.pathname.includes(e.id.slice(3)) ? e.classList.add('active') : '')
 
+  console.log(location.pathname)
   Cart.list()
   Cart.items.prodsList = getAllProducts()
 
@@ -27,6 +32,24 @@ $(function () {
       })
     }, 250)
   })
+
+  d.querySelector('form.formHeader').addEventListener('submit', e => e.preventDefault())
+
+  /*  d.querySelectorAll('a.category').forEach(e =>
+      e.addEventListener('click', function () {
+        d.querySelectorAll('div.prod-card').forEach(e => e.classList.remove('d-none'))
+        let params = new FormData()
+        params.append('id', this.id.slice(3))
+        params.append('action', 'get_prods_by_cat_id')
+        ajaxFunction(location.pathname, params, response => {
+          response.forEach(e => {
+            d.querySelectorAll('div.prod-card').forEach(f => {
+              if (f.id == e)
+                f.parentElement.classList.add('d-none')
+            })
+          })
+        })
+      }))*/
 
   //Obteniendo detalles del producto por ajax
   d.querySelectorAll('div.prod-card').forEach(e =>
@@ -99,6 +122,7 @@ $(function () {
   )
 
   window.addEventListener('load', () => {
+    $('button.home').click()
     d.querySelector('p.direccion').classList.add('d-none')
     if (d.querySelector('button.home').classList.contains('active'))
       btnHome()

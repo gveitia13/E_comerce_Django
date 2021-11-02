@@ -29,6 +29,55 @@ $(function () {
         },
         'mdi mdi-alert-octagram text-danger')
     })
+    .on('click', 'a[rel=detail]', function () {
+      let tr = tableSale.cell($(this).closest('td, li')).index(),
+        data = tableSale.row(tr.row).data(),
+        parameters = new FormData()
+      parameters.append('action', 'get_user')
+      parameters.append('id', data.id)
+      ajaxFunction(location.pathname, parameters, resp => {
+        $('#is_staff, #is_active').attr('checked', false)
+        $('div.user-groups').addClass('d-none')
+        $('div.user-biography').addClass('d-none')
+        document.querySelector('#groups').innerHTML = ''
+        document.querySelector('#about').innerText = ''
+        $('#user-info').modal('show')
+        document.querySelector('#total_sales').innerText = resp.total_sales
+        document.querySelector('#my_tasks').innerText = resp.my_tasks
+        document.querySelector('#prods_added').innerText = resp.prods_added
+        document.querySelector('#picture').style.background = `url('${resp.data.picture}') center center`
+        document.querySelector('#user-image').src = `${resp.data.user.image}`
+        document.querySelector('#full_name').innerText =
+          resp.data.user.full_name + ' | ' + resp.data.user.username
+        document.querySelector('#skill').innerText = resp.data.skill
+        document.querySelector('#email').innerHTML = resp.data.user.email
+        document.querySelector('#email').href =
+          `mailto:${resp.data.user.email}?Subject=Hola%20${resp.data.user.full_name}`
+        if (resp.data.user.phone_number) {
+          document.querySelector('#phone').innerHTML = resp.data.user.phone_number
+          document.querySelector('#phone').href = `tel:${resp.data.user.phone_number}`
+        }
+        document.querySelector('#date_joined').innerText = ` ${resp.data.user.date_joined}`
+        if (resp.data.user.last_login)
+          document.querySelector('#last_login').innerText = ` ${resp.data.user.last_login}`
+        if (resp.data.user.is_staff)
+          $('#is_staff').attr('checked', true)
+        if (resp.data.user.is_active)
+          $('#is_active').attr('checked', true)
+        if (resp.data.user.groups.length) {
+          $('div.user-groups').removeClass('d-none')
+          resp.data.user.groups.forEach(e =>
+            document.querySelector('#groups').innerHTML +=
+              `<span class="badge badge-${e.name === 'admin'
+                ? 'danger' : e.name.includes('user') ? 'warning' : 'success'}
+                circular">${e.name}</span> `)
+        }
+        if (resp.data.biography !== '') {
+          $('div.user-biography').removeClass('d-none')
+          document.querySelector('#about').innerHTML = resp.data.biography
+        }
+      })
+    })
 
   $('.btnAdd').on('click', function () {
     location.href = '/user/add/'
@@ -46,7 +95,7 @@ let
       destroy: true,
       deferRender: true,
       paginate: false,
-      buttons: buttonsDataTable([0,1,2,4]),
+      buttons: buttonsDataTable([0, 1, 2, 4]),
       dom: '<"row"<"col-sm-7"B><"col-sm-5"fr>>t<"row"<"col-sm-7"i><"col-sm-5"p>>',
       ajax: {
         url: location.pathname,

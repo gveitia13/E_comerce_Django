@@ -46,7 +46,7 @@
                 <div class="mt-2 mb-2" style="border-top: 1px solid #4f5962"></div>
                 <li class="nav-header pt-1">Categories</li>
                 <li class="nav-item">
-                    <a href="{% url 'startpage' %}" class="nav-link active startpage">
+                    <a href="{% url 'startpage' %}" class="nav-link startpage">
                         <i class="nav-icon mdi mdi-widgets"></i>
                         <p>
                             See all
@@ -54,9 +54,9 @@
                     </a>
                 </li>
                 <div class="rayita"></div>
-                {% for cat in all_category %}
+                {% for cat in cat_sidebar %}
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{% url 'startpage' cat.id %}" class="nav-link category" id="cat{{ cat.id }}">
                             <i class="nav-icon  {{ cat.getIconClass }}"></i>
                             <p>{{ cat.name }}</p>
                         </a>

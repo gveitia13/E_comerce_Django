@@ -155,7 +155,7 @@ class DashboardView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         kwargs['get_users'] = [user for user in User.objects
-            .filter(date_joined__lt=request.user.last_login)][:8]
+            .filter(date_joined__lt=request.user.last_login).exclude(pk=request.user.pk)][:8]
         kwargs['users_count'] = len(kwargs['get_users'])
         kwargs['last_products'] = Product.objects.filter().order_by('-date_creation')[:4]
         kwargs['total_sales'] = Sale.objects.filter(user_creation_id=request.user.id).count() + \

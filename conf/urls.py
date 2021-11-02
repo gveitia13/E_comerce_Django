@@ -30,6 +30,7 @@ urlpatterns = [
     # Dashboard
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('', StartPageView.as_view(), name='startpage'),
+    path('<int:pk>/', StartPageView.as_view(), name='startpage'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

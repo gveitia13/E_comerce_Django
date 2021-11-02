@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}">
     <link rel="stylesheet" href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}">
     <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/style.css' %}">
 {% endblock %}
 
 {% block search %}
@@ -34,6 +36,7 @@
 
 {% block modal_form %}
     {% include 'modal_horizontal.html' %}
+    {% include 'user/modal_info_user.html' %}
 {% endblock %}
 
 {% block javascript %}

@@ -419,3 +419,21 @@ input.task-add {
     filter: "alpha(opacity=100)";
     -ms-filter: "alpha(opacity=100)";
 }
+
+.truncate-1, .truncate-2, .truncate-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.truncate-1 {
+    -webkit-line-clamp: 1;
+}
+
+.truncate-2 {
+    -webkit-line-clamp: 2;
+}
+
+.truncate-3 {
+    -webkit-line-clamp: 1;
+}

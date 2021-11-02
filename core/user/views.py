@@ -8,7 +8,9 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 
 from core.main.mixins import ValidatePermissionRequiredMixin
+from core.main.models import Sale, Product, Task
 from core.main.views.dashboard.views import countEntity
+from core.startpage.models import Cart
 from core.user.forms import UserForm, ProfileForm
 from core.user.models import User, UserProfile
 
@@ -89,6 +91,14 @@ class UserListView(generic.ListView):
                     data['object'] = user.toJSON()
                     user.delete()
                     data['success'] = 'deleted'
+            elif action == 'get_user':
+                user = User.objects.get(pk=request.POST['id'])
+                data['data'] = UserProfile.objects.get(user_id=request.POST['id']).toJSON()
+                data['total_sales'] = Sale.objects.filter(user_creation_id=user.id).count() + \
+                                      Cart.objects.filter(user_updated_id=user.id).count()
+                data['prods_added'] = Product.objects.filter(user_creation=user.id).count()
+                data['my_tasks'] = Task.objects.filter(owner_id=user.id).filter(status=False).count()
+
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -161,6 +171,8 @@ class UserUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, generi
         try:
             action = request.POST['action']
             if action == 'edit':
+                print(request.POST)
+                print(request.FILES)
                 form = self.get_form()
                 user = form.save()
                 user_profile = UserProfile.objects.get(user_id=user.id)
@@ -168,9 +180,12 @@ class UserUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, generi
                     user_profile.skill = request.POST['skill']
                 if request.POST['biography']:
                     user_profile.biography = request.POST['biography']
-                if request.FILES:
-                    if request.FILES['picture']:
-                        user_profile.picture = request.FILES['picture']
+                if request.FILES or request.POST.get('picture') is not None:
+                    if request.POST.get('picture-clear') is not None:
+                        if request.POST['picture-clear'] != 'on' or request.FILES['picture']:
+                            user_profile.picture = request.FILES['picture']
+                    else:
+                        user_profile.picture = ''
                 user_profile.save()
                 # data = user_profile.toJSON()
             else:
