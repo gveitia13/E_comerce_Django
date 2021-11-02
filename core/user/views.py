@@ -180,11 +180,10 @@ class UserUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, generi
                     user_profile.skill = request.POST['skill']
                 if request.POST['biography']:
                     user_profile.biography = request.POST['biography']
-                if request.FILES or request.POST.get('picture') is not None:
-                    if request.POST.get('picture-clear') is not None:
-                        if request.POST['picture-clear'] != 'on' or request.FILES['picture']:
-                            user_profile.picture = request.FILES['picture']
-                    else:
+                if request.FILES.get('picture') is not None:
+                    user_profile.picture = request.FILES['picture']
+                elif request.POST.get('picture-clear') is not None:
+                    if request.POST['picture-clear'] == 'on':
                         user_profile.picture = ''
                 user_profile.save()
                 # data = user_profile.toJSON()
