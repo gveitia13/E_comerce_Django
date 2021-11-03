@@ -1,3 +1,5 @@
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.db import transaction
@@ -13,51 +15,6 @@ from core.main.views.dashboard.views import countEntity
 from core.startpage.models import Cart
 from core.user.forms import UserForm, ProfileForm
 from core.user.models import User, UserProfile
-
-
-# class UserView(TemplateView, FormView):
-#     template_name = 'user/list.html'
-#     form_class = UserForm
-#     model = User
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = 'Users list'
-#         context['entity'] = 'User'
-#         context['entity_count'] = countEntity()
-#         context['form'] = UserForm()
-#         return context
-#
-#     @method_decorator(csrf_exempt)
-#     def dispatch(self, request, *args, **kwargs):
-#         return super().dispatch(request, *args, **kwargs)
-#
-#     def post(self, request, *args, **kwargs):
-#         data = {}
-#         try:
-#             action = request.POST['action']
-#             if action == 'searchdata':
-#                 data = [i.toJSON() for i in User.objects.all()]
-#             elif action == 'add':
-#                 with transaction.atomic():
-#                     form = self.get_form()
-#                     data = form.save()
-#                     data['success'] = 'added'
-#                     data['object'] = User.objects.all().last().toJSON()
-#             elif action == 'edit':
-#                 pass
-#             elif action == 'dele':
-#                 with transaction.atomic():
-#                     user = User.objects.get(pk=request.POST['id'])
-#                     print(user.toJSON())
-#                     user.delete()
-#                     data['success'] = 'deleted'
-#                     data['object'] = user.toJSON()
-#             else:
-#                 data['error'] = 'Pastillas chama'
-#         except Exception as e:
-#             data['error'] = str(e)
-#         return JsonResponse(data, safe=False)
 
 
 class UserListView(generic.ListView):
@@ -212,3 +169,49 @@ class UserChangeGroup(LoginRequiredMixin, generic.View):
         except:
             pass
         return HttpResponseRedirect(reverse_lazy('dashboard'))
+
+
+class UserChangePasswordView(LoginRequiredMixin, generic.FormView):
+    model = User
+    form_class = PasswordChangeForm
+    template_name = 'user/change_password.html'
+    success_url = reverse_lazy('login')
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_form(self, form_class=None):
+        form = PasswordChangeForm(user=self.request.user)
+        form.fields['old_password'].widget.attrs['placeholder'] = 'Enter your current password'
+        form.fields['old_password'].widget.attrs['class'] = 'circular'
+        form.fields['new_password1'].widget.attrs['placeholder'] = 'Enter your new  password'
+        form.fields['new_password1'].widget.attrs['class'] = 'circular'
+        form.fields['new_password2'].widget.attrs['placeholder'] = 'Repeat your new password'
+        form.fields['new_password2'].widget.attrs['class'] = 'circular'
+        return form
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'edit':
+                form = PasswordChangeForm(user=request.user, data=request.POST)
+                if form.is_valid():
+                    form.save()
+                    update_session_auth_hash(request, form.user)
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'No ha ingresado a ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Password edit'
+        context['entity'] = 'Password'
+        context['list_url'] = self.success_url
+        context['action'] = 'edit'
+        return context

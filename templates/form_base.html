@@ -7,8 +7,8 @@
 {% endblock %}
 {% block content %}
     <form method="post" action="." enctype="multipart/form-data">
-        <div class="card card-primary">
-            <div class="card-header">
+        <div class="card card-primary circular">
+            <div class="card-header circular-top">
                 <h3 class="card-title">
                     {% if action == 'add' %}
                         <i class="mdi mdi-plus"></i>
@@ -45,11 +45,11 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="card-footer">
-                <button type="submit" class="btn bg-gradient-primary">
+            <div class="card-footer circular-bottom">
+                <button type="submit" class="btn bg-gradient-primary circular">
                     <i class="mdi mdi-content-save"></i> Save {{ entity }}
                 </button>
-                <a href="{{ list_url }}" class="btn bg-gradient-danger">
+                <a href="{{ list_url }}" class="btn bg-gradient-danger circular">
                     <i class="mdi mdi-cancel"></i> Cancel
                 </a>
             </div>

@@ -31,3 +31,14 @@ span.select2-selection {
     opacity: 1 !important;
     border-radius: 1.5rem;
 }
+
+.img-user:hover {
+    transform: scale(2.5);
+    transition-duration: 0.5s;
+}
+
+.img-user {
+    border-radius: 0.2rem;
+    /*border: .5mm solid  darkslategrey;*/
+    /*background-clip: border-box;*/
+}

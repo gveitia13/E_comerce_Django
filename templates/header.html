@@ -23,17 +23,17 @@
                    class="nav-link{% if request.user.groups.all.count > 1 %}
                        {% endif %}  dropdown-toggle">{{ request.session.group }}</a>
 
-                {% comment %}                {% if request.user.groups.all.count > 1 %}
+                {% if request.user.groups.all.count > 1 %}
                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow"
-                        style="left: 0; right: inherit;">
+                        style="left: 0; right: inherit;min-width: auto">
                         {% for g in request.user.groups.all %}
                             {% if g.id != request.session.group.id %}
                                 <li><a href="{% url 'user:user_change_group' g.id %}"
-                                       class="dropdown-item">{{ g.name }} </a></li>
+                                       class="dropdown-item circular">{{ g.name }} </a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>
-                {% endif %}{% endcomment %}
+                {% endif %}
             </li>
         {% endif %}
 
@@ -42,21 +42,21 @@
                 <i class="mdi mdi-account-settings mdi-18px"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-header" style="font-size: 12px;">
+                    <span class="dropdown-header truncate-1" style="font-size: 12px;">
                        You last login was {{ request.user.last_login }}
                     </span>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
+                <a href="{% url 'user:user_update' request.user.id %}" class="dropdown-item">
                     <i class="mdi mdi-account-edit mdi-18px mr-2"></i> Edit profile
-                    <span class="float-right text-muted text-sm">3 mins</span>
+                    <span class="float-right text-muted text-sm"></span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
+                <a href="{% url 'user:user_change_password' %}" class="dropdown-item">
                     <i class="mdi mdi-lock mdi-18px mr-2"></i> Edit password
-                    <span class="float-right text-muted text-sm">12 hours</span>
+                    <span class="float-right text-muted text-sm"></span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">
+                <a href="#" class="dropdown-item dropdown-footer circular-bottom" >
                     <p>bla bla bla bla bla</p>
                 </a>
             </div>

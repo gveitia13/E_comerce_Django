@@ -16,7 +16,7 @@ from django.views.generic import TemplateView
 from core.main.forms import TaskForm
 from core.main.models import Category, Product, Client, Sale, DetSale, Task
 from core.startpage.models import Cart, DetCart
-from core.user.models import User
+from core.user.models import User, UserProfile
 
 
 def get_graph_sales_products_year_month():
@@ -133,6 +133,13 @@ class DashboardView(TemplateView):
                 data = [t.get_Time() for t in Task.objects.all()]
             elif action == 'get_task_by_id':
                 data = Task.objects.get(pk=request.POST['id']).toJSON()
+            elif action == 'get_user':
+                user = User.objects.get(pk=request.POST['id'])
+                data['data'] = UserProfile.objects.get(user_id=request.POST['id']).toJSON()
+                data['total_sales'] = Sale.objects.filter(user_creation_id=user.id).count() + \
+                                      Cart.objects.filter(user_updated_id=user.id).count()
+                data['prods_added'] = Product.objects.filter(user_creation=user.id).count()
+                data['my_tasks'] = Task.objects.filter(owner_id=user.id).filter(status=False).count()
             else:
                 data['error'] = 'Sigue tirando perlies'
         except Exception as e:

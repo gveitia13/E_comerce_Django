@@ -29,3 +29,15 @@ label[for*="todoCheck"]::before {
     color: #ffffff;
     background-color: var(--orange);
 }
+
+[class*=icheck-] > input:first-child:disabled + input[type=hidden] + label,
+[class*=icheck-] > input:first-child:disabled + input[type=hidden] + label::before,
+[class*=icheck-] > input:first-child:disabled + label, [class*=icheck-] > input:first-child:disabled + label::before {
+    pointer-events: none;
+    cursor: default;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: 1 !important;
+    border-radius: 1.5rem;
+}
