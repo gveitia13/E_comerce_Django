@@ -81,9 +81,6 @@ $(function () {
 
   $('.btnAdd').on('click', function () {
     location.href = '/user/add/'
-    // document.querySelector('#myModalFormTitle').innerHTML = defaultTitleModal
-    // document.querySelector('#myModalFormTitle').name = 'action-add'
-    // $('#myModal').modal('show')
   })
 })
 let
