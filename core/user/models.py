@@ -4,10 +4,10 @@ from crum import get_current_request
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from django.forms import model_to_dict
 
 from conf import settings
 from conf.settings import MEDIA_URL, STATIC_URL
-from django.forms import model_to_dict
 
 
 class User(AbstractUser):

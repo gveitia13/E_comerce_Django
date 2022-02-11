@@ -9,7 +9,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from weasyprint import HTML
-from weasyprint.text.fonts import FontConfiguration
+# from weasyprint.text.fonts import FontConfiguration
+from weasyprint.fonts import FontConfiguration
 
 from core.Mixins import GetObjects
 from core.main.models import Product, Category

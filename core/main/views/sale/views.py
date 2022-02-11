@@ -10,8 +10,8 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView, TemplateView
 from weasyprint import HTML
-from weasyprint.text.fonts import FontConfiguration
-
+# from weasyprint.text.fonts import FontConfiguration
+from weasyprint.fonts import FontConfiguration
 from core.main.forms import SaleForm, ClientForm, ReportForm
 from core.main.models import Sale, Product, DetSale, Client
 from core.main.views.dashboard.views import countEntity

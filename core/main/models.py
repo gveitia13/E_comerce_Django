@@ -256,7 +256,7 @@ class Task(BaseModel):
                 num = (d2 - d1).days // 7
                 text = 'week' if num == 1 else 'weeks'
                 clase = 'danger'
-            elif (d2 - d1).days > 30:
+            elif (d2 - d1).days >= 30:
                 num = (d2 - d1).days // 30
                 text = 'month' if num == 1 else 'months'
                 clase = 'dark'
